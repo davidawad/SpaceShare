@@ -1,0 +1,12 @@
+Flask==0.10.1
+Jinja2==2.7.3
+MarkupSafe==0.23
+SocksiPy-branch==1.01
+Werkzeug==0.9.6
+httplib2==0.9
+itsdangerous==0.24
+six==1.8.0
+twilio==3.6.7
+unittest2py3k==0.5.1
+dataset>=1.0
+

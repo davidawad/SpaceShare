@@ -1,0 +1,201 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suspicious Pizza's</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/stylesheet.css" />
+    <script src="js/vendor/modernizr.js"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheet.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
+
+<nav class="top-bar" data-topbar>
+  <ul class="title-area">
+
+    <li class="name">
+      <h1>
+        <a href="/index.html">
+          Spaceshare.me
+        </a>
+      </h1>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+ <section class="top-bar-section">
+    <ul class="right">
+      
+      <li class="divider"></li>
+      <li class="has-dropdown">
+        <a href="http://foundation.zurb.com/templates.html" class="">Develop</a>
+        <ul class="dropdown">
+          <li><a href="http://foundation.zurb.com/templates.html">Add-ons</a></li>
+          <li><a href="http://foundation.zurb.com/docs">Docs</a></li>
+          <li><a href="http://foundation.zurb.com/develop/download.html">Download</a></li>
+          <li><a href="http://foundation.zurb.com/develop/contribute.html">Contribute</a></li>
+          <li><a href="http://foundation.zurb.com/develop/resources.html">Resources</a></li>
+        </ul>
+      </li>
+      <li class="divider"></li>
+      <li class="has-dropdown">
+        <a href="http://foundation.zurb.com/support/support.html" class="">Support</a>
+        <ul class="dropdown">
+          <li><a href="http://foundation.zurb.com/support/support.html">Support Channels</a></li>
+          <li><a href="http://foundation.zurb.com/forum">Foundation Forum</a></li>
+          <li><a href="http://foundation.zurb.com/support/images-and-badges.html">Images &amp; Badges</a></li>
+        </ul>
+      </li>
+      
+      <li class="divider"></li>
+      <li>
+        <a href="http://foundation.zurb.com/docs" class="">Docs</a>
+      </li>
+      <li class="divider"></li>
+      <li class="has-form">
+        <a href="http://foundation.zurb.com/docs" class="small radius button">Getting Started</a>
+    </ul>
+  </section>
+</nav>
+
+
+
+</head>
+
+
+
+<body>
+
+
+<br>
+
+
+<div class="row"> 
+	<div class="large-12 columns">
+		<h1 style="font-family:billabong; font-size:15em">Spaceshare<h1>
+	</div>
+</div>
+
+    <div class="row">
+      <div class="large-12 columns">
+	        <p>Space is a file sharing platform for you to share things with people. Just upload a file, choose a number and share the number with your friends.</p>
+	        <p>Just go to spaceshare.me/YOURNUMBER </p>
+	        <div class="row">
+	        	<div class="large-4 medium-4 columns">
+	    		<p><a href="http://foundation.zurb.com/docs">Foundation Documentation</a><br />Everything you need to know about using the framework.</p>
+	    	</div>
+	        	<div class="large-4 medium-4 columns">
+	        		<p><a href="http://github.com/zurb/foundation">Foundation on Github</a><br />Latest code, issue reports, feature requests and more.</p>
+	        	</div>
+	        	<div class="large-4 medium-4 columns">
+	        		<p><a href="http://twitter.com/foundationzurb">@foundationzurb</a><br />Ping us on Twitter if you have questions. If you build something with this we'd love to see it (and send you a totally boss sticker).</p>
+	        	</div>        
+					</div>
+      	</div>
+      </div>
+    </div>
+
+
+
+<div class="row"> 
+	<div class="large-5 columns">
+		<div class="panel"> 
+		<h2><a href="" style="font-family:billabong">Create a Space</a></h2>
+		<form action="/host">
+			<label>Choose a Space</label>
+			<input type="text" name="space" placeholder="e.g. '32'"/>
+			<!--<label>Optional Password?</label>
+			<input type="text" name="pass" placeholder="e.g. '32'"/> -->
+			<label>Upload a file!</label>
+			<input type="file" name="file" accept="media_type*">
+
+			<input <a type="submit" value="Create My Space" class="large radius button" style="font-family:billabong"></a>
+		</form>
+		</div>
+	</div>
+	
+	<div class="large-2 columns"> </div>
+ 
+	<div class="large-5 columns">
+		<div class="panel"> 
+			<h2><a href="" style="font-family:billabong">Open a Space</a></h2>
+			<form action="/get">
+				<label>Choose a Space</label>
+				<input type="text" name="space" placeholder="e.g. '32'"/>
+				<input <a type="submit" value="Open Space" class="large radius button" style="font-family:billabong"></a>
+			</form>
+		</div>
+	</div>
+</div>
+ 
+ <!--	<form action="/process">
+			<h2 style="font-family:langdon"> Order Some <span style="color:red">Pizza!</span></h2>
+				  <div class="row">
+				    <div class="large-12 columns">
+				      <label>What's your name??</label>
+				      <input type="text" name="name" placeholder="Kung Fu Ken"/>
+				    </div>
+				  </div>
+				  <div class="row">
+				    <div class="large-4 medium-4 columns">
+				      <label>Email?</label>
+				      <input type="text" name="email" placeholder="We won't tell" />
+				    </div>
+				    <div class="large-4 medium-4 columns">
+				      <label>Phone Number?</label>
+				      <input type="text" name="number" placeholder="We'll text you" />
+				    </div>
+				    <div class="large-4 medium-4 columns">
+				      <div class="row collapse">
+				        <div class="small-3 columns">
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="row">
+				    <div class="large-12 columns">
+				      <label>What Pizza??</label>
+				      <select name="order">
+				        <option value="Plain">Plain</option>
+				        <option value="Pepperoni">Pepperoni</option>
+				        <option value="Veggie">Veggie</option>
+				        <option value="Sausage">Sausage</option>
+				      </select>
+				    </div>
+				  </div>
+				  <div class="row">
+				    <div class="large-12 columns">
+				      <a href="#" class="large alert radius button">Changed My Mind!</a>
+				      <input <a type="submit" value="Submit My order!" class="large success radius button"></a>
+				    </div>
+				  </div>
+		</form>  -->
+  
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr/>
+      <div class="row">
+        <div class="large-6 columns">
+          <p>©David Awad</p>
+        </div>
+         <div class="large-6 columns">
+          <ul class="inline-list right">
+            <!--<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6K7XB3RU72JDJ&lc=US&item_name=David%20Awad%21&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" style="color:yellow" target="_blank">Donate!</a></li> -->
+            <li><a href="https://google.com"><i class="icon-facebook_circle icon2x"></i></a></li>   
+		<li><a href="https://google.com"><i class="icon-twitter_circle icon2x"></i></a></li>   
+		<li><a href="https://github.com"><i class="icon-git_circle icon2x"></i></a></li>
+          </ul>
+        </div> 
+      </div>
+    </div>
+  </footer>
+        
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

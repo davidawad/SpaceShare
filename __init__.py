@@ -2,8 +2,12 @@ from flask import *
 from pymongo import MongoClient
 import sys,os,sendgrid,twilio, gridfs,pymongo
 from werkzeug import secure_filename
+from flask.ext.pymongo import PyMongo
+from bson import BSON
 ##ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app=Flask(__name__)
+mongo = PyMongo(app)
+
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
 def get_db(): # get a connection to the db above
@@ -33,51 +37,39 @@ def read_file(output_location, room_number):
 	#	f.write(gfs.get(_id).read())
 
 
-@app.route('/')
+@app.route('/HomePage')
 def home():
+	print 'hello'
 	return render_template('index.html')
 
-
 @app.route('/upload',methods=['POST'])
-def upload(): 
+def upload():
 	#get the name of the uploaded file
-	file=request.files['file']
+	tfile=request.files['file']
 	#print "requested files" 
-	space=request.form['space']
-	#print space
-	# if the file exists make it secure
-	print "space exists"
-	if file: #if the file exists
-		#make the file same, remove unssopurted chars
-		filename=secure_filename(file.filename)
-		#move the file to our uploads folder	
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-		put_file(app.config['UPLOAD_FOLDER'],space)
-		#redirect user to the uploaded_file route, which will show the uploaded file.
-	#print "running the upload process"
-	##print open(data,r)
-	print read_file( )
-	##return render_template('space.html')	
-	return render_template('page.html',filename=filename) ##this is wrong
+	spacenum=request.form['space']
+	if tfile and spacenum :
+		#import pdb; pdb.set_trace()
+		try:
+			mongo.db.files.insert({'_id': spacenum, 'body': request.files['file'].read()})
+			return render_template('page.html',spacenum=spacenum)		
+		except Exception:
+			return render_template('error.html',spacenum=spacenum)
 
-
-@app.route('/uploads/<spacenum>', methods=['GET'])
+@app.route('/upload/<spacenum>', methods=['GET'])
 def return_file(spacenum):
-	print app.config['UPLOAD_FOLDER']
-	read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
-	send_file(_,spacenum)
-	#return render_template('page.html',spacenum=spacenum )
+	data = mongo.db.files.find_one({'_id': spacenum})['body']
+	file_object = open(filename, w)
+	filename.write(data)
+	return render_template('page.html',data=data, filename=filename,spacenum=spacenum)
 
-##@app.route('/uploads/<filename>', methods=['GET'])
-##def uploaded_file(filename):
-
-##    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+@app.route('/get')
+def getstuff():
+	print 'getting stuff'
+	spacenum=request.form['space'] 
+	print spacenum
+	redirect(url_for('/'))
 
 
 if __name__ == '__main__':
 	app.run(debug=True)
-	file_location = "/Users/bedrich/Desktop/TODO-MCI"
-	output_location = "/Users/bedrich/Desktop/omg"
-	room_number = 12
-	#put_file(file_location, room_number)
-	#read_file(output_location, room_number)

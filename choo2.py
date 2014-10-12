@@ -49,30 +49,22 @@ def upload():
 	#print "requested files" 
 	spacenum=request.form['space']
 	if tfile and spacenum :
-	# Make the filename safe, remove unsupported 
-		filename = secure_filename(tfile.filename)
-	# Move the file form the temporal folder to
-	# the upload folder we setup
-		tfile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		os.rename(filename,str(spacenum))
-	# Redirect the user to the uploaded_file route, which
-	# will basicaly show on the browser the uploaded file
-		return redirect(url_for('uploaded_file',filename=filename))
-		'''#import pdb; pdb.set_trace()
+		#import pdb; pdb.set_trace()
 		try:
 			mongo.db.files.insert({'_id': spacenum, 'body': request.files['file'].read()})
 			return render_template('page.html',spacenum=spacenum)		
 		except Exception:
-			return render_template('error.html',spacenum=spacenum) '''
+			return render_template('error.html',spacenum=spacenum)
 
 @app.route('/upload/<spacenum>', methods=['GET'])
-def return_file(spacenum):
-	'''data = mongo.db.files.find_one({'_id': spacenum})['body']
+def return_file(spacenum):	
+	data = mongo.db.files.find_one({'_id': spacenum})['body']
 	file_object = open(filename, w)
 	filename.write(data)
-	send_from_directory(app.config['UPLOAD_FOLDER'],spacenum)'''
-	send_from_directory(app.config['UPLOAD_FOLDER'],filename)
-	return render_template('page.html',filename=filename)
+	print filename
+	filename.close()
+	##print filename	
+	return render_template('page.html',data=data, filename=filename,spacenum=spacenum)
 
 @app.route('/get')
 def getstuff():

@@ -1,0 +1,278 @@
+\documentclass[7pt,twocolumn]{article}
+\usepackage{url,graphicx,tabularx,array,amsmath}
+\usepackage{enumitem}
+\setlist{nolistsep} %-- don't have lists take up shitloads of room
+\setlength{\parskip}{0ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+\usepackage[
+top    = 0.25cm,
+bottom = 0.25cm,
+left   = 0.25cm,
+right  = 0.25cm]{geometry}
+
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{0pt}{0pt}
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}}
+
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+\section{Master Theorem}
+Given $T(1) = c$.\\
+$T(n) = a * T\left(\frac{n}{b}\right) + d*f(n)$
+\begin{enumerate}
+    \item $(n^{\log_{b} a}) \mbox{ if }a \ge f(b)$
+    \item $(f(n)) \mbox{ if } f(b) > a$
+    \item $(n^{\log_{b} a}* \log n) \mbox{ if } f(b) = a$
+    \item $f(n)$ must be multiplicative. $f(ab) = f(a)*f(b)$
+\end{enumerate}
+
+\section{Big O}
+$ f(x) \mbox{ is } O(g(x)) => \lim_{x \to \infty}{\frac{f(x)}{g(x)}} \le c \mbox{ for some constant c}$\\
+$ f(x) \mbox{ is } \Omega(g(x)) => \lim_{x \to \infty}{\frac{f(x)}{g(x)}} \ge c \mbox{ for some constant c}$\\
+$ f(x) \mbox{ is } \Theta(g(x)) => \lim_{x \to \infty}{\frac{f(x)}{g(x)}} = c \mbox{ for some constant c}$
+
+\section{Random Facts}
+\begin{enumerate}
+    \item You can multiply in $\Theta(n^{\log_2 3})$.
+    \item Bubble sort is worst case $\Theta(n^2)$ and best case $\Theta(n)$ and average case $\Theta(n^2)$ - Stable, In place
+    \item Merge sort is $\Theta(n \log n)$ for all cases. - Stable, Not in place
+    \item Quick sort is worst case $\Theta(n^2)$ and best case $\Theta(n \log n)$. - Not stable, In place
+    \item You can comparison sort no faster than $O(n \log n)$
+        \begin{enumerate}
+            \item A decision tree for sorting has $>= n!$ leaves.
+            \item Minimum average depth of a tree with $k$ leaves is $\Omega(\log k)$. So if a decision tree has $n!$ leaves, it must have $\log n!$ depth, which is $\Omega(n \log n)$.
+        \end{enumerate}
+    \item Non Comparision Sorting
+        \begin{enumerate}
+            \item Bucket Sort/Bin Sort - hash your key to a bucket. Add it to the linked list for the hashed bucket. Now iterate through buckets, and print out each linked list in order. Requires a bounded input set. $\Theta(n+m)$ where $m$ is the number of bins. - Stable, Not in place
+            \item Radix Sort - Bin Sort based on the least significant digit until you run out of digits.
+            Requires a bounded input set. If we sort $n$ numbers in base $m$ and they are each $k$ digits long,
+            it takes $O(k(n + m))$ - Stable, Not in place
+            Proof by induction -- if digits are the same then they are already sorted
+            O(wlogb(n+b)) we get to choose b
+            for bn: O(wblogb) --make b as small as possible
+            How long to sort n numbers in range [n2]?
+            w = 2logn
+            O(n) -- 2 digits in base n
+        \end{enumerate}
+\end{enumerate}
+
+\section{QuickSelect}
+This takes in an array, and finds the $k$th largest element in the array.
+\begin{enumerate}
+    \item Split array into subarrays of size 5. Find the median of each subarray. This takes $O(n)$ comps.
+    \item Find the median of the medians of all the subarrays recursively. This median must be bigger than $\frac{3n}{10}$ elements and smaller than $\frac{n}{10}$ elements.
+    \item This tells us $T(n) = T(\frac{n}{5}) + T(\frac{7n}{10}) + n = \Theta(n)$
+\end{enumerate}
+
+\section{Graphs}
+\begin{enumerate}
+    \item A simple path is a path without cycles
+    \item A subgraph is strongly connected if you can get from all nodes in it to all other nodes.
+    \item A subgraph is weakly connected if its directed, but would be strongly connected if it was undirected.
+    \item Trees have $n-1$ edges. Have at most $n-1$ leaves. Has an average depth of $\log_2 n$
+\end{enumerate}
+
+\subsection{Treaps}
+Generate heap-key h at random.  Insert $(k, h)$ into a treap -- respects tree order for k, and heap order for h\\
+Lemma: If there are no repeated values, the treap is unique\\
+Proof: Trivial for 1 pair, but for more than one pair, take min heap key as root, and partition by tree key.  Each subtree is unique by induction
+
+\subsection{LCA}
+Given rooted tree T, preprocess it to support queries\\
+Query: LCA(u, v) return the deepest node that is an ancestor of u and v\\
+Euler Tour:
+2n - 1 -- Visit each edge twice, way down and on the way up\\
+A is the smallest depth between occurrence of I, J\\
+Stuff before u | u | u and stuff below u | u | stuff after u and before v | v | … | v | …\\
+    A                       X             Z
+X must contain the LCA, called w, of u and v.  First occurrence of w is in A and the last occurrence is in Z.
+Everything between these occurrences are in w’s subtree, so they are at least as deep as w.  So w is the shallowest node in X.\\
+RMQ \& LCA - can be solved in $O(n)$ preprocess $O(1)$ query.
+
+\subsection{Level Ancestor}
+Query - LA(u, l) --> ancesotr of u with depth l\\
+Pointers -- point to ancestors with depths are a power of 2 less than your depth [O(nlogn), O(nlogn)]\\
+Path decomposition (long path) -- Double long Path -- twice the size with ancestors above.
+Home path of node is unique path where node is in the bottom half of array.\\
+Lemma: Let u be any node and let v be the top node in u's home path.  Then height(v) $\geq$ 2height(u) or v is the root.
+Proof:Distance from v to bottom of this array is at least twice the distance of u to the bottom if |green array| = |red array|.  If not equal then v is the root
+Prep: O(n)
+Query: O(logn)  because height(root) n\\
+Combine pointer and decomp to achieve [O(nlogn), O(1)]. Four Russians yields
+[O(n), O(1)].
+
+\subsection{Minimal Spanning Tree}
+Greedy Algorithm
+\begin{enumerate}
+    \item Initialize all nodes to be infinite distance so far $O(n)$
+    \item Assume we have a MST so far.
+    \item Add the cheapest edge to the MST that adds a node we haven't seen before.
+    \item loop over steps 2-3 $O(n)$
+\end{enumerate}
+$O(n^2)$ total\\
+
+\subsection{Cartesian Trees}
+Root - min element of A A[i].  Left subtree - Cartesian Tree on A[1] ... A[i-1]
+Right subtree - Cartesian Tree on A[i + 1] ... A[n]\\
+Constructed in O(n) time.
+Reduce RMQ to LCA put element of A into Cartesian Tree.
+
+
+
+Kruskall's Algorithm
+\begin{enumerate}
+    \item Sort edges by weight. $O(logn^m) = O(m\log{n})$
+    \item Add an edge to MST if it connects two subgraphs that aren't already connected. $O(n\log{n})$ for
+        unions ($O(\log{n}$ and we do it $n$ times) and $O(m)$ for finds (O(1) and we do it $m$ times), so total for this step is $O(n\log{n}+m)$
+\end{enumerate}
+
+Use Union Find for Step \#2. Complexity $m \log n$, where $m$ is the number of edges.
+
+\subsection{DFS}
+\begin{enumerate}
+    \item Takes $O(n+m)$ time.
+    \item Finds connected components.
+    \item Tells you if you have a DAG (Directed Acyclic Graph) - If the DFS contains back edges, then you have a cycle.
+    \item Top sort - Number vertices from $n$ to 1 as you finish DFS at a vertex.
+    \item Strongly Connected Components - Top Sort, reverse edges, run DFS in order of Top Sort.
+\end{enumerate}
+
+\subsection{Van emde Boas Trees}
+
+Van emde Boas Trees - Does everything in $O(\log w)$ or $O(\log \log N)$ time,
+where $N = 2^w$, so $logw = loglogN$. N is range.
+
+Fusion Trees - Do everything in $O(\log_{w}{n})$ time or $O(\frac{\log{n}}{\log{w}})$ time.
+
+You can sort using these in $n * $min$(\log w, \log_{w}{n})$ time.
+
+Both take $O(N)$ space.
+
+A van emde boas tree that stores $N$ things contains
+\begin{enumerate}
+    \item min and max of its elements.
+    \item $\sqrt{N}$ van emde boas trees that each store $\sqrt{N}$ things - We will call these the buckets.
+    \item A summary tree stores $\sqrt{N}$ things. These things are the indexes of the above that are nonempty.
+\end{enumerate}
+
+To insert/delete a number, you split up the higher and lower order bits of the input. You use the high order bits to determine which bucket to put the number in. We will then recurisvely insert/delete the lower-order bits into that bucket (tree), and update min/max.
+
+To successor a number, you compare to min/max. If it's between min and max, you split the bits and index with high order bits into a bucket. Compare to min/max of the bucket. If it's between min/max, recursively call successor on bucket using low order bits. If it's less than min, return min. If it's greater than max, recursively call the summary widget using the high order bits to find the next non empty bucket and return its min.
+
+The trick here is that if you make one recursive call on input of size $O(\sqrt{N}$, you get $O(\log \log N)$ time.
+
+% \section{ Show that Vector Cover is in NPC }
+% Vertex Cover is defined as a set of nodes such that every edge in the graph is incident to at least one node in the set.
+% \subsection{Converting to a Decision Problem}
+% For this problem, we will consider the decision version of the problem defined as follows:\\
+% Input: A graph $G$, and an integer $k$\\
+% Output: Yes, if $G$ contains a vertex cover of size $k$, no otherwise.
+
+% \subsection{k-independent set}
+% The k-independent set decision problem is defined as follows:\\
+% Input: A graph $G$, and an integer $k$\\
+% Output: Yes, if $G$ contains an independent set of size $k$, no otherwise.\\
+% \subsection{Claim: The k-independent set problem reduces to the Vertex Cover problem.}
+% Let's assume we have a polynomial time solution to the k-independent set problem.\\
+% Let's assume that we have a vertex cover $V$ in the graph $G$ of size $k$. This means that every edge in the graph is incident to one of the nodes in $V$. \\
+% Let's consider the set $V' = G - V$. No two nodes in $V'$ have an edge between them, because if an edge was between two nodes $u$ and $v$, then one of $u$ and $v$ would be in $V$.\\
+% This means that $V'$ is a independent set of length $n-k$.\\
+% Hence, if we can solve the Vertex Cover problem in polynomial time, we can solve the k-independent set problem is polynomial time as well.
+
+\section{ Identities }
+Basic identities.
+\subsection{ Log Rules }
+\begin{enumerate}
+    \item $a = b^c <=> log_c(b)$
+    \item $a = b^{log_b(a)}$
+    \item $log(a b) = log(a) + log(b)$
+    \item $log_b(a) = log(a)/log(b)$
+    \item $log_b(1/a) = -log_b(a)$
+    \item $a^{log_b(c)} = c^{log_b(a)}$
+    \end{enumerate}
+\subsection{ Summation Rules}
+\begin{enumerate}
+    \item $\sum_{i = 1}^n i = 1/2(k(k+1))$
+    \item $\sum_{i = 1}^n i^2 = 1/6(k(k+1)(2k+1))$
+    \item $\sum_{i = 1}^n i^3 = 1/4(n^2 (n+1)^2))$
+    \item $\sum_{i = 1}^n i * 2^i = (k-1) * 2^{k+1} + 2$
+    \item $\sum_{i = 1}^n 2^i = 2^{n+1}-1$
+\end{enumerate}
+\subsection{Differentiation}
+\begin{enumerate}
+    \item $(log_bx)' => \frac{1}{xlnb}$
+    \item $(a^x)' => lna*a^x$
+    \item $(\frac{f(x)}{g(x)})' => \frac{g(x)*f'(x)-f(x)*g'(x)}{(g(x))^2}$
+    \item $(f(g(x)))' => f'(g(x))*g'(x)$
+    \item $(lnx)' => \frac{1}{x}$
+\end{enumerate}
+
+\section{ Min Degree Spanning Tree }
+\subsection{Modifying the problem into a decision problem}
+Here is the modification to MDST:\\
+Input: A graph $G$, and an integer $k$.\\
+Output: Yes, if the graph has a spanning tree where each node has a degree of at most $k$.\\
+\subsection{Modified MDST is NP-Complete}
+We will prove that Hamiltonian Cycle reduces to the modified MDST.\\
+Let's say we had a solution for the modified MDST problem.\\
+We can now determine if $G$ contains a Hamiltonian Cycle by checking to see if $G$ has a spanning tree where each node has a degree at most 2. If $G$ contains such a spanning tree, we know that $G$ contains a Hamiltonian Path.\\
+Since Hamiltonian Path can be reduced to Hamiltonian Cycle and vice versa {Proof by Homework}, we know that Modified MDST is NP-Complete.
+\subsection{Modified MDST provides a solution for MDST}
+First we will find the minimum degree $d$ of a spanning tree in $G$, by calling modified MDST(2 \dots k).\\
+Once we have the minimum degree, we will find the spanning tree $T$ by the node removal technique discussed in class.
+Q.E.D
+
+\section{ Articulation Points }
+Def: a vertex who's removal would cause the graph to be unconnected.
+
+\subsection{ Algo to find in undirected graph: }
+\begin{itemize}
+    \item DFS. If any of a nodes descendants cannot reach back above it (via
+        back edge), it is an articulation point. If the root has more than one
+        child it is an articulation point.
+
+    \item To implement, perform dfs, assigning each node a "low point" number,
+        which is the lowest DFS number it can reach via tree edges and at most
+        one back edge. If any of a nodes children's low points are greater than
+        or equal to it's DFS number, it is an articulation point. If node has
+        more than one child it is an articulation point.
+\end{itemize}
+
+\section{ Graph Transitive Closure }
+\label{sec:_graph_transitive_closure_}
+
+Def: to find the transitive closure of a graph, for every path from one node to
+another, add an edge between the nodes.
+
+\subsection{ Algo to Find Transitive Closure }
+\label{sub:_algo_to_find_transitive_closure_}
+
+Given the graph represented as an adjacency matrix, the transitive closure can
+be computed as $(G + I)^d$, where $d$ is the diameter (longest shortest path).
+
+\begin{itemize}
+    \item Identify the strongly connected components and condense them into
+        single nodes. This turns the graph into a DAG.
+    \item Topsort the graph. The matrix is now upper-triangular. Top right
+        quadrant will be called A, bottom right B, top right C. A and B are each
+        contain $\frac{n}{2}$ edges from the graph and C contains edges from A
+        to B.
+    \item Recursively compute the transitive closures of A and B. The diameter
+         of the graph is now 3.
+    \item Can compute the transitive closure by $(G + I)^3$. Time will be
+        $M(n)$, where $M$ is the time needed to perform matrix multiplication.
+\end{itemize}
+
+
+
+% subsection _algo_to_find_transitive_closure_ (end)
+
+% section _graph_transitive_closure_ (end)
+
+\end{document}

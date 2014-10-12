@@ -28,9 +28,9 @@ def read_file(output_location, room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
-	with open(output_location, 'w') as f:
-		f.write(gfs.get(_id).read())
-
+	return gfs.get(_id).read()
+	#with open(output_location, 'w') as f:
+	#	f.write(gfs.get(_id).read())
 
 
 @app.route('/')
@@ -42,9 +42,9 @@ def home():
 def upload(): 
 	#get the name of the uploaded file
 	file=request.files['file']
-	print "requested files" 
+	#print "requested files" 
 	space=request.form['space']
-	print space
+	#print space
 	# if the file exists make it secure
 	print "space exists"
 	if file: #if the file exists
@@ -52,17 +52,26 @@ def upload():
 		filename=secure_filename(file.filename)
 		#move the file to our uploads folder	
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+		put_file(app.config['UPLOAD_FOLDER'],space)
 		#redirect user to the uploaded_file route, which will show the uploaded file.
-	print "running the upload process"
+	#print "running the upload process"
 	##print open(data,r)
-	
+	print read_file( )
 	##return render_template('space.html')	
-	return redirect(url_for('uploaded_file',filename=filename))
+	return render_template('page.html',filename=filename) ##this is wrong
 
-@app.route('/uploads/<filename>', methods=['GET'])
-def uploaded_file(filename):
 
-    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+@app.route('/uploads/<spacenum>', methods=['GET'])
+def return_file(spacenum):
+	print app.config['UPLOAD_FOLDER']
+	read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
+	send_file(_,spacenum)
+	#return render_template('page.html',spacenum=spacenum )
+
+##@app.route('/uploads/<filename>', methods=['GET'])
+##def uploaded_file(filename):
+
+##    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 
 if __name__ == '__main__':

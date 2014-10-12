@@ -56,11 +56,7 @@
   </section>
 </nav>
 </head>
-
-
-
 <body>
-
 
 <br>
 
@@ -71,100 +67,35 @@
 	</div>
 </div>
 
+<br>
+
     <div class="row">
-      <div class="large-12 columns">
-	        <p>Space is a file sharing platform for you to share things with people. Just upload a file, choose a number and share the number with your friends.</p>
-	        <p>Just go to spaceshare.me/YOURNUMBER </p>
-	        <div class="row">
-	        	<div class="large-4 medium-4 columns">
-	    		<p><a href="http://foundation.zurb.com/docs">Foundation Documentation</a><br />Everything you need to know about using the framework.</p>
-	    	</div>
-	        	<div class="large-4 medium-4 columns">
-	        		<p><a href="http://github.com/zurb/foundation">Foundation on Github</a><br />Latest code, issue reports, feature requests and more.</p>
-	        	</div>
-	        	<div class="large-4 medium-4 columns">
-	        		<p><a href="http://twitter.com/foundationzurb">@foundationzurb</a><br />Ping us on Twitter if you have questions. If you build something with this we'd love to see it (and send you a totally boss sticker).</p>
-	        	</div>        
-					</div>
-      	</div>
-      </div>
+       <div class="large-12 columns">
+		
+		<h2><a href=""> Space Number: {{spacenum}}</a></h2>
+		<h2> <a href="{{data}}"> Download</a> </h2>
+	 </div>
     </div>
 
+<!-- Somehow place the file here-->
 
 <div class="row"> 
-	<div class="large-5 columns">
-		<div class="panel"> 
-		<h2><a href="" style="font-family:billabong">Create a Space</a></h2>
-		<form action="upload" method="post" enctype="multipart/form-data">
-			<label>Choose a Space</label>
-			<input type="text" name="space" id="cheese" placeholder="e.g. '32'"/>
-			<!--<label>Optional Password?</label>
-			<input type="text" name="pass" placeholder="e.g. '32'"/> -->
-			<label>Upload a file!</label>
-			<input type="file" name="file">
+	<div class="large-5 columns panel"> 
+		<p> Email it to a Friend</p>
+		<form> 
 
-			<input type="submit" value="Upload" class="large radius button" style="font-family:billabong">  
-		</form>
-		</div>
+		</form> 
 	</div>
-	
-	<div class="large-2 columns"> </div>
- 
-	<div class="large-5 columns">
-		<div class="panel">
-			<h2><a href="" style="font-family:billabong">Open a Space</a></h2>
-			<form action="get">
-				<label>Choose a Space</label>
-				<input type="text" name="space" placeholder="e.g. '32'"/>
-				<input type="submit" value="Open Space" class="large radius button" style="font-family:billabong">
-			</form>
-		</div>
+	<div class="large-2 columns"> 
+	</div>
+	<div class="large-5 columns panel"> 
+		<p>Text to a friend!</p>
+		<form> 
+
+		</form>
 	</div>
 </div>
- 
- <!--	<form action="/process">
-			<h2 style="font-family:langdon"> Order Some <span style="color:red">Pizza!</span></h2>
-				  <div class="row">
-				    <div class="large-12 columns">
-				      <label>What's your name??</label>
-				      <input type="text" name="name" placeholder="Kung Fu Ken"/>
-				    </div>
-				  </div>
-				  <div class="row">
-				    <div class="large-4 medium-4 columns">
-				      <label>Email?</label>
-				      <input type="text" name="email" placeholder="We won't tell" />
-				    </div>
-				    <div class="large-4 medium-4 columns">
-				      <label>Phone Number?</label>
-				      <input type="text" name="number" placeholder="We'll text you" />
-				    </div>
-				    <div class="large-4 medium-4 columns">
-				      <div class="row collapse">
-				        <div class="small-3 columns">
-				        </div>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="row">
-				    <div class="large-12 columns">
-				      <label>What Pizza??</label>
-				      <select name="order">
-				        <option value="Plain">Plain</option>
-				        <option value="Pepperoni">Pepperoni</option>
-				        <option value="Veggie">Veggie</option>
-				        <option value="Sausage">Sausage</option>
-				      </select>
-				    </div>
-				  </div>
-				  <div class="row">
-				    <div class="large-12 columns">
-				      <a href="#" class="large alert radius button">Changed My Mind!</a>
-				      <input <a type="submit" value="Submit My order!" class="large success radius button"></a>
-				    </div>
-				  </div>
-		</form>  -->
-  
+
   <footer class="row">
     <div class="large-12 columns">
       <hr/>

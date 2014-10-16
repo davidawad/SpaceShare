@@ -1,8 +1,14 @@
-Space
-============
+# [SpaceShare](spaceshare.me)
+==============================================
 
-### This is a File sharing site meant to simplify file sharing between groups of people
-####Built using Flask, deployed on digitalocean and using mongodb to store the files we share
+##NOT WORKING JUST YET
+
+
+### This is a File sharing platform  meant to simplify file sharing between groups of people. 
+### You go to spaceshare.me, upload your file, give it a **number**. 
+### Others go to spaceshare.me/uploads/**number** and it will give you the file. 
+
+####Built using Flask, Deployed on digitalocean using mongodb with gridFS to store the files that are uploaded.
 
 
 

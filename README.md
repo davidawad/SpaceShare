@@ -12,8 +12,9 @@
 
 
 
+##To Run This on your local Host
 
-## Get your PIP (your dependency manager)
+## Get your PIP (Python dependency manager)
 
 ### If you have a mac
 
@@ -50,23 +51,25 @@ sudo apt-get install python-pip
 
 ## Install Dependencies
 
-1. In your terminal, pip install flask and dataset
+1. In your terminal, 
 ```
 pip install flask
-pip install dataset
+pip install pymongo
+pip install gridfs
 ```
 
 ## Run the server
 
-1. In your terminal, navigate to the repo's directory and run app.py
+1. In your terminal, navigate to the repo's directory and run __init__.py
 ```
 cd [REPO LOCATION]
-python app.py
+python __init__.py
 ```
 
 2. Access app from localhost:5000
 
-## Useful Flask Examples :
+
+## Other Useful Flask Examples To Learn what's happening :
 ##[Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
 ##[Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
-##
+##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014)   

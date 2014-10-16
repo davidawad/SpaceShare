@@ -1,0 +1,38 @@
+
+taken from here. 
+
+http://www.reddit.com/r/flask/comments/2j2pdh/how_to_write_a_file_to_a_mongodb_in_flask/
+
+
+
+Use GridFS with mongo to store the file, and you can add the key needed to find the file and present to the user. Depending on what library you are using to interact with mongo (pymongo, mongoengine, etc.) can change how you interact with it.
+Below is a basic example using mongoengine and gridfs.
+
+Define Upload/File Class (In this case upload)
+
+class Upload(db.Document):
+    created_at = db.DateTimeField(default=datetime.now())
+    integer_key = db.IntField()
+    name = db.StringField()
+    content_type = db.StringField()
+    filename = db.FileField()
+
+
+
+In a view for create do something like the following to save things (This is a snippet using wtforms after validate to upload file)
+
+upload = Upload()
+form.populate_obj(upload)
+upload.integer_key = 10 # Define what you need for key
+upload.save()
+
+
+
+On the file serve you can do something like the following (Using request ID in route like <int:request_id>):
+
+file_upload = Upload.objects.get(integer_key=request_id)
+response = make_response(file_upload.filename.read())
+response.mimetype = file_upload.content_type
+return response
+
+Used gridfs with mongoengine to store thumbnails for an application, but using a cloud file storage may be a better option depending on what and how much you are storing.

@@ -53,8 +53,9 @@ def upload():
 		#move the file to our uploads folder	
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 		put_file(app.config['UPLOAD_FOLDER'],space)
-		os.remove( )
-		#redirect user to the uploaded_file route, which will show the uploaded file.
+		# remove the file from disk as we don't need it anymore after database insert. 
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
+		# maybe redirect user to the uploaded_file route, which will show the uploaded file.
 	print "running the upload process"
 
 	##return render_template('space.html')	
@@ -64,13 +65,14 @@ def upload():
 @app.route('/uploads/<spacenum>', methods=['GET'])
 def return_file(spacenum):
 	print app.config['UPLOAD_FOLDER']
+	print filename=
 	read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
-	send_file(_,spacenum)
-	#return render_template('page.html',spacenum=spacenum )
+	send_file(filename ,spacenum)
+	#return render_template('Thanks.html',spacenum=spacenum,filename=filename)
 
 ##@app.route('/uploads/<filename>', methods=['GET'])
 ##def uploaded_file(filename):
-
+#older implementation ideas  
 ##    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 

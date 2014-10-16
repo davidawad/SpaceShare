@@ -1,0 +1,1 @@
+this folder contains some other python code that was used in the initial stages of trying to get this to work. So obviously these files don't work but were kept for reference and whatnot. Thet are not necessary for the app to run, if you care about space, go crazy with these. 

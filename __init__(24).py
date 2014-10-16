@@ -1,6 +1,6 @@
 from flask import *
 from pymongo import MongoClient
-import sys,os,sendgrid,twilio, gridfs,pymongo  ##will add sendgrid and twilio functionality.
+import sys,os,sendgrid,twilio, gridfs,pymongo
 from werkzeug import secure_filename
 ##ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app=Flask(__name__)
@@ -53,7 +53,6 @@ def upload():
 		#move the file to our uploads folder	
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 		put_file(app.config['UPLOAD_FOLDER'],space)
-		os.remove( )
 		#redirect user to the uploaded_file route, which will show the uploaded file.
 	print "running the upload process"
 

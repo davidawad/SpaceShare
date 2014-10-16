@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,7 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 
 <nav class="top-bar" data-topbar>
   <ul class="title-area">
@@ -67,7 +68,7 @@
 
 <div class="row"> 
 	<div class="large-12 columns">
-		<h1 style="font-family:billabong; font-size:15em">Spaceshare<h1>
+		<h1 id="kahuna" style="font-family:billabong; font-size:15em">Spaceshare<h1>
 	</div>
 </div>
 
@@ -121,49 +122,6 @@
 		</div>
 	</div>
 </div>
- 
- <!--	<form action="/process">
-			<h2 style="font-family:langdon"> Order Some <span style="color:red">Pizza!</span></h2>
-				  <div class="row">
-				    <div class="large-12 columns">
-				      <label>What's your name??</label>
-				      <input type="text" name="name" placeholder="Kung Fu Ken"/>
-				    </div>
-				  </div>
-				  <div class="row">
-				    <div class="large-4 medium-4 columns">
-				      <label>Email?</label>
-				      <input type="text" name="email" placeholder="We won't tell" />
-				    </div>
-				    <div class="large-4 medium-4 columns">
-				      <label>Phone Number?</label>
-				      <input type="text" name="number" placeholder="We'll text you" />
-				    </div>
-				    <div class="large-4 medium-4 columns">
-				      <div class="row collapse">
-				        <div class="small-3 columns">
-				        </div>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="row">
-				    <div class="large-12 columns">
-				      <label>What Pizza??</label>
-				      <select name="order">
-				        <option value="Plain">Plain</option>
-				        <option value="Pepperoni">Pepperoni</option>
-				        <option value="Veggie">Veggie</option>
-				        <option value="Sausage">Sausage</option>
-				      </select>
-				    </div>
-				  </div>
-				  <div class="row">
-				    <div class="large-12 columns">
-				      <a href="#" class="large alert radius button">Changed My Mind!</a>
-				      <input <a type="submit" value="Submit My order!" class="large success radius button"></a>
-				    </div>
-				  </div>
-		</form>  -->
   
   <footer class="row">
     <div class="large-12 columns">
@@ -188,6 +146,11 @@
     <script src="js/foundation.min.js"></script>
     <script>
       $(document).foundation();
+	$(document).ready(function() {
+	$('kahuna').fadeIn("slow");
+	console.log("got here" );
+      
+});
     </script>
   </body>
 </html>

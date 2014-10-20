@@ -7,6 +7,7 @@ app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
 url_rule = None
+
 def get_db(): # get a connection to the db above
 	conn = None
 	try:

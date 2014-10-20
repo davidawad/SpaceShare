@@ -1,6 +1,6 @@
 # [SpaceShare](spaceshare.me)
 
-##NOT WORKING JUST YET
+###NOT WORKING JUST YET
 
 
 ### This is a File sharing platform  meant to simplify file sharing between groups of people. 

@@ -17,7 +17,7 @@
 
 ### If you have a mac
 
-_if you have easy_install already, just skip to step 3, you can test by typing ```which easy_install``` in your terminal_
+if you have `easy_install` already, just skip to step 3, you can test by typing ```which easy_install``` in your terminal_
 
 1. Download the distribute setup script to get easy_install
 ```
@@ -32,13 +32,6 @@ python distribute_setup.py
 3. easy_install pip (do this in the terminal)
 ```
 easy_install pip
-```
-
-### If you're on Windows
-
-1. Install pip-Win
-```
-https://sites.google.com/site/pydatalog/python/pip-for-windows
 ```
 
 ### If you're on Ubuntu
@@ -69,6 +62,7 @@ python __init__.py
 
 
 ## Other Useful Flask Examples To Learn what's happening :
+##[File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python)
 ##[Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
 ##[Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
 ##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014)   

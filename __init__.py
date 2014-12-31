@@ -45,7 +45,7 @@ def upload():
 	#print "requested files" 
 	space=request.form['space']
 	# if the file exists make it secure
-	if file: #if the file exists
+	if file and space: #if the file exists
 		#make the file same, remove unssopurted chars
 		filename=secure_filename(file.filename)
 		#move the file to our uploads folder	
@@ -54,23 +54,18 @@ def upload():
 		# remove the file from disk as we don't need it anymore after database insert. 
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		# maybe redirect user to the uploaded_file route, which will show the uploaded file.
-
-	##return render_template('space.html')	
-	return render_template('index.html', filename = filename ,space = space) ##take the file name 
-
+		return render_template('index.html', filename = filename ,space = space) ##take the file name 
+	else:
+		return render_template('invalid.html')
 
 @app.route('/uploads/<spacenum>', methods=['GET'])
 def return_file(spacenum):
 	print app.config['UPLOAD_FOLDER']
 	## print filename= something
 	read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
-	send_file(filename ,spacenum)
-	#return render_template('Thanks.html',spacenum=spacenum,filename=filename)
+	send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+	return render_template('thanks.html' , spacenum = spacenum)
 
-##@app.route('/uploads/<filename>', methods=['GET'])
-##def uploaded_file(filename):
-#older implementation ideas  
-##    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 @app.errorhandler(404)
 def new_page(error): 

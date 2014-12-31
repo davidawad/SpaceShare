@@ -7,11 +7,11 @@ app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
 url_rule = None
+
 def get_db(): # get a connection to the db above
 	conn = None
 	try:
 	    conn = pymongo.MongoClient()
-	    print "Connected successfully!!!"
 	except pymongo.errors.ConnectionFailure, e:
 	   print "Could not connect to MongoDB: %s" % e 
 	   sys.exit(1)
@@ -33,7 +33,6 @@ def read_file(output_location, room_number):
 	with open(output_location, 'w') as f:
 		f.write(gfs.get(_id).read())
 
-
 @app.route('/')
 def home():
 	return render_template('index.html')
@@ -45,9 +44,7 @@ def upload():
 	file=request.files['file']
 	#print "requested files" 
 	space=request.form['space']
-	#print space
 	# if the file exists make it secure
-	print "space exists"
 	if file: #if the file exists
 		#make the file same, remove unssopurted chars
 		filename=secure_filename(file.filename)
@@ -57,10 +54,9 @@ def upload():
 		# remove the file from disk as we don't need it anymore after database insert. 
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		# maybe redirect user to the uploaded_file route, which will show the uploaded file.
-	print "running the upload process"
 
 	##return render_template('space.html')	
-	return render_template('page.html',filename=filename) ##this is wrong
+	return render_template('index.html', filename = filename ,space = space) ##take the file name 
 
 
 @app.route('/uploads/<spacenum>', methods=['GET'])
@@ -89,8 +85,10 @@ def new_page(error):
 	return render_template('error.html')
 if __name__ == '__main__':
 	app.run(debug=True)
+	''' i have no recollection of why these are below
 	file_location = "/Users/bedrich/Desktop/TODO-MCI"
 	output_location = "/Users/bedrich/Desktop/omg"
 	room_number = 12
 	#put_file(file_location, room_number)
 	#read_file(output_location, room_number)
+	'''

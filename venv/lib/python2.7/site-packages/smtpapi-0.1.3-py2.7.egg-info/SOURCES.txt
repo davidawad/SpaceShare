@@ -1,0 +1,10 @@
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+smtpapi/__init__.py
+smtpapi.egg-info/PKG-INFO
+smtpapi.egg-info/SOURCES.txt
+smtpapi.egg-info/dependency_links.txt
+smtpapi.egg-info/top_level.txt
+test/__init__.py

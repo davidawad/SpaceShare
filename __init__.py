@@ -13,15 +13,15 @@ def get_db(): # get a connection to the db above
 	try:
 	    conn = pymongo.MongoClient()
 	except pymongo.errors.ConnectionFailure, e:
-	   print "Could not connect to MongoDB: %s" % e 
+	   print "Could not connect to MongoDB: %s" % e
 	   sys.exit(1)
 	return conn[db]
 
 # put files in mongodb
-def put_file(file_location, room_number):
+def put_file(file_name, room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
-	with open(file_location, "r") as f:
+	with open('uploads/' + file_name, "r") as f:
 		gfs.put(f, room=room_number)
 
 # read files from mongodb
@@ -39,24 +39,25 @@ def home():
 
 
 @app.route('/upload',methods=['POST'])
-def upload(): 
+def upload():
 	#get the name of the uploaded file
 	file=request.files['file']
-	#print "requested files" 
+	#print "requested files"
 	space=request.form['space']
 	# if the file exists make it secure
 	if file and space: #if the file exists
 		#make the file same, remove unssopurted chars
 		filename=secure_filename(file.filename)
-		#move the file to our uploads folder	
+		#move the file to our uploads folder
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-		put_file(app.config['UPLOAD_FOLDER'],space)
-		# remove the file from disk as we don't need it anymore after database insert. 
+		put_file(filename,space)
+		# remove the file from disk as we don't need it anymore after database insert.
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		# maybe redirect user to the uploaded_file route, which will show the uploaded file.
-		return render_template('index.html', filename = filename ,space = space) ##take the file name 
+		return render_template('index.html', filename = filename ,space = space) ##take the file name
 	else:
 		return render_template('invalid.html')
+
 
 @app.route('/uploads/<spacenum>', methods=['GET'])
 def return_file(spacenum):
@@ -68,7 +69,7 @@ def return_file(spacenum):
 
 
 @app.errorhandler(404)
-def new_page(error): 
+def new_page(error):
 	'''
 	pagepath = request.path.lstrip('/')
 	if pagepath.startswith('uploads'):

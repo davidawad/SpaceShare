@@ -1,0 +1,241 @@
+Metadata-Version: 1.0
+Name: sendgrid
+Version: 1.2.1
+Summary: SendGrid library for Python
+Home-page: https://github.com/sendgrid/sendgrid-python/
+Author: Yamil Asusta
+Author-email: yamil@sendgrid.com
+License: MIT
+Description: SendGrid-Python
+        ===============
+        
+        This library allows you to quickly and easily send emails through
+        SendGrid using Python.
+        
+        Warning
+        -------
+        
+        If you upgrade to version ``1.2.x``, the ``add_to`` method behaves differently. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``smtpapi.add_to`` method. More on the ``SMTPAPI`` section.
+        
+        Install
+        -------
+        
+        .. code:: python
+        
+            pip install sendgrid
+            # or
+            easy_install sendgrid
+        
+        Example
+        -------
+        
+        .. code:: python
+        
+            import sendgrid
+        
+            sg = sendgrid.SendGridClient('YOUR_SENDGRID_USERNAME', 'YOUR_SENDGRID_PASSWORD')
+        
+            message = sendgrid.Mail()
+            message.add_to('John Doe <john@email.com>')
+            message.set_subject('Example')
+            message.set_html('Body')
+            message.set_text('Body')
+            message.set_from('Doe John <doe@email.com>')
+            status, msg = sg.send(message)
+        
+            #or
+        
+            message = sendgrid.Mail(to='john@email.com', subject='Example', html='Body', text='Body', from_email='doe@email.com')
+            status, msg = sg.send(message)
+        
+        Error handling
+        --------------
+        
+        By default, ``.send`` method returns a tuple ``(http_status_code, message)``,
+        however you can pass ``raise_errors=True`` to ``SendGridClient`` constructor,
+        then ``.send`` method will raise ``SendGridClientError`` for 4xx errors,
+        and ``SendGridServerError`` for 5xx errors.
+        
+        .. code:: python
+        
+            from sendgrid import SendGridError, SendGridClientError, SendGridServerError
+        
+            sg = sendgrid.SendGridClient(username, password, raise_errors=True)
+        
+            try:
+                sg.send(message)
+            except SendGridClientError:
+                ...
+            except SendGridServerError:
+                ...
+        
+        This behavior is going to be default from version 1.0.0. You are
+        encouraged to set ``raise_errors`` to ``True`` for forwards compatibility.
+        
+        ``SendGridError`` is a base-class for all SendGrid-related exceptions.
+        
+        Adding Recipients
+        ~~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.add_to('example@email.com')
+            # or
+            message.add_to('Example Dude <example@email.com>')
+            # or
+            message.add_to(['Example Dude <example@email.com>', 'john@email.com'])
+        
+        Adding BCC Recipients
+        ~~~~~~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.add_bcc('example@email.com')
+            # or
+            message.add_bcc(['Example Dude <example@email.com>', 'john@email.com'])
+        
+        Setting the Subject
+        ~~~~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.set_subject('Example')
+        
+        Set Text or HTML
+        ~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.set_text('Body')
+            # or
+            message.set_html('<html><body>Stuff, you know?</body></html>')
+        
+        Set From
+        ~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.set_from('example@email.com')
+        
+        Set ReplyTo
+        ~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message.sendgrid.Mail()
+            message.set_replyto('example@email.com')
+        
+        Set File Attachments
+        ~~~~~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.add_attachment('stuff.txt', './stuff.txt')
+            # or
+            message.add_attachment('stuff.txt', open('./stuff.txt', 'rb'))
+            # or
+            message.add_attachment_stream('filename', 'somerandomcontentyouwant')
+            # strings, unicode, or BytesIO streams
+        
+        Set Content ID's
+        ~~~~~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.add_attachment('image.png', open('./image.png', 'rb'))
+            message.add_content_id('image.png', 'ID_IN_HTML')
+            message.set_html('<html><body>TEXT BEFORE IMAGE<img src="cid:ID_IN_HTML"></img>AFTER IMAGE</body></html>')
+        
+        SendGrid's `X-SMTPAPI`_
+        -----------------------
+        
+        If you wish to use the X-SMTPAPI on your own app, you can use the
+        `SMTPAPI Python library`_.
+        
+        There are implementations for setter methods too.
+        
+        `Recipients`_
+        ~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.smtpapi.add_to('example@email.com')
+        
+        `Substitution`_
+        ~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.smtpapi.add_substitution('key', 'value')
+            # or
+            message.add_substitution('key', 'value')
+        
+        `Section`_
+        ~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.smtpapi.add_section('section', 'value')
+            # or
+            message.add_section('section', 'value')
+        
+        `Category`_
+        ~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.smtpapi.add_category('category')
+            # or
+            message.add_category('category')
+        
+        `Unique Arguments`_
+        ~~~~~~~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.smtpapi.add_unique_arg('key', 'value')
+            # or
+            message.add_unique_arg('key', 'value')
+        
+        `Filter`_
+        ~~~~~~~~~
+        
+        .. code:: python
+        
+            message = sendgrid.Mail()
+            message.smtpapi.add_filter('filter', 'setting', 'value')
+            # or
+            message.add_filter('filter', 'setting', 'value')
+        
+        
+        Tests
+        ~~~~~
+        
+        .. code:: python
+        
+            python test/__init__.py
+        
+        MIT License
+        -----------
+        
+        .. _X-SMTPAPI: http://sendgrid.com/docs/API_Reference/SMTP_API/
+        .. _SMTPAPI Python library: https://github.com/sendgrid/smtpapi-python
+        .. _Substitution: http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html
+        .. _Section: http://sendgrid.com/docs/API_Reference/SMTP_API/section_tags.html
+        .. _Category: http://sendgrid.com/docs/Delivery_Metrics/categories.html
+        .. _Unique Arguments: http://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html
+        .. _Filter: http://sendgrid.com/docs/API_Reference/SMTP_API/apps.html
+        
+Platform: UNKNOWN

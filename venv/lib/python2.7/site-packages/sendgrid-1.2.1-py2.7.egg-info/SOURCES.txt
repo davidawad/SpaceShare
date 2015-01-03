@@ -1,0 +1,14 @@
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+sendgrid/__init__.py
+sendgrid/exceptions.py
+sendgrid/message.py
+sendgrid/sendgrid.py
+sendgrid/version.py
+sendgrid.egg-info/PKG-INFO
+sendgrid.egg-info/SOURCES.txt
+sendgrid.egg-info/dependency_links.txt
+sendgrid.egg-info/requires.txt
+sendgrid.egg-info/top_level.txt

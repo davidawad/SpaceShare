@@ -2,7 +2,6 @@ from flask import *
 from pymongo import MongoClient
 import sys,os,sendgrid,twilio, gridfs,pymongo  ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
-##ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
@@ -53,16 +52,15 @@ def upload():
 		put_file(filename,space)
 		# remove the file from disk as we don't need it anymore after database insert.
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
-		# maybe redirect user to the uploaded_file route, which will show the uploaded file.
+		# debugging line to write a file
+		f = open('debug.txt', 'w')
+		f.write('File name is '+filename+' or ' +file.name+' the space is :'+ str(space) )
 		return render_template('index.html', filename = filename ,space = space) ##take the file name
 	else:
 		return render_template('invalid.html')
 
-
 @app.route('/uploads/<spacenum>', methods=['GET'])
 def return_file(spacenum):
-	print app.config['UPLOAD_FOLDER']
-	## print filename= something
 	read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
 	send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 	return render_template('thanks.html' , spacenum = spacenum)

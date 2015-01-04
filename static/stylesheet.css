@@ -1,3 +1,4 @@
+@import url('//fonts.googleapis.com/css?family=Lobster|Cabin:400,700');
 @font-face{
     font-family: 'billabong';
     src: url('billabong-webfont.eot');
@@ -7,4 +8,11 @@
          url('billabong-webfont.svg#billabongregular') format('svg');
     font-weight: normal;
     font-style: normal;
+}
+
+
+
+
+#name{
+  font-family: 'Lobster';
 }

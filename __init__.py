@@ -34,11 +34,12 @@ def read_file(output_location, room_number):
 		f.write(gfs.get(_id).read())
 	return gfs.get(_id).read()
 
-def search_file(spacenum):
+def search_file(room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room=room_number))
 	print _id
+	return _id
 
 @app.route('/upload',methods=['POST'])
 def upload():
@@ -49,7 +50,8 @@ def upload():
 	# if the file exists make it secure
 	if file and space: #if the file exists
 		# search to see if number is taken
-		search_file(space)
+		if search_file(space):
+			raise Exception("Space Taken!")
 		#make the file same, remove unssopurted chars
 		filename=secure_filename(file.filename)
 		#move the file to our uploads folder
@@ -83,9 +85,8 @@ def new_page(error):
         	return render_template('edit.html', page=None, pagepath=pagepath)
 	'''
 if __name__ == '__main__':
-	return render_template('error.html')
+	#return render_template('error.html')
 	app.run(debug=True)
-
 	'''examples for gridfs functions
 	file_location = "/Users/bedrich/Desktop/TODO-MCI"
 	output_location = "/Users/bedrich/Desktop/omg"

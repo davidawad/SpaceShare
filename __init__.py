@@ -5,8 +5,6 @@ from werkzeug import secure_filename
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
-url_rule = None
-
 def get_db(): # get a connection to the db above
 	conn = None
 	try:
@@ -52,7 +50,7 @@ def upload():
 		put_file(filename,space)
 		# remove the file from disk as we don't need it anymore after database insert.
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
-		# debugging line to write a file
+		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
 		f.write('File name is '+filename+' or ' +file.name+' the space is :'+ str(space) )
 		return render_template('index.html', filename = filename ,space = space) ##take the file name

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spaceshare | Share your data</title>
+    <title>Spaceshare | Share Freely</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/stylesheet.css" />
     <script src="js/vendor/modernizr.js"></script>
@@ -11,6 +11,7 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="http://faviconist.com/icons/b088547447296f75af21a368e872d2ef/favicon.ico" />
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 
 <nav class="top-bar" data-topbar>
@@ -24,87 +25,54 @@
     </li>
     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   </ul>
+
  <section class="top-bar-section">
-    <ul class="right">
-      <li class="divider"></li>
-      <li class="has-dropdown">
-        <a href="http://foundation.zurb.com/templates.html" class="">Develop</a>
-        <ul class="dropdown">
-          <li><a href="http://foundation.zurb.com/templates.html">Add-ons</a></li>
-          <li><a href="http://foundation.zurb.com/docs">Docs</a></li>
-          <li><a href="http://foundation.zurb.com/develop/download.html">Download</a></li>
-          <li><a href="http://foundation.zurb.com/develop/contribute.html">Contribute</a></li>
-          <li><a href="http://foundation.zurb.com/develop/resources.html">Resources</a></li>
-        </ul>
-      </li>
-      <li class="divider"></li>
-      <li class="has-dropdown">
-        <a href="http://foundation.zurb.com/support/support.html" class="">Support</a>
-        <ul class="dropdown">
-          <li><a href="http://foundation.zurb.com/support/support.html">Support Channels</a></li>
-          <li><a href="http://foundation.zurb.com/forum">Foundation Forum</a></li>
-          <li><a href="http://foundation.zurb.com/support/images-and-badges.html">Images &amp; Badges</a></li>
-        </ul>
-      </li>
-      <li class="divider"></li>
-      <li>
-        <a href="http://foundation.zurb.com/docs" class="">Docs</a>
-      </li>
-      <li class="divider"></li>
-      <li class="has-form">
-        <a href="http://foundation.zurb.com/docs" class="small radius button">Getting Started</a>
-    </ul>
+
   </section>
 </nav>
+
 </head>
-
-
 
 <body>
 
-
 <br>
 
-
-<div class="row"> 
+<div class="row">
 	<div class="large-12 columns">
-		<h1 id="kahuna" style="font-family:billabong; font-size:15em">Spaceshare<h1>
+     <img src="/static/logo.png" alt="Space Share!"><!-- EITHER LOGO OR TEXT-->
+		<!-- <h1 id="kahuna" style="font-family:billabong; font-size:15em">Spaceshare<h1> -->
 	</div>
 </div>
 
-
-
-<div class="row"> 
+<div class="row">
 	<div class="large-5 columns">
-		<div class="panel"> 
+		<div class="panel">
 		<h2><a href="" style="font-family:billabong">Create a Space</a></h2>
 		<form action="upload" method="post" enctype="multipart/form-data">
 			<label>Choose a Space</label>
 			<input type="text" name="space" id="cheese" placeholder="e.g. '32'"/>
-			<!--<label>Optional Password?</label>
-			<input type="text" name="pass" placeholder="e.g. '32'"/> -->
 			<label>Upload a file!</label>
 			<input type="file" name="file">
 
-			<input type="submit" value="Upload" class="large radius button" style="font-family:billabong">  
+			<input type="submit" value="Upload" class="radius button" style="font-family:billabong">
 		</form>
 		</div>
 	</div>
-	
+
 	<div class="large-2 columns"> </div>
- 
+
 	<div class="large-5 columns">
 		<div class="panel">
 			<h2><a href="" style="font-family:billabong">Open a Space</a></h2>
 			<form action="get">
 				<label>Choose a Space</label>
 				<input type="text" name="space" placeholder="e.g. '32'"/>
-				<input type="submit" value="Open Space" class="large radius button" style="font-family:billabong">
+				<input type="submit" value="Open Space" class="radius button" style="font-family:billabong">
 			</form>
 		</div>
 	</div>
 </div>
-  
+
   <footer class="row">
     <div class="large-12 columns">
       <hr/>
@@ -115,15 +83,15 @@
          <div class="large-6 columns">
           <ul class="inline-list right">
             <!--<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6K7XB3RU72JDJ&lc=US&item_name=David%20Awad%21&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" style="color:yellow" target="_blank">Donate!</a></li> -->
-            <li><a href="https://google.com"><i class="icon-facebook_circle icon2x"></i></a></li>   
-		<li><a href="https://google.com"><i class="icon-twitter_circle icon2x"></i></a></li>   
+            <li><a href="https://google.com"><i class="icon-facebook_circle icon2x"></i></a></li>
+		<li><a href="https://google.com"><i class="icon-twitter_circle icon2x"></i></a></li>
 		<li><a href="https://github.com"><i class="icon-git_circle icon2x"></i></a></li>
           </ul>
-        </div> 
+        </div>
       </div>
     </div>
   </footer>
-        
+
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
@@ -131,7 +99,7 @@
 	$(document).ready(function() {
 	$('kahuna').fadeIn("slow");
 	console.log("got here" );
-      
+
 });
     </script>
   </body>

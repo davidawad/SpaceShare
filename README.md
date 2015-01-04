@@ -34,4 +34,4 @@ python __init__.py
 ##[Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
 ##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014) 
 
-# StackOverflow, Devon Peticolas, and Wisdom from MongoDB made this app Possible. Thank you sincerely.   
+### StackOverflow, Devon Peticolas, and Wisdom Omuya from MongoDB made this app Possible. Thank you both sincerely.   

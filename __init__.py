@@ -1,6 +1,6 @@
 from flask import *
 from pymongo import MongoClient
-import sys,os,sendgrid,twilio, gridfs,pymongo  ##will add sendgrid and twilio functionality.
+import sys,os,sendgrid,twilio, gridfs, pymongo  ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -14,6 +14,10 @@ def get_db(): # get a connection to the db above
 	   sys.exit(1)
 	return conn[db]
 
+@app.route('/')
+def home():
+	return render_template('index.html')
+
 # put files in mongodb
 def put_file(file_name, room_number):
 	db_conn = get_db()
@@ -26,14 +30,9 @@ def read_file(output_location, room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
-	#return gfs.get(_id).read()
-	with open(output_location, 'w') as f:
+	with open(output_location + str(room_number) , 'w') as f:
 		f.write(gfs.get(_id).read())
-
-@app.route('/')
-def home():
-	return render_template('index.html')
-
+	return gfs.get(_id).read()
 
 @app.route('/upload',methods=['POST'])
 def upload():
@@ -52,16 +51,16 @@ def upload():
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
-		f.write('File name is '+filename+' or ' +file.name+' the space is :'+ str(space) )
-		return render_template('index.html', filename = filename ,space = space) ##take the file name
+		f.write('File name is '+filename+' the space is :'+ str(space) )
+		return render_template('index.html', filename = filename ,space = space, up = True) ##take the file name
 	else:
 		return render_template('invalid.html')
 
-@app.route('/uploads/<spacenum>', methods=['GET'])
-def return_file(spacenum):
-	read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
-	send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-	return render_template('thanks.html' , spacenum = spacenum)
+@app.route('/upload/<spacenum>', methods=['GET'])
+def download(spacenum):
+	unSecurefilename = read_file(app.config['UPLOAD_FOLDER'] ,spacenum)
+	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum)  )
+	#return render_template('index.html' , spacenum = spacenum)
 
 
 @app.errorhandler(404)
@@ -77,10 +76,10 @@ def new_page(error):
 	return render_template('error.html')
 if __name__ == '__main__':
 	app.run(debug=True)
-	''' i have no recollection of why these are below
+	'''examples for gridfs functions
 	file_location = "/Users/bedrich/Desktop/TODO-MCI"
 	output_location = "/Users/bedrich/Desktop/omg"
 	room_number = 12
-	#put_file(file_location, room_number)
-	#read_file(output_location, room_number)
+	put_file(file_location, room_number)
+	read_file(output_location, room_number)
 	'''

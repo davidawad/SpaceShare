@@ -1,18 +1,18 @@
 # [SpaceShare](spaceshare.me)
 
-###NOT WORKING JUST YET
+###Working!!
 
 
 ### This is a File sharing platform  meant to simplify file sharing between groups of people. 
 ### You go to spaceshare.me, upload your file, give it a **number**. 
 ### Others go to spaceshare.me/uploads/**number** and it will give you the file. 
 
-####Built using Flask, using mongodb with gridFS to store the files that are uploaded.
+####Built using Flask, using mongodb with gridFS to store uploaded files.
 
 ##Dependencies 
 
 1. In your terminal, 
-```
+```bash
 pip install -r requirements.txt
 ```
 

@@ -35,4 +35,4 @@ python __init__.py
 ##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014) 
 
 ## Special Thanks
-### StackOverflow, Devon Peticolas, and Wisdom Omuya from MongoDB made this app Possible. Thank you sincerely.   
+### StackOverflow, Joel Pena, Devon Peticolas, and Wisdom Omuya from MongoDB made this app Possible. Thank you sincerely.   

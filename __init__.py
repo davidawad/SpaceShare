@@ -1,11 +1,12 @@
 from flask import *
 from pymongo import MongoClient
-import sys,os,sendgrid,twilio, gridfs, pymongo ##will add sendgrid and twilio functionality.
+import sys, os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
-def get_db(): # get a connection to the db above
+# safety function to get a connection to the db above
+def get_db():
 	conn = None
 	try:
 	    conn = pymongo.MongoClient()
@@ -34,35 +35,37 @@ def read_file(output_location, room_number):
 		f.write(gfs.get(_id).read())
 	return gfs.get(_id).read()
 
+# find if files exist
 def search_file(room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
-	_id = db_conn.fs.files.find_one(dict(room=room_number))
-	print _id
+	_id = db_conn.fs.files.find_one(dict(room = room_number))
 	return _id
 
+#upload routine
 @app.route('/upload',methods=['POST'])
 def upload():
 	#get the name of the uploaded file
 	file = request.files['file']
 	#print "requested files"
 	space = request.form['space']
-	# if the file exists make it secure
-	if file and space: #if the file exists
+	# if file and space are given
+	if file and space:
 		# search to see if number is taken
 		if search_file(space):
-			raise Exception("Space Taken!")
-		#make the file same, remove unssopurted chars
-		filename=secure_filename(file.filename)
+			render_template('index.html', space=space, taken=True)
+		#make the file safe, remove unsupported chars
+		filename = secure_filename(file.filename)
 		#move the file to our uploads folder
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+		# save file to mongodb
 		put_file(filename,space)
 		# remove the file from disk as we don't need it anymore after database insert.
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
-		f.write('File name is '+filename+' the space is :'+ str(space) )
-		return render_template('index.html', filename = filename ,space = space, up = True) ##take the file name
+		f.write('File name is :'+filename+', and the space is :'+ str(space) )
+		return render_template('index.html', space = space)
 	else:
 		return render_template('invalid.html')
 
@@ -70,27 +73,22 @@ def upload():
 def download(spacenum):
 	unSecurefilename = read_file(app.config['UPLOAD_FOLDER'] ,spacenum )
 	render_template('index.html' , spacenum = spacenum)
-	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
-	#remove from disk after file is given to user. use new thread to unlink??
-	#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
+	pid = os.fork()
+	##pathetic attempt at using python to avoid problem raised in github issue # 
+	if pid: #parent process
+    		return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
+	else: #child process
+		os.waitpid( pid ) #wait for parent process
+		#remove from disk after file is given to user.
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
+
+@app.route('/get')
+def open_space():
+	space = request.form['space']
+	return redirect(url_for('/upload/'+str(space) ) )
 
 @app.errorhandler(404)
 def new_page(error):
-	'''
-	pagepath = request.path.lstrip('/')
-	if pagepath.startswith('uploads'):
-        	filename = pagepath[len('uploads'):].lstrip('/')
-        	return render_template('upload.html', filename=filename)
-    	else:
-        	return render_template('edit.html', page=None, pagepath=pagepath)
-	'''
+	return render_template('index.html',non=True)
 if __name__ == '__main__':
-	#return render_template('error.html')
 	app.run(debug=True)
-	'''examples for gridfs functions
-	file_location = "/Users/bedrich/Desktop/TODO-MCI"
-	output_location = "/Users/bedrich/Desktop/omg"
-	room_number = 12
-	put_file(file_location, room_number)
-	read_file(output_location, room_number)
-	'''

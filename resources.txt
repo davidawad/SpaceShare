@@ -1,0 +1,10 @@
+
+
+analytics
+
+http://stackoverflow.com/questions/10824438/how-to-collect-performance-metrics-in-a-flask-application
+
+
+
+
+

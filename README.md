@@ -4,8 +4,8 @@
 
 
 ### This is a File sharing platform  meant to simplify file sharing between groups of people. 
-### You go to spaceshare.me, upload your file, give it a **number**. 
-### Others go to spaceshare.me/uploads/**number** and it will give you the file. 
+### You go to spaceshare.me, upload your file, give it a number. 
+### Others go to spaceshare.me/upload/number and it will give you the file. 
 
 ####Built using Flask, using mongodb with gridFS to store uploaded files.
 
@@ -34,4 +34,5 @@ python __init__.py
 ##[Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
 ##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014) 
 
-### StackOverflow, Devon Peticolas, and Wisdom Omuya from MongoDB made this app Possible. Thank you both sincerely.   
+## Special Thanks
+### StackOverflow, Devon Peticolas, and Wisdom Omuya from MongoDB made this app Possible. Thank you sincerely.   

@@ -1,75 +1,89 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <title>Spaceshare | Share Freely</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spaceshare | Share Freely</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/stylesheet.css" />
-    <script src="js/vendor/modernizr.js"></script>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheet.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="http://faviconist.com/icons/b088547447296f75af21a368e872d2ef/favicon.ico" />
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-
-<nav class="top-bar" data-topbar>
-  <ul class="title-area">
-    <li class="name">
-      <h1>
-        <a href="/index.html">
-          <span id="name">Spaceshare.me</span>
-        </a>
-      </h1>
-    </li>
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-  </ul>
-
- <section class="top-bar-section">
-
-  </section>
-</nav>
-
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+        <h1>
+          <a href="/">
+            <span class="look">Spaceshare.me &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "Friendship is never anything but sharing." - Elie Wiesel </span>
+          </a>
+        </h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+  </nav>
 </head>
-
 <body>
-
 <br>
 
 <div class="row">
-	<div class="large-12 columns">
-     <img src="/static/logo.png" alt="Space Share!"><!-- EITHER LOGO OR TEXT-->
+	<div class="large-6 columns">
+     <img id="logo" src="/static/logo.png" alt="Space Share!"><!-- EITHER LOGO OR TEXT-->
 		<!-- <h1 id="kahuna" style="font-family:billabong; font-size:15em">Spaceshare<h1> -->
 	</div>
+  <div class="large-6 columns">
+    <br>
+    <br>
+    <p class="look" id="gist"> Share files... instantly.</p>
+  </div>
 </div>
+<!-- awesomeness below for generating pages -->
+{% if taken and space %}
+<div class="row">
+  <div class="large-12 columns">
+    <p class="look" id="rejection">Sorry!! {{space}} isn't available right now. You can try a different space below?</p>
+</div>
+{% elif space %}
+<div class="row">
+  <div class="large-12 columns">
+    <p class="look">Thanks!! You've reserved space {{space}} </p>
+</div>
+{% endif %}
+
+{% if non %}
+<script>
+alert("Woops! That page doesn't exist! Sorry about that.")
+</script>
+{% endif %}
 
 <div class="row">
 	<div class="large-5 columns">
 		<div class="panel">
-		<h2><a href="" style="font-family:billabong">Create a Space</a></h2>
-		<form action="upload" method="post" enctype="multipart/form-data">
-			<label>Choose a Space</label>
-			<input type="text" name="space" id="cheese" placeholder="e.g. '32'"/>
-			<label>Upload a file!</label>
+		<h2><a href="" style="font-family:Pacifico">Create a Space</a></h2>
+
+    <form action="upload" method="POST" enctype="multipart/form-data">
+			<!-- <label>Choose a Space</label> -->
+			<input type="number" name="space" placeholder="e.g. '32' "/>
+			<!--<label>Upload a file!</label> -->
 			<input type="file" name="file">
 
-			<input type="submit" value="Upload" class="radius button" style="font-family:billabong">
+			<input type="submit" value="upload" class="radius button" style="font-family:Pacifico ; font-size:2em">
 		</form>
-		</div>
+
+    </div>
 	</div>
-
-	<div class="large-2 columns"> </div>
-
+  <div class="large-2 columns"> </div>
 	<div class="large-5 columns">
 		<div class="panel">
-			<h2><a href="" style="font-family:billabong">Open a Space</a></h2>
-			<form action="get">
-				<label>Choose a Space</label>
-				<input type="text" name="space" placeholder="e.g. '32'"/>
-				<input type="submit" value="Open Space" class="radius button" style="font-family:billabong">
+			<h2><a href="" class ="look">Open a Space</a></h2>
+      <br>
+      <form action="open" method="" >
+				<input type="number" name="openSpace" id="redir" placeholder="e.g. '32'"/>
+				<input type="submit" value="open" class="radius button" style="font-family: Pacifico;font-size:2em">
 			</form>
-		</div>
+
+    </div>
 	</div>
 </div>
 
@@ -78,29 +92,37 @@
       <hr/>
       <div class="row">
         <div class="large-6 columns">
-          <p>©David Awad</p>
+          <p class="look">© David Awad</p>
         </div>
          <div class="large-6 columns">
           <ul class="inline-list right">
-            <!--<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6K7XB3RU72JDJ&lc=US&item_name=David%20Awad%21&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" style="color:yellow" target="_blank">Donate!</a></li> -->
             <li><a href="https://google.com"><i class="icon-facebook_circle icon2x"></i></a></li>
-		<li><a href="https://google.com"><i class="icon-twitter_circle icon2x"></i></a></li>
-		<li><a href="https://github.com"><i class="icon-git_circle icon2x"></i></a></li>
+		        <li><a href="https://google.com"><i class="icon-twitter_circle icon2x"></i></a></li>
+		        <li><a href="https://github.com"><i class="icon-git_circle icon2x"></i></a></li>
           </ul>
         </div>
       </div>
     </div>
   </footer>
-
-    <script src="js/vendor/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="js/vendor/modernizr.js"></script>
     <script src="js/foundation.min.js"></script>
-    <script>
+    <!-- <script src="js/vendor/jquery.js"></script> -->
+    <script type="text/javascript">
+    ( function($) {
+    // we can now rely on $ within the safety of our "bodyguard" function
+    $(document).ready( function() {
+      //alert("nyah nyah! I'm able to use '$'!!!!");
       $(document).foundation();
-	$(document).ready(function() {
-	$('kahuna').fadeIn("slow");
-	console.log("got here" );
+      $('kahuna').fadeIn("slow");
+      //redirect user to their desired text box without server interaction
+      var redir = $('#redir').val();
+      // similar behavior as an HTTP redirect
+      window.location.replace(" " + redir.toString() );
 
-});
+
+      } );
+    } )( jQuery );
     </script>
   </body>
 </html>

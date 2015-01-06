@@ -20,7 +20,6 @@
           </a>
         </h1>
       </li>
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
   </nav>
 </head>
@@ -44,6 +43,11 @@
   <div class="large-12 columns">
     <p class="look" id="rejection">Sorry!! {{space}} isn't available right now. You can try a different space below?</p>
 </div>
+{% elif free and space %}
+<div class="row">
+  <div class="large-12 columns">
+    <p class="look">Thanks!! You've reserved space {{space}} </p>
+  </div>
 {% elif space %}
 <div class="row">
   <div class="large-12 columns">
@@ -63,11 +67,9 @@ alert("Woops! That page doesn't exist! Sorry about that.")
 		<h2><a href="" style="font-family:Pacifico">Create a Space</a></h2>
 
     <form action="upload" method="POST" enctype="multipart/form-data">
-			<!-- <label>Choose a Space</label> -->
+      <br>
 			<input type="number" name="space" placeholder="e.g. '32' "/>
-			<!--<label>Upload a file!</label> -->
 			<input type="file" name="file">
-
 			<input type="submit" value="upload" class="radius button" style="font-family:Pacifico ; font-size:2em">
 		</form>
 
@@ -78,9 +80,10 @@ alert("Woops! That page doesn't exist! Sorry about that.")
 		<div class="panel">
 			<h2><a href="" class ="look">Open a Space</a></h2>
       <br>
+
       <form action="open" method="" >
 				<input type="number" name="openSpace" id="redir" placeholder="e.g. '32'"/>
-				<input type="submit" value="open" class="radius button" style="font-family: Pacifico;font-size:2em">
+				<input type="submit" value="open" class="radius button" style="font-family: Pacifico; font-size:2em">
 			</form>
 
     </div>

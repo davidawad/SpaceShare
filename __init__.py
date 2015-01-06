@@ -2,6 +2,7 @@ from flask import *
 from pymongo import MongoClient
 import sys, os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
+from subprocess import Popen
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
@@ -60,12 +61,15 @@ def upload():
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 		# save file to mongodb
 		put_file(filename,space)
-		# remove the file from disk as we don't need it anymore after database insert.
-		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
 		f.write('File name is :'+filename+', and the space is :'+ str(space) )
-		return render_template('index.html', space = space)
+		render_template('index.html', space = space)
+		time.sleep(600)
+		# remove the file from disk as we don't need it anymore after 10 minutes
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
+		return
+
 	else:
 		return render_template('invalid.html')
 
@@ -73,14 +77,8 @@ def upload():
 def download(spacenum):
 	unSecurefilename = read_file(app.config['UPLOAD_FOLDER'] ,spacenum )
 	render_template('index.html' , spacenum = spacenum)
-	pid = os.fork()
-	##pathetic attempt at using python to avoid problem raised in github issue # 
-	if pid: #parent process
-    		return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
-	else: #child process
-		os.waitpid( pid ) #wait for parent process
-		#remove from disk after file is given to user.
-		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
+	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
+	#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
 
 @app.route('/get')
 def open_space():

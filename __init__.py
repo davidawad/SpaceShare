@@ -64,11 +64,10 @@ def upload():
 		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
 		f.write('File name is :'+filename+', and the space is :'+ str(space) )
-		render_template('index.html', space = space)
-		time.sleep(600)
+		#time.sleep(600)
 		# remove the file from disk as we don't need it anymore after 10 minutes
-		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
-		return
+		#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
+		return render_template('index.html', space = space, free=True)
 
 	else:
 		return render_template('invalid.html')

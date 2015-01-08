@@ -4,8 +4,6 @@
     <title>Spaceshare | Share Freely</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/stylesheet.css" />
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheet.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
@@ -28,8 +26,7 @@
 
 <div class="row">
 	<div class="large-6 columns">
-     <img id="logo" src="/static/logo.png" alt="Space Share!"><!-- EITHER LOGO OR TEXT-->
-		<!-- <h1 id="kahuna" style="font-family:billabong; font-size:15em">Spaceshare<h1> -->
+     <img id="logo" src="/static/logo.png" alt="Space Share!"><!-- EITHER LOGO OR TEXT, NOT SURE-->
 	</div>
   <div class="large-6 columns">
     <br>
@@ -41,12 +38,12 @@
 {% if taken and space %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="look" id="rejection">Sorry!! {{space}} isn't available right now. You can try a different space below?</p>
+    <p class="look response" id="rejection">Sorry!! {{space}} isn't available right now. You can try a different space below?</p>
 </div>
 {% elif free and space %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="look">Thanks!! You've reserved space {{space}} </p>
+    <p class="look" style="font-size:5em">Thanks!! You've reserved space {{space}}, you can access it at <span>/uploads/{{space}}</span> </p>
   </div>
 {% elif space %}
 <div class="row">
@@ -121,7 +118,7 @@ alert("Woops! That page doesn't exist! Sorry about that.")
       //redirect user to their desired text box without server interaction
       var redir = $('#redir').val();
       // similar behavior as an HTTP redirect
-      window.location.replace(" " + redir.toString() );
+      //window.location.replace(" " + redir.toString() );
 
 
       } );

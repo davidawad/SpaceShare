@@ -49,7 +49,7 @@ def find_number():
 		temp = randint(1,100) #inclusive
 		if search_file(temp):
 			continue
-		else:
+		else: ##we've found a random integer NOT in the db, return
 			return temp
 
 #upload routine

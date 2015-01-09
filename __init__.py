@@ -43,7 +43,7 @@ def search_file(room_number):
 	_id = db_conn.fs.files.find_one(dict(room = room_number))
 	return _id
 
-#find an integer not currently in the db
+#find a random integer not currently in the db
 def find_number():
 	while True:
 		temp = randint(1,100) #inclusive

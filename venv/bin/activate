@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/david/Desktop/MONGO/SpaceShare/venv"
+VIRTUAL_ENV="/home/david/Desktop/Mongo/SpaceShare/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

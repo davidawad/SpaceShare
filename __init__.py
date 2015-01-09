@@ -44,7 +44,7 @@ def search_file(room_number):
 	return _id
 
 #upload routine
-@app.route('/upload',methods=['POST'])
+@app.route('/uploads',methods=['POST'])
 def upload():
 	#get the name of the uploaded file
 	file = request.files['file']
@@ -72,7 +72,7 @@ def upload():
 	else:
 		return render_template('invalid.html')
 
-@app.route('/upload/<spacenum>', methods=['GET'])
+@app.route('/uploads/<spacenum>', methods=['GET'])
 def download(spacenum):
 	unSecurefilename = read_file(app.config['UPLOAD_FOLDER'] ,spacenum )
 	render_template('index.html' , spacenum = spacenum)

@@ -35,10 +35,10 @@
   </div>
 </div>
 <!-- awesomeness below for generating pages -->
-{% if taken and space %}
+{% if new and space %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="look response" id="rejection">Sorry!! {{space}} isn't available right now. You can try a different space below?</p>
+    <p class="look response" id="rejection">Sorry!! {{space}} isn't available right now. Try {{new}}</p>
 </div>
 {% elif free and space %}
 <div class="row">

@@ -2,7 +2,7 @@ from flask import *
 from pymongo import MongoClient
 import sys, os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
-from subprocess import Popen
+from random import randint
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 db = "spaceshare"
@@ -43,6 +43,15 @@ def search_file(room_number):
 	_id = db_conn.fs.files.find_one(dict(room = room_number))
 	return _id
 
+#find an integer not currently in the db
+def find_number():
+	while True:
+		temp = randint(1,100) #inclusive
+		if search_file(temp):
+			continue
+		else:
+			return temp
+
 #upload routine
 @app.route('/uploads',methods=['POST'])
 def upload():
@@ -54,7 +63,9 @@ def upload():
 	if file and space:
 		# search to see if number is taken
 		if search_file(space):
-			render_template('index.html', space=space, taken=True)
+			##space is taken, generate new available number
+			new = search_number()
+			render_template('index.html', space=space, new=new)
 		#make the file safe, remove unsupported chars
 		filename = secure_filename(file.filename)
 		#move the file to our uploads folder

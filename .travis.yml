@@ -12,9 +12,5 @@ script: python script.py
 notifications:
   email:
     - davidawad64@gmail.com
-matrix:
-  allow_failures: true
-
-
 
 sudo: false

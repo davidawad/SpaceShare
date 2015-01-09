@@ -2,7 +2,6 @@
 
 Development
 ===========
-Source code is hosted in `GitHub <https://github.com/dcrosta/flask-pymongo>`_
 (contributions are welcome!)
 """
 

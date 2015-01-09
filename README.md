@@ -1,6 +1,6 @@
 # [SpaceShare](spaceshare.me)
 
-###Working!!
+  ###Working [Builds](https://travis-ci.org/DavidAwad/SpaceShare)! 
 
 
 ### This is a File sharing platform  meant to simplify file sharing between groups of people. 
@@ -29,10 +29,10 @@ python __init__.py
 
 
 ## Other Useful Flask Examples To Learn what's happening :
-##[File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python)
+##[File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
 ##[Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
 ##[Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
-##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014) 
+##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014) by [Kaushal Parikh]()
 
 ## Special Thanks
 ### StackOverflow, Joel Pena, Devon Peticolas, and Wisdom Omuya from MongoDB made this app Possible. Thank you sincerely.   

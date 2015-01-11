@@ -1,5 +1,5 @@
 import __init__
-import os
+import os, math
 
 if not os.path.exists('uploads/'):
     os.makedirs('uploads/')

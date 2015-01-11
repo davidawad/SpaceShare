@@ -5,8 +5,8 @@ if not os.path.exists('uploads/'):
     os.makedirs('uploads/')
     
 f = file("example.txt", "w+")
-  f.write("this is some text I'm putting here.")
-  f.close()
+f.write("this is some text I'm putting here.")
+f.close()
 
 
 for x in range(0,2000):

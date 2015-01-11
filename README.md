@@ -1,6 +1,6 @@
-# [SpaceShare](spaceshare.me)
+# [SpaceShare](spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare)
 
-  ###Working [Builds](https://travis-ci.org/DavidAwad/SpaceShare)! 
+##Working [Builds](https://travis-ci.org/DavidAwad/SpaceShare)! 
 
 
 ### This is a File sharing platform  meant to simplify file sharing between groups of people. 

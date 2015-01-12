@@ -29,6 +29,15 @@ def put_file(file_name, room_number):
 	with open('upload/' + file_name, "r") as f:
 		gfs.put(f, room=room_number)
 
+# remove files from mongodb
+def delete_file(room_number):
+	if not(room_number):
+		return
+	db_conn = get_db()
+	gfs = gridfs.GridFS(db_conn)
+	_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
+	gfs.delete(_id)
+
 # read files from mongodb
 def read_file(output_location, room_number):
 	if not(output_location and room_number):

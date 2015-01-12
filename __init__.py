@@ -40,15 +40,15 @@ def read_file(output_location, room_number):
 		f.write(gfs.get(_id).read())
 	gfs.get(_id).read()
 
-# find if files exist
+# find if files exist returns
 def search_file(room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room = room_number))
 	if not _id:
-		return None
+		return False
 	else:
-		return _id
+		return True
 
 #find a random integer not currently in the db
 def find_number():
@@ -56,7 +56,7 @@ def find_number():
 		temp = randint(1,100) #inclusive
 		if search_file(temp):
 			continue
-		else: ##we've found a random integer NOT already in the db, return_
+		else: ##we've found a random integer NOT already in the db, return
 			return temp
 
 #upload routine
@@ -70,7 +70,7 @@ def upload():
 		# search to see if number is taken
 		if search_file(space):
 			#space is taken, generate new available number
-			new = search_number()
+			new = find_number()
 			render_template('index.html', space=space, new=new)
 		#make the file safe, remove unsupported chars
 		filename = secure_filename(file.filename)

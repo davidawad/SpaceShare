@@ -4,7 +4,7 @@ import sys, os, gridfs, pymongo, time ##will add sendgrid and twilio functionali
 from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['UPLOAD_FOLDER'] = 'upload/'
 db = "spaceshare"
 # safety function to get a connection to the db above
 def get_db():
@@ -22,26 +22,33 @@ def home():
 
 # put files in mongodb
 def put_file(file_name, room_number):
+	if not(file_name and room_number):
+		return
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
-	with open('uploads/' + file_name, "r") as f:
+	with open('upload/' + file_name, "r") as f:
 		gfs.put(f, room=room_number)
 
 # read files from mongodb
 def read_file(output_location, room_number):
+	if not(output_location and room_number):
+		return
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
 	with open(output_location + str(room_number) , 'w') as f:
 		f.write(gfs.get(_id).read())
-	return gfs.get(_id).read()
+	gfs.get(_id).read()
 
 # find if files exist
 def search_file(room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room = room_number))
-	return _id
+	if not _id:
+		return None
+	else:
+		return _id
 
 #find a random integer not currently in the db
 def find_number():
@@ -49,26 +56,25 @@ def find_number():
 		temp = randint(1,100) #inclusive
 		if search_file(temp):
 			continue
-		else: ##we've found a random integer NOT in the db, return
+		else: ##we've found a random integer NOT already in the db, return_
 			return temp
 
 #upload routine
-@app.route('/uploads',methods=['POST'])
+@app.route('/upload',methods=['POST'])
 def upload():
-	#get the name of the uploaded file
+	#get the form inputs
 	file = request.files['file']
-	#print "requested files"
 	space = request.form['space']
 	# if file and space are given
 	if file and space:
 		# search to see if number is taken
 		if search_file(space):
-			##space is taken, generate new available number
+			#space is taken, generate new available number
 			new = search_number()
 			render_template('index.html', space=space, new=new)
 		#make the file safe, remove unsupported chars
 		filename = secure_filename(file.filename)
-		#move the file to our uploads folder
+		#move the file to our upload folder
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 		# save file to mongodb
 		put_file(filename,space)
@@ -76,14 +82,14 @@ def upload():
 		f = open('debug.txt', 'w')
 		f.write('File name is :'+filename+', and the space is :'+ str(space) )
 		#time.sleep(600)
-		# remove the file from disk as we don't need it anymore after 10 minutes
+		#remove the file from disk as we don't need it anymore after 10 minutes
 		#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
 		return render_template('index.html', space = space, free=True)
 
 	else:
 		return render_template('invalid.html')
 
-@app.route('/uploads/<spacenum>', methods=['GET'])
+@app.route('/upload/<spacenum>', methods=['GET'])
 def download(spacenum):
 	unSecurefilename = read_file(app.config['UPLOAD_FOLDER'] ,spacenum )
 	render_template('index.html' , spacenum = spacenum)
@@ -98,5 +104,6 @@ def open_space():
 @app.errorhandler(404)
 def new_page(error):
 	return render_template('index.html',non=True)
+
 if __name__ == '__main__':
 	app.run(debug=True)

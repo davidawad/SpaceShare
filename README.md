@@ -5,7 +5,7 @@
 
 ### This is a File sharing platform  meant to simplify file sharing between groups of people. 
 ### You go to spaceshare.me, upload your file, give it a number. 
-### Others go to spaceshare.me/upload/number and it will give you the file. 
+### Others go to [spaceshare.me/upload/number](spaceshare.me/upload/number) and it will give you the file. 
 
 ####Built using Flask, using mongodb with gridFS to store uploaded files.
 

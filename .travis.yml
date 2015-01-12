@@ -5,9 +5,10 @@ python:
   - "3.2"
   - "3.3"
   - "3.4"
-services: 
+services:
   - mongodb
-install: # command to install dependencies
+# command to install dependencies
+install: 
   - "pip install -r requirements.txt"
 # command to run tests
 script: python test.py
@@ -15,5 +16,3 @@ script: python test.py
 notifications:
   email:
     - davidawad64@gmail.com
-
-sudo: false

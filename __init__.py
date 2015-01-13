@@ -11,8 +11,6 @@ db = "spaceshare"
 def home():
 	if not os.path.exists('upload/'):
 	    raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
-	else:
-		os.makedirs('upload/')
 	return render_template('index.html')
 
 # safety function to get a connection to the db above
@@ -142,6 +140,7 @@ def open_space(spacenum):
 
 @app.errorhandler(404)
 def new_page(error):
+	#For debugging!!
 	raise Exception("404 ERROR!! LINE 141 of init process")
 	return render_template('index.html')
 

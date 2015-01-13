@@ -23,30 +23,27 @@ print id_generator()
 with open("upload/example.txt", "w+") as f:
 	f.write("this is some text I'm putting here.")
 
-for x in range(0,2000):
+for x in range(0,200):
 	tName = id_generator()
 	tNum = randint(0,2000)
 	# functions written in such a way that the upload folder is where the reads and writes will occur.
-	__init__.put_file(tName,tNum)
-	__init__.put_file('example.txt',tNum)
+	__init__.insert_file(tName,tNum)
+	__init__.insert_file('example.txt',tNum)
 	__init__.search_file(tNum)
-	__init__.put_file('example.txt',tNum)
-	print 'LOOP : '+str(x)
-
-for x in range(0,2000):
+	__init__.insert_file('example.txt',tNum)
 	temp = randint(0,2000)
-	__init__.read_file('example.txt', temp)
+	__init__.extract_file('example.txt', temp)
 	# should raise exception of some sort on second insert.
-	__init__.read_file('example.txt', temp)
-	__init__.read_file('example.txt', temp)
+	__init__.extract_file('example.txt', temp)
+	__init__.extract_file('example.txt', temp)
 	__init__.search_file(temp)
 	unfound = __init__.find_number()
 	__init__.search_file(temp)
 	__init__.search_file(temp)
 	__init__.search_file(unfound)
-	__init__.put_file('example.txt', temp)
-	__init__.put_file('example.txt', unfound)
-	__init__.put_file('example.txt', temp)
+	__init__.insert_file('example.txt', temp)
+	__init__.insert_file('example.txt', unfound)
+	__init__.insert_file('example.txt', temp)
 	print 'ITERATION : '+str(x)
 
 print 'Success'

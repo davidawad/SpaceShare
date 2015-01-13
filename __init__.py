@@ -44,7 +44,7 @@ def find_number():
 			return temp
 
 # put files in mongodb
-def put_file(file_name, room_number):
+def insert_file(file_name, room_number):
 	if not(file_name and room_number):
 		return
 	db_conn = get_db()
@@ -76,9 +76,9 @@ def delete_file(room_number):
 	return True
 
 # read files from mongodb
-def read_file(output_location, room_number):
+def extract_file(output_location, room_number):
 	if not(output_location and room_number):
-		raise Exception("read_file not given proper values")
+		raise Exception("extract_file not given proper values")
 	if not search_file(room_number):
 		print "File "+str(room_number)+' not in db, error?'
 		return False
@@ -113,7 +113,7 @@ def upload():
 		#move the file to our upload folder
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 		# save file to mongodb
-		res = put_file(filename,space)
+		res = insert_file(filename,space)
 		# upload failed for whatever reason
 		if not res:
 			return render_template('index.html', space=space, failed=True)
@@ -127,7 +127,7 @@ def upload():
 
 @app.route('/upload/<spacenum>', methods=['GET'])
 def download(spacenum):
-	unSecurefilename = read_file(app.config['UPLOAD_FOLDER'] ,spacenum )
+	unSecurefilename = extract_file(app.config['UPLOAD_FOLDER'] ,spacenum )
 	render_template('index.html' , spacenum = spacenum)
 	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
 	#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))

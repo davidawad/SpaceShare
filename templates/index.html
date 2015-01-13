@@ -35,7 +35,7 @@
   </div>
 </div>
 <!-- awesomeness below for generating pages -->
-{% if not upload %}
+{% if failed %}
 <div class="row">
   <div class="large-12 columns">
     <img src="http://www.google.com/images/errors/robot.png">
@@ -51,10 +51,6 @@
   <div class="large-12 columns">
     <p class="look" style="font-size:5em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
   </div>
-{% elif non %}
-<script>
-alert("Woops! That page doesn't exist! Sorry about that.")
-</script>
 {% endif %}
 
 <div class="row">
@@ -78,9 +74,29 @@ alert("Woops! That page doesn't exist! Sorry about that.")
       <br>
 
       <form action="open" method="" >
-				<input type="number" name="openSpace" id="redir" placeholder="e.g. '32'"/>
-				<input type="submit" value="open" class="radius button" style="font-family: Pacifico; font-size:2em">
+				<input type="number" name="space" id="redir" placeholder="e.g. '32'"/>
+				<input type="submit" value="open" onclick="javascript:SubmitFrm()" class="radius button" style="font-family: Pacifico; font-size:2em">
 			</form>
+
+      <script type="text/javascript">
+      function SubmitFrm(){
+        console.log("function!")
+        var Searchtxt = document.getElementById("redir").value;
+        console.log(Searchtxt);
+        window.location = "https://www.google.com" //+ Searchtxt;
+      }
+      </script>
+
+      <!-- <input name="txtSearch" id="txtSearch" class="field" />
+      <input type="submit" name="btnSearch" value="" id="btnSearch" class="btn" onclick="javascript:SubmitFrm()" />
+
+      <script type="text/javascript">
+      function SubmitFrm(){
+      var Searchtxt = document.getElementById("txtSearch").value;
+      window.location = "http://www.mysite.com/search/?Query=" + Searchtxt;
+    }
+     </script>
+     -->
 
     </div>
 	</div>
@@ -104,7 +120,7 @@ alert("Woops! That page doesn't exist! Sorry about that.")
     </div>
   </footer>
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-    <script src="js/vendor/modernizr.js"></script>
+    <!--<script src="js/vendor/modernizr.js"></script>
     <script src="js/foundation.min.js"></script>
     <!-- <script src="js/vendor/jquery.js"></script> -->
     <script type="text/javascript">
@@ -112,14 +128,12 @@ alert("Woops! That page doesn't exist! Sorry about that.")
     // we can now rely on $ within the safety of our "bodyguard" function
     $(document).ready( function() {
       //alert("nyah nyah! I'm able to use '$'!!!!");
-      $(document).foundation();
+      //$(document).foundation();
       $('kahuna').fadeIn("slow");
       //redirect user to their desired text box without server interaction
       var redir = $('#redir').val();
       // similar behavior as an HTTP redirect
       //window.location.replace(" " + redir.toString() );
-
-
       } );
     } )( jQuery );
     </script>

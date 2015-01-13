@@ -1,6 +1,6 @@
 from flask import *
 from pymongo import MongoClient
-import sys, os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
+import os, gridfs, pymongo ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
@@ -9,6 +9,10 @@ db = "spaceshare"
 
 @app.route('/')
 def home():
+	if not os.path.exists('upload/'):
+	    raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
+	else:
+		os.makedirs('upload/')
 	return render_template('index.html')
 
 # safety function to get a connection to the db above
@@ -114,7 +118,7 @@ def upload():
 		res = put_file(filename,space)
 		# upload failed for whatever reason
 		if not res:
-			return render_template('index.html', space=space, upload=False)
+			return render_template('index.html', space=space, failed=True)
 		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
 		f.write('File name is :'+filename+', and the space is :'+ str(space) )
@@ -130,15 +134,16 @@ def download(spacenum):
 	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
 	#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
 
-@app.route('/get')
-def open_space():
+@app.route('/open/<spacenum>')
+def open_space(spacenum):
 	space = request.form['space']
-	print "REDIRECT ON SERVER"
+	raise Exception("REDIRECT ON SERVER! to "+str(space) )
 	return redirect(url_for('/upload/'+str(space) ) )
 
 @app.errorhandler(404)
 def new_page(error):
-	return render_template('index.html',non=True)
+	raise Exception("404 ERROR!! LINE 141 of init process")
+	return render_template('index.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)

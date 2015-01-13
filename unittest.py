@@ -31,6 +31,7 @@ for x in range(0,2000):
 	__init__.put_file('example.txt',tNum)
 	__init__.search_file(tNum)
 	__init__.put_file('example.txt',tNum)
+	print 'LOOP : '+str(x)
 
 for x in range(0,2000):
 	temp = randint(0,2000)
@@ -46,5 +47,7 @@ for x in range(0,2000):
 	__init__.put_file('example.txt', temp)
 	__init__.put_file('example.txt', unfound)
 	__init__.put_file('example.txt', temp)
+	print 'ITERATION : '+str(x)
 
 print 'Success'
+exit(0)

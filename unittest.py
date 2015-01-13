@@ -49,8 +49,13 @@ for x in range(0,200):
 	print 'ITERATION : '+str(x)
 
 __init__.insert_file('example.txt',37)
-time.sleep(10*60) ##wait 10 minutes for file to expire.
+time.sleep(11*60) ##wait at least 10 minutes for file to expire.
+
+if __init__.extract_file('example.txt', temp):
+	raise Exception("extraction passed?!")
+	
 __init__.delete_file(37)
+
 
 print 'Success!!'
 exit(0)

@@ -54,7 +54,7 @@ def insert_file(file_name, room_number):
 		return False
 	try:
 		with open('upload/' + file_name, "r") as f:
-			gfs.put(f, room=room_number, timeout=True)
+			gfs.put(f, room=room_number)
 		print "Stored file :"+str(room_number)+' Successfully'
 		return True
 	except Exception as e:

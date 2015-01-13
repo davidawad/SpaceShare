@@ -54,7 +54,7 @@ def insert_file(file_name, room_number):
 		return False
 	try:
 		with open('upload/' + file_name, "r") as f:
-			gfs.put(f, room=room_number)
+			gfs.put(f, room=room_number, timeout=True)
 		print "Stored file :"+str(room_number)+' Successfully'
 		return True
 	except Exception as e:
@@ -121,7 +121,6 @@ def upload():
 		f = open('debug.txt', 'w')
 		f.write('File name is :'+filename+', and the space is :'+ str(space) )
 		return render_template('index.html', space=space, upload=True)
-
 	else:
 		return render_template('invalid.html')
 

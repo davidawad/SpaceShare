@@ -44,7 +44,13 @@ for x in range(0,200):
 	__init__.insert_file('example.txt', temp)
 	__init__.insert_file('example.txt', unfound)
 	__init__.insert_file('example.txt', temp)
+	__init__.delete_file(temp)
+	__init__.delete_file(tNum)
 	print 'ITERATION : '+str(x)
 
-print 'Success'
+__init__.insert_file('example.txt',37)
+time.sleep(10*60) ##wait 10 minutes for file to expire.
+__init__.delete_file(37)
+
+print 'Success!!'
 exit(0)

@@ -1,6 +1,5 @@
 @import url('//fonts.googleapis.com/css?family=Pacifico|Cabin:400,700');
 
-/* pacifico!!! */
 
 @font-face{
     font-family: 'billabong';
@@ -19,8 +18,4 @@
 
 #gist{
   font-size: 5em;
-}
-
-.response{
-  font-size : 10em;
 }

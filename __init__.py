@@ -5,7 +5,21 @@ from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
-db = "spaceshare"
+db = "share"
+
+''' adding some simple analytics
+# SQLite database for internal analytics
+dbs = dataset.connect('sqlite:///stats.db')
+# create your guests table
+stats = db['stats']
+
+num = 0
+for sig in stats.find()
+	num = sig['visitors']
+update = dict(visitors=num+1)
+table.insert(update)
+
+'''
 
 @app.route('/')
 def home():
@@ -116,10 +130,12 @@ def upload():
 		res = insert_file(filename,space)
 		# upload failed for whatever reason
 		if not res:
+			# upload failed, unlink file from server
+			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( space )))
 			return render_template('index.html', space=space, failed=True)
 		# debugging lines to write a record of inserts
-		f = open('debug.txt', 'w')
-		f.write('File name is :'+filename+', and the space is :'+ str(space) )
+		with open('debug.txt', 'w') as f:
+			f.write('File name is :'+filename+', and the space is :'+ str(space))
 		return render_template('index.html', space=space, upload=True)
 	else:
 		return render_template('invalid.html')
@@ -140,7 +156,7 @@ def open_space(spacenum):
 @app.errorhandler(404)
 def new_page(error):
 	#For debugging!!
-	raise Exception("404 ERROR!! LINE 141 of init process")
+	raise Exception("404 ERROR!!")
 	return render_template('index.html')
 
 if __name__ == '__main__':

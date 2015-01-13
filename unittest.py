@@ -1,8 +1,5 @@
-import __init__
-import os
+import __init__, subprocess, string, os
 from random import randint, choice
-import subprocess
-import string
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 	return ''.join(choice(chars) for _ in range(size))
@@ -19,7 +16,6 @@ if os.path.exists('upload/'):
 os.makedirs('upload/')
 
 print id_generator()
-
 with open("upload/example.txt", "w+") as f:
 	f.write("this is some text I'm putting here.")
 
@@ -47,15 +43,15 @@ for x in range(0,200):
 	__init__.delete_file(temp)
 	__init__.delete_file(tNum)
 	print 'ITERATION : '+str(x)
-
+'''
 __init__.insert_file('example.txt',37)
 time.sleep(11*60) ##wait at least 10 minutes for file to expire.
 
 if __init__.extract_file('example.txt', temp):
 	raise Exception("extraction passed?!")
-	
+
 __init__.delete_file(37)
 
-
+'''
 print 'Success!!'
 exit(0)

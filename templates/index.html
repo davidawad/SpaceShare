@@ -35,21 +35,22 @@
   </div>
 </div>
 <!-- awesomeness below for generating pages -->
-{% if new and space %}
+{% if not upload %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="look response" id="rejection">Sorry!! {{space}} isn't available right now. Try {{new}}</p>
+    <img src="http://www.google.com/images/errors/robot.png">
+    <p class="look response" id="rejection">Sorry!! The upload failed for some reason. <a href=davidawad64@gmail.com>email me</a></p>
 </div>
-{% elif free and space %}
+{% elif new %}
+<div class="row">
+  <div class="large-12 columns">
+    <p class="look response" id="rejection">Sorry!! {{space}} isn't available right now. Try {{new}}?</p>
+</div>
+{% elif upload and space %}
 <div class="row">
   <div class="large-12 columns">
     <p class="look" style="font-size:5em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
   </div>
-{% elif space %}
-<div class="row">
-  <div class="large-12 columns">
-    <p class="look">Thanks!! You've reserved space {{space}} </p>
-</div>
 {% elif non %}
 <script>
 alert("Woops! That page doesn't exist! Sorry about that.")

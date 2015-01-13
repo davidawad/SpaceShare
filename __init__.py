@@ -48,35 +48,38 @@ def put_file(file_name, room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	if search_file(room_number):
-		print "space :"+str(room_number)+' is taken!'
-		return
+		print "Space :"+str(room_number)+' is taken!'
+		return False
 	try:
 		with open('upload/' + file_name, "r") as f:
 			gfs.put(f, room=room_number)
-		print "Stored file :"+room_number+' Successfully'
+		print "Stored file :"+str(room_number)+' Successfully'
+		return True
 	except Exception as e:
 		print "File :"+'upload/'+file_name+" probably doesn't exist, : "+str(e)
+		return False
 
 # remove files from mongodb
 def delete_file(room_number):
 	if not(room_number):
-		return
+		raise Exception("delete_file given None")
 	if not search_file(room_number):
-		print "file "+str(room_number)+' not in db, error?'
-		return
+		print "File "+str(room_number)+' not in db, error?'
+		return True
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
 	gfs.delete(_id)
-	print "Deleted file :"+room_number+' Successfully'
+	print "Deleted file :"+str(room_number)+' Successfully'
+	return True
 
 # read files from mongodb
 def read_file(output_location, room_number):
 	if not(output_location and room_number):
-		return
+		raise Exception("read_file not given proper values")
 	if not search_file(room_number):
-		print "file "+str(room_number)+' not in db, error?'
-		return
+		print "File "+str(room_number)+' not in db, error?'
+		return False
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	try:
@@ -84,7 +87,8 @@ def read_file(output_location, room_number):
 		with open('upload/' + str(room_number) , 'w') as f:
 			f.write(gfs.get(_id).read())
 		gfs.get(_id).read()
-		print "Written file :"+room_number+' Successfully'
+		print "Written file :"+str(room_number)+' Successfully'
+		return True
 	except Exception as e:
 		print "failed to read file :"+str(e)
 		return False
@@ -107,14 +111,14 @@ def upload():
 		#move the file to our upload folder
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 		# save file to mongodb
-		put_file(filename,space)
+		res = put_file(filename,space)
+		# upload failed for whatever reason
+		if not res:
+			return render_template('index.html', space=space, upload=False)
 		# debugging lines to write a record of inserts
 		f = open('debug.txt', 'w')
 		f.write('File name is :'+filename+', and the space is :'+ str(space) )
-		#time.sleep(600)
-		#remove the file from disk as we don't need it anymore after 10 minutes
-		#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename))
-		return render_template('index.html', space = space, free=True)
+		return render_template('index.html', space=space, upload=True)
 
 	else:
 		return render_template('invalid.html')

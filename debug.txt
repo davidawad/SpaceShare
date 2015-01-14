@@ -1,1 +1,1 @@
-File name is :example.js, and the space is :67
+File name is :trim.sh, and the space is :50

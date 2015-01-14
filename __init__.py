@@ -1,6 +1,6 @@
 from flask import *
 from pymongo import MongoClient
-import os, gridfs, pymongo ##will add sendgrid and twilio functionality.
+import os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
@@ -10,7 +10,11 @@ db = "share"
 @app.route('/')
 def home():
 	if not os.path.exists('upload/'):
-	    raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
+		try:
+			os.makedirs('upload/')
+		except Exception as e:
+			print e
+	    	raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
 	return render_template('index.html')
 
 # safety function to get a connection to the db above
@@ -75,11 +79,11 @@ def delete_file(room_number):
 	print "Deleted file :"+str(room_number)+' Successfully'
 	return True
 
-# read files from mongodb
 def extract_file(output_location, room_number):
 	if not(output_location and room_number):
 		raise Exception("extract_file not given proper values")
 	if not search_file(room_number):
+# read files from mongodb
 		print "File "+str(room_number)+' not in db, error?'
 		return False
 	db_conn = get_db()
@@ -116,28 +120,39 @@ def upload():
 		res = insert_file(filename,space)
 		# upload failed for whatever reason
 		if not res:
-			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( space )))
+			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename ))
 			return render_template('index.html', space=space, failed=True)
-		# debugging lines to write a record of inserts
-		with open('debug.txt', 'w') as f:
-			f.write('File name is :'+filename+', and the space is :'+ str(space))
-		# file upload successful, remove copy from disk. 
-		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( space )))
+		if app.debug:
+			# debugging lines to write a record of inserts
+			with open('debug.txt', 'w') as f:
+				f.write('File name is :'+filename+', and the space is :'+ str(space))
+		# file upload successful, remove copy from disk.
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] ,  filename  ))
 		return render_template('index.html', space=space, upload=True)
 	else:
 		return render_template('invalid.html')
+	@after_this_request
+	def expire_file():
+		time.sleep(600)
+		delete_file(space)
+		return
 
 @app.route('/upload/<spacenum>', methods=['GET'])
 def download(spacenum):
 	unSecurefilename = extract_file(app.config['UPLOAD_FOLDER'] ,spacenum )
 	render_template('index.html' , spacenum = spacenum)
 	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
-	#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
+	@after_this_request
+	def clean_File(response):
+		print 'Response is : '+response
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
+		return
 
 @app.errorhandler(404)
 def new_page(error):
-	#For debugging!!
-	raise Exception("404 ERROR!!")
+	if app.debug:
+		raise Exception("404 ERROR!!")
+		#For debugging!!
 	return render_template('index.html')
 
 if __name__ == '__main__':

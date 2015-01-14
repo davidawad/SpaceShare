@@ -2,3 +2,4 @@ venv/
 debug.txt
 uploads/
 *.pyc
+resources.txt

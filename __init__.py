@@ -7,20 +7,6 @@ app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 db = "share"
 
-''' adding some simple analytics
-# SQLite database for internal analytics
-dbs = dataset.connect('sqlite:///stats.db')
-# create your guests table
-stats = db['stats']
-
-num = 0
-for sig in stats.find()
-	num = sig['visitors']
-update = dict(visitors=num+1)
-table.insert(update)
-
-'''
-
 @app.route('/')
 def home():
 	if not os.path.exists('upload/'):
@@ -130,12 +116,13 @@ def upload():
 		res = insert_file(filename,space)
 		# upload failed for whatever reason
 		if not res:
-			# upload failed, unlink file from server
 			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( space )))
 			return render_template('index.html', space=space, failed=True)
 		# debugging lines to write a record of inserts
 		with open('debug.txt', 'w') as f:
 			f.write('File name is :'+filename+', and the space is :'+ str(space))
+		# file upload successful, remove copy from disk. 
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( space )))
 		return render_template('index.html', space=space, upload=True)
 	else:
 		return render_template('invalid.html')
@@ -146,12 +133,6 @@ def download(spacenum):
 	render_template('index.html' , spacenum = spacenum)
 	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
 	#os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
-
-@app.route('/open/<spacenum>')
-def open_space(spacenum):
-	space = request.form['space']
-	raise Exception("REDIRECT ON SERVER! to "+str(space) )
-	return redirect(url_for('/upload/'+str(space) ) )
 
 @app.errorhandler(404)
 def new_page(error):

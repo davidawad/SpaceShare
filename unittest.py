@@ -18,8 +18,8 @@ os.makedirs('upload/')
 print id_generator()
 with open("upload/example.txt", "w+") as f:
 	f.write("this is some text I'm putting here.")
-'''
-for x in range(0,200):
+
+for x in range(0,20):
 	tName = id_generator()
 	tNum = randint(0,2000)
 	# functions written in such a way that the upload folder is where the reads and writes will occur.
@@ -44,7 +44,7 @@ for x in range(0,200):
 	__init__.delete_file(tNum)
 	print 'ITERATION : '+str(x)
 
-
+'''
 __init__.insert_file('example.txt',37)
 time.sleep(11*60) ##wait at least 10 minutes for file to expire.
 

@@ -22,7 +22,7 @@ def get_db():
 	conn = None
 	try:
 	    #conn = pymongo.MongoClient()
-		try: os.environ['MONGOLAB_URI']:
+		try os.environ['MONGOLAB_URI']:
 			conn = MongoClient(os.environ['MONGOLAB_URI'])
 			db = conn.get_default_database()
 		except Exception:

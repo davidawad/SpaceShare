@@ -1,1 +1,1 @@
-File name is :trim.sh, and the space is :50
+File name is :solarized_light.xml, and the space is :47

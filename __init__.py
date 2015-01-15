@@ -22,8 +22,12 @@ def get_db():
 	conn = None
 	try:
 	    #conn = pymongo.MongoClient()
-		conn = MongoClient(os.environ['MONGOLAB_URI'])
-		db = conn.get_default_database()
+		if os.environ['MONGOLAB_URI']:
+			conn = MongoClient(os.environ['MONGOLAB_URI'])
+			db = conn.get_default_database()
+		else:
+			db = "space"
+			conn = pymongo.MongoClient()
 	except pymongo.errors.ConnectionFailure, e:
 	   raise Exception("Could not connect to MongoDB: %s" % e)
 	return conn[db]

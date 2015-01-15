@@ -3,9 +3,6 @@ from pymongo import MongoClient
 import os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 from random import randint
-from werkzeug.contrib.fixers import ProxyFix
-
-app.wsgi_app = ProxyFix(app.wsgi_app)
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 db = "share"

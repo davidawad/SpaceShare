@@ -5,7 +5,6 @@ from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
-#db = "share"
 
 @app.route('/')
 def home():
@@ -20,8 +19,7 @@ def home():
 # safety function to get a connection to the db above
 def get_db():
 	conn = None
-	try:
-	    #conn = pymongo.MongoClient()
+	try: # workaround to trick travis and get to Heroku
 		try:
 			conn = MongoClient(os.environ['MONGOLAB_URI'])
 			db = conn.get_default_database()
@@ -161,7 +159,11 @@ def new_page(error):
 	if app.debug:
 		raise Exception("404 ERROR!!")
 		#For debugging!!
-	return render_template('index.html')
+	return render_template('error.html', error=404)
+
+@app.errorhandler(500)
+def page_not_found(error):
+    return render_template('error.html', error=500)
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run()

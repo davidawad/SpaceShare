@@ -1,27 +1,14 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Spaceshare | Share Freely</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheet.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='foundation.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
-    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
-    <link rel="shortcut icon" href="http://faviconist.com/icons/b088547447296f75af21a368e872d2ef/favicon.ico" />
-    <!--<link href="http://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet" type="text/css"> -->
-  <nav class="top-bar" data-topbar>
-    <ul class="title-area">
-      <li class="name">
-        <h1>
-          <a href="/">
-            <span class="look">Spaceshare.me &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "Friendship is never anything but sharing." - Elie Wiesel </span>
-          </a>
-        </h1>
-      </li>
-    </ul>
-  </nav>
-</head>
+    <title>Spaceshare | Share Freely </title>
+
+    {% include 'includes.html' %}
+
+    {% include 'banner.html' %}
+
+    </head>
+
 <body>
 <br>
 
@@ -94,23 +81,9 @@
     </div>
 	</div>
 </div>
-  <footer class="row">
-    <div class="large-12 columns">
-      <hr/>
-      <div class="row">
-        <div class="large-6 columns">
-          <p class="look">© 2015 David Awad</p>
-        </div>
-         <div class="large-6 columns">
-          <ul class="inline-list right">
-            <li><a href="https://google.com"><i class="icon-facebook_circle icon2x"></i></a></li>
-		        <li><a href="https://google.com"><i class="icon-twitter_circle icon2x"></i></a></li>
-		        <li><a href="https://github.com"><i class="icon-git_circle icon2x"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
+
+{% include 'footer.html' %}
+
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
     <script type="text/javascript">
     function SubmitFrm(){
@@ -119,7 +92,6 @@
       console.log(space);
       window.location = "/upload/"+space;
     }
-
     function fileUpload(){
       var space = document.getElementById("reserve").value;
       console.log("SpaceReserve request :"+space);

@@ -9,7 +9,7 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='mfglabs_iconset.css') }}">
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="http://faviconist.com/icons/b088547447296f75af21a368e872d2ef/favicon.ico" />
-    <link href="http://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet" type="text/css">
+    <!--<link href="http://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet" type="text/css"> -->
   <nav class="top-bar" data-topbar>
     <ul class="title-area">
       <li class="name">
@@ -41,7 +41,7 @@
     <br>
     <br>
     <br>
-    <p style="font-family:Bree Serif ; font-size:1.3em"> Just upload a file and grab it somewhere else, it's quick, and it's simple, the way file sharing should be. Enjoy. </p>
+    <p class="bree" style="font-size:1.3em"> Just upload a file and grab it somewhere else, it's quick, and it's simple, the way file sharing should be. Enjoy. </p>
   </div>
 </div>
 <!-- awesomeness below for generating pages -->
@@ -59,7 +59,7 @@
 <div class="row">
   <div class="large-12 columns">
     <img src="http://www.google.com/images/errors/robot.png">
-    <p class="look" id="rejection">Sorry!! The upload failed for some reason. <a href=mailto:davidawad64@gmail.com>email me</a></p>
+    <p class="bree" id="rejection">Sorry!! The upload failed for some reason. <a href=mailto:davidawad64@gmail.com>email me</a></p>
 </div>
 {% endif %}
 
@@ -67,7 +67,7 @@
 	<div class="large-5 columns">
 		<div class="panel">
       <center>
-		    <h2><a href="" style="font-family:Bree Serif">Create a Space</a></h2>
+		    <h2><a href="" class="bree">Create a Space</a></h2>
         <form action="upload" method="POST" enctype="multipart/form-data" onsubmit="fileUpload();">
           <br>
 			    <input type="number" name="space" id="reserve" placeholder="e.g. '32' "/>
@@ -82,7 +82,7 @@
 	<div class="large-5 columns">
 		<div class="panel">
       <center>
-			<h2><a href="" style="font-family:Bree Serif">Open a Space</a></h2>
+			<h2><a href="" class="bree">Open a Space</a></h2>
       <br>
       <form action="open" method="" onsubmit="SubmitFrm(); return false;" >
 				<input type="number" name="space" id="redir" placeholder="e.g. '32' "/>

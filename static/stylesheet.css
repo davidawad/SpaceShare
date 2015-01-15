@@ -1,5 +1,5 @@
 @import url('//fonts.googleapis.com/css?family=Pacifico|Cabin:400,700');
-
+@import url('//fonts.googleapis.com/css?family=Bree+Serif|Cabin:400,700');
 
 @font-face{
     font-family: 'billabong';
@@ -14,6 +14,9 @@
 
 .look{
   font-family: 'Pacifico';
+}
+.bree{
+  font-family: 'Bree Serif'
 }
 
 #gist{

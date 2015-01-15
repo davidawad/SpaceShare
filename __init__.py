@@ -5,7 +5,9 @@ from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
-db = "share"
+#db = "share"
+db = client.get_default_database()
+
 
 @app.route('/')
 def home():
@@ -21,7 +23,8 @@ def home():
 def get_db():
 	conn = None
 	try:
-	    conn = pymongo.MongoClient()
+	    #conn = pymongo.MongoClient()
+		conn = MongoClient(os.environ['MONGOLAB_URI'])
 	except pymongo.errors.ConnectionFailure, e:
 	   raise Exception("Could not connect to MongoDB: %s" % e)
 	return conn[db]

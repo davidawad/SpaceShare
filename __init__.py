@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 from random import randint
+from flaskext.mail import Mail
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 
@@ -159,6 +160,11 @@ def new_page(error):
 	if app.debug:
 		raise Exception("404 ERROR!!")
 		#For debugging!!
+    msg = Message("404 error on site? "+error,
+                  sender="admin@spaceshare.me",
+                  recipients=["davidawad64@gmail.com"])
+	mail.send(msg)
+	print "EMAIL SENT!"
 	return render_template('error.html', error=404)
 
 @app.errorhandler(500)

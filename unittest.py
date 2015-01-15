@@ -18,7 +18,7 @@ os.makedirs('upload/')
 
 print id_generator()
 with open("upload/example.txt", "w+") as f:
-	f.write("this is some text I'm putting here.")
+	f.write("This is some text I'm putting here.")
 
 for x in range(0,20):
 	tNum = randint(0,2000)

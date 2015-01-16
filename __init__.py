@@ -21,7 +21,7 @@ def get_db():
 	conn = None
 	try: # workaround to trick travis and get to Heroku
 		try:
-			conn = MongoClient(os.environ['MONGOLAB_URI'])
+			conn = MongoClient(os.environ.get('MONGOLAB_URI'))
 			db = conn.get_default_database()
 		except Exception:
 			db = "space"

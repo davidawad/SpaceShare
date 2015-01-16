@@ -157,7 +157,7 @@ def download(spacenum):
 
 @app.errorhandler(404)
 def new_page(error):
-    msg = Message("404 error on site? "+error, sender="admin@spaceshare.me", recipients=["davidawad64@gmail.com"])
+	msg = Message("404 error on site? "+error, sender="admin@spaceshare.me", recipients=["davidawad64@gmail.com"])
 	mail.send(msg)
 	print "EMAIL SENT!"
 	return render_template('error.html', error=404)

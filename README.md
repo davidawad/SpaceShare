@@ -1,5 +1,8 @@
 # [SpaceShare](https://spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare)
 
+
+#Share your thing like it ain't no thang.
+
 ### This is a File sharing platform  meant to simplify file sharing between persons and groups of people by removing the need to login.
 
 ####"Sometimes you just need to move something, and you just don't care if someone else finds it." 

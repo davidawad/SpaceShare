@@ -1,10 +1,12 @@
 from flask import *
 from pymongo import MongoClient
-import os, gridfs, pymongo, time ##will add sendgrid and twilio functionality.
+import os, gridfs, pymongo, time, logging ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 from random import randint
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @app.route('/')
 def home():
@@ -119,10 +121,13 @@ def upload():
 			render_template('index.html', space=space, new=new)
 		#make the file safe, remove unsupported chars
 		filename = secure_filename(file.filename)
+		logger.info('Securing Filename: '+filename)
 		#move the file to our upload folder
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+		logger.info('File '+filename+' saved.')
 		# save file to mongodb
 		res = insert_file(filename,space)
+		logger.info('Inserted '+filename+'to db at position: '+str(space) )
 		# upload failed for whatever reason
 		if not res:
 			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename ))

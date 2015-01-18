@@ -39,7 +39,7 @@ def get_db():
 def get_db():
 	uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
 	conn = MongoClient(uri)
-	db = client.heroku_app33243434
+	db = conn.heroku_app33243434
 	collection = db.santa
 	return collection
 

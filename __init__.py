@@ -18,6 +18,7 @@ def home():
 	    	raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
 	return render_template('index.html')
 
+'''
 # safety function to get a connection to the db above
 def get_db():
 	conn = None
@@ -26,6 +27,7 @@ def get_db():
 			uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
 			conn = MongoClient(uri)
 			db = client.heroku_app33243434
+			collection = db.santa
 			return collection
 		except Exception:
 			db = "space"
@@ -33,6 +35,13 @@ def get_db():
 	except pymongo.errors.ConnectionFailure, e:
 	   raise Exception("Could not connect to MongoDB: %s" % e)
 	return conn[db]
+'''
+def get_db():
+	uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
+	conn = MongoClient(uri)
+	db = client.heroku_app33243434
+	collection = db.santa
+	return collection
 
 # returns if space is taken
 def search_file(room_number):

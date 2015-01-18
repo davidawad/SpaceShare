@@ -41,7 +41,7 @@ def get_db():
 	conn = MongoClient(uri)
 	db = conn.heroku_app33243434
 	collection = db.santa
-	return collection
+	return db
 
 # returns if space is taken
 def search_file(room_number):

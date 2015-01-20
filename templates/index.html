@@ -74,7 +74,7 @@
       <form action="open" method="" onsubmit="SubmitFrm(); return false;" >
 				<input type="number" name="space" id="redir" placeholder="e.g. '32' "/>
         <br>
-        <input type="submit" value="open" class="radius button" style="font-family:Pacifico ; font-size:2em">
+        <input type="submit" value="download" class="radius button" style="font-family:Pacifico ; font-size:2em">
         </center>
       </form>
       <br>
@@ -86,18 +86,25 @@
 
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
     <script type="text/javascript">
+
     function SubmitFrm(){
       console.log("function!")
       var space = document.getElementById("redir").value;
       console.log(space);
       window.location = "/upload/"+space;
     }
+
     function fileUpload(){
       var space = document.getElementById("reserve").value;
       console.log("SpaceReserve request :"+space);
     }
+
+
     ( function($) {
-    // we can now rely on $ within the safety of our "bodyguard" function
+    /* we can now rely on $ within the safety of our "bodyguard" function
+
+     basically it means we can use jQuery
+     */
     $(document).ready( function() {
       $('#gist').hide().fadeIn(800);
       $('#gistTwo').hide().fadeIn(4000);

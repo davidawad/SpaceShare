@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import os, gridfs, pymongo, time, logging ##will add sendgrid and twilio functionality.
 from werkzeug import secure_filename
 from random import randint
+
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 logging.basicConfig(level=logging.INFO)
@@ -14,34 +15,20 @@ def home():
 		try:
 			os.makedirs('upload/')
 		except Exception as e:
-			print e
+			logger.info( e )
 	    	raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
 	return render_template('index.html')
 
-'''
 # safety function to get a connection to the db above
 def get_db():
-	conn = None
-	try: # workaround to trick travis and get to Heroku
-		try:
-			uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
-			conn = MongoClient(uri)
-			db = client.heroku_app33243434
-			collection = db.santa
-			return collection
-		except Exception:
-			db = "space"
-			conn = pymongo.MongoClient()
+	try:
+		uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
+		conn = MongoClient(uri)
+		db = conn.heroku_app33243434
+		collection = db.santa
+		return db
 	except pymongo.errors.ConnectionFailure, e:
 	   raise Exception("Could not connect to MongoDB: %s" % e)
-	return conn[db]
-'''
-def get_db():
-	uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
-	conn = MongoClient(uri)
-	db = conn.heroku_app33243434
-	collection = db.santa
-	return db
 
 # returns if space is taken
 def search_file(room_number):
@@ -72,15 +59,15 @@ def insert_file(file_name, room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	if search_file(room_number):
-		print "Space :"+str(room_number)+' is taken!'
+		logger.info( "Space :"+str(room_number)+' is taken!' )
 		return False
 	try:
 		with open('upload/' + file_name, "r") as f:
 			gfs.put(f, room=room_number)
-		print "Stored file :"+str(room_number)+' Successfully'
+		logger.info( "Stored file :"+str(room_number)+' Successfully')
 		return True
 	except Exception as e:
-		print "File :"+'upload/'+file_name+" probably doesn't exist, : "+str(e)
+		logger.info( "File :"+'upload/'+file_name+" probably doesn't exist, : "+str(e) )
 		return False
 
 # remove files from mongodb
@@ -88,13 +75,13 @@ def delete_file(room_number):
 	if not(room_number):
 		raise Exception("delete_file given None")
 	if not search_file(room_number):
-		print "File "+str(room_number)+' not in db, error?'
+		logger.info( "File "+str(room_number)+' not in db, error?' )
 		return True
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
 	gfs.delete(_id)
-	print "Deleted file :"+str(room_number)+' Successfully'
+	logger.info( "Deleted file :"+str(room_number)+' Successfully' )
 	return True
 
 def extract_file(output_location, room_number):
@@ -102,7 +89,7 @@ def extract_file(output_location, room_number):
 		raise Exception("extract_file not given proper values")
 	if not search_file(room_number):
 # read files from mongodb
-		print "File "+str(room_number)+' not in db, error?'
+		logger.info( "File "+str(room_number)+' not in db, error?' )
 		return False
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
@@ -111,10 +98,10 @@ def extract_file(output_location, room_number):
 		with open('upload/' + str(room_number) , 'w') as f:
 			f.write(gfs.get(_id).read())
 		gfs.get(_id).read()
-		print "Written file :"+str(room_number)+' Successfully'
+		logger.info( "Written file :"+str(room_number)+' Successfully' )
 		return True
 	except Exception as e:
-		print "failed to read file :"+str(e)
+		logger.info( "failed to read file :"+str(e)
 		return False
 
 #upload routine
@@ -166,7 +153,7 @@ def download(spacenum):
 	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
 	@after_this_request
 	def clean_File(response):
-		print 'Response is : '+response
+		logger.info( 'Response is : '+response
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
 		return
 
@@ -180,9 +167,3 @@ def page_not_found(error):
 
 if __name__ == '__main__':
 	app.run()
-
-'''
-	msg = Message("404 error on site? "+error, sender="admin@spaceshare.me", recipients=["davidawad64@gmail.com"])
-	mail.send(msg)
-	print "EMAIL SENT!"
-'''

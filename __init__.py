@@ -153,7 +153,7 @@ def download(spacenum):
 	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
 	@after_this_request
 	def clean_File(response):
-		logger.info( 'Response is : '+response
+		logger.info( 'Response is : '+response)
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
 		return
 

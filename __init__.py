@@ -101,7 +101,7 @@ def extract_file(output_location, room_number):
 		logger.info( "Written file :"+str(room_number)+' Successfully' )
 		return True
 	except Exception as e:
-		logger.info( "failed to read file :"+str(e)
+		logger.info( "failed to read file :"+str(e) )
 		return False
 
 #upload routine

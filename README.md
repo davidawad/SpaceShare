@@ -5,16 +5,16 @@
 
 ### This is a File sharing platform  meant to simplify file sharing between persons and groups of people by removing the need to login.
 
-####"Sometimes you just need to move something, and you just don't care if someone else finds it." 
+####"Sometimes you just need to move something, and you just don't care if someone else finds it."
 
-#### You go to spaceshare.me, upload your file, give it a number. 
-#### Others go to [spaceshare.me/upload/number](spaceshare.me/upload/number) and it will give you the file. 
+#### You go to spaceshare.me, upload your file, give it a number.
+#### Others go to [spaceshare.me/upload/number](spaceshare.me/upload/number) and it will give you the file.
 
 ####Built using Flask, using mongodb with gridFS to store uploaded files.
+I want this to be a really accessible project to newbies and pros alike so I will be writing a lot of documentation in the near future. As of right now classes are starting up and getting slightly crazy but I'm finding the time.
+##Dependencies
 
-##Dependencies 
-
-1. In your terminal, 
+###In your terminal,
 ```bash
 pip install -r requirements.txt
 ```
@@ -26,13 +26,21 @@ pip install -r requirements.txt
 cd [REPO LOCATION]
 python __init__.py
 ```
-2. Download the monngodb [binaries](https://www.mongodb.org/downloads) for your machine. 
+2. Download the monngodb [binaries](https://www.mongodb.org/downloads) for your machine.
+You'll want to go into the /bin subfolder where you'll find a bunch of mongo named executabled.
+One of them will be named *mongod*, this is the mongodb server executable. This is what makes mongo work.
+What you want to do here is tell mongodb where you're going to store your data. 
 
 `./mongod --config mongodb.config`
 
 3. Access app from localhost:5000 (wherever your terminal says it is)
 
+## Development
+	So space share has a lot going on in one place. I have begun slowly writing the mass of documentation that needs to be written for everything that's going on here.
 
+	####[.travis.yml]()
+		So I use travis CI for my integration testing to make sure things aren't broken. I will soon write a good chunk about it in the wiki.
+	####[Procfile]()
 ## Useful Flask Resources to Learn what's happening :
 ##[File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
 ##[Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
@@ -40,5 +48,4 @@ python __init__.py
 ##[Flask Database Talk](https://github.com/kaushal/databaseTalk2014) by [Kaushal Parikh]()
 
 ## Special Thanks
-### [Joel Pena](https://github.com/jpena29), [Devon Peticolas](https://github.com/x), and [Wisdom Omuya](https://github.com/deafgoat) from MongoDB, and of course StackOverflow made this app Possible. Thank you sincerely.   
-
+### [Joel Pena](https://github.com/jpena29), [Devon Peticolas](https://github.com/x), and [Wisdom Omuya](https://github.com/deafgoat) from MongoDB, and of course StackOverflow made this app Possible. Thank you sincerely.

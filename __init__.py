@@ -1,6 +1,6 @@
 from flask import *
 from pymongo import MongoClient
-import os, gridfs, pymongo, time, logging ##will add sendgrid and twilio functionality.
+import os, gridfs, pymongo, time, logging , sendgrid
 from werkzeug import secure_filename
 from random import randint
 
@@ -59,12 +59,13 @@ def insert_file(file_name, room_number):
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	if search_file(room_number):
-		logger.info( "Space :"+str(room_number)+' is taken!' )
+		logger.info( "Space :"+ str(room_number) + ' is taken!' )
 		return False
 	try:
 		with open('upload/' + file_name, "r") as f:
-			gfs.put(f, room=room_number)
-		logger.info( "Stored file :"+str(room_number)+' Successfully')
+			#write bytes of the file into the gfs database
+			gfs.put(f, room=room_number, name=file_name)
+		logger.info( "Stored file : "+str(room_number)+' Successfully')
 		return True
 	except Exception as e:
 		logger.info( "File :"+'upload/'+file_name+" probably doesn't exist, : "+str(e) )
@@ -84,20 +85,21 @@ def delete_file(room_number):
 	logger.info( "Deleted file :"+str(room_number)+' Successfully' )
 	return True
 
+# read files from mongodb
 def extract_file(output_location, room_number):
 	if not(output_location and room_number):
 		raise Exception("extract_file not given proper values")
 	if not search_file(room_number):
-# read files from mongodb
 		logger.info( "File "+str(room_number)+' not in db, error?' )
 		return False
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
 	try:
 		_id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
-		with open('upload/' + str(room_number) , 'w') as f:
+		file_name = db_conn.fs.files.find_one(dict(room=room_number))['name']
+		with open('upload/' + file_name , 'w') as f:
 			f.write(gfs.get(_id).read())
-		gfs.get(_id).read()
+		gfs.get(_id).read() # not sure why this line is here.
 		logger.info( "Written file :"+str(room_number)+' Successfully' )
 		return True
 	except Exception as e:
@@ -125,7 +127,7 @@ def upload():
 		logger.info('File '+filename+' saved.')
 		# save file to mongodb
 		res = insert_file(filename,space)
-		logger.info('Inserted '+filename+'to db at position: '+str(space) )
+		logger.info('Inserted '+ filename +' to db at position: '+str(space) )
 		# upload failed for whatever reason
 		if not res:
 			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename ))
@@ -133,28 +135,50 @@ def upload():
 		if app.debug:
 			# debugging lines to write a record of inserts
 			with open('debug.txt', 'w') as f:
-				f.write('File name is :'+filename+', and the space is :'+ str(space))
+				f.write('File name is : '+filename+', and the space is : '+ str(space) )
 		# file upload successful, remove copy from disk.
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] ,  filename  ))
 		return render_template('index.html', space=space, upload=True)
-	else:
+	else: # something went wrong then! yes, indeed,
 		return render_template('invalid.html')
 	@after_this_request
 	def expire_file():
+		logger.info("AFTER REQUEST HAPPENING.")
+		# wait 10 minutes,
 		time.sleep(600)
 		delete_file(space)
-		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( space )))
+		try:  #attempt to unlink just in case.
+			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename ))
+		except Exception:
+			return
 		return
-
-@app.route('/upload/<spacenum>', methods=['GET'])
+@app.route( '/upload/<spacenum>' , methods=['GET'])
 def download(spacenum):
-	unSecurefilename = extract_file(app.config['UPLOAD_FOLDER'] ,spacenum )
+	logger.info("Entering server redirect!")
+	# check it's in there
+	if not search_file(spacenum):
+		logger.info( "File "+str(spacenum)+' not in db, error?' )
+
+	# render the template
 	render_template('index.html' , spacenum = spacenum)
-	return send_from_directory(app.config['UPLOAD_FOLDER'], str(spacenum) )
+	logger.info("Connecting to DB")
+
+	# connect to mongo
+	db_conn = get_db()
+	gfs = gridfs.GridFS(db_conn)
+	file_name = db_conn.fs.files.find_one(dict(room=spacenum))['name']
+	logger.info("File name is : "  +file_name + " !")
+	#extract file to send from directory
+	extract_file(app.config['UPLOAD_FOLDER'] , spacenum )
+	# send the file we just created
+	response = send_file('/upload/'+file_name)
+	return response
+	#return send_from_directory(app.config['UPLOAD_FOLDER'],file_name   )
 	@after_this_request
-	def clean_File(response):
+	def clean_file(response):
+		# clean the file after it's served.
 		logger.info( 'Response is : '+response)
-		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , str( spacenum )))
+		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , file_name  ))
 		return
 
 @app.errorhandler(404)
@@ -162,8 +186,16 @@ def new_page(error):
 	return render_template('error.html', error=404)
 
 @app.errorhandler(500)
-def page_not_found(error):
-    return render_template('error.html', error=500)
+def page_not_found(error): # will send me an email with hopefully some relevant information using sendgrid
+	sg = sendgrid.SendGridClient('YOUR_SENDGRID_USERNAME', 'YOUR_SENDGRID_PASSWORD')
+	message = sendgrid.Mail()
+	message.add_to('John Doe <john@email.com>')
+	message.set_subject('Example')
+	message.set_html('Body')
+	message.set_text('Body')
+	message.set_from('Doe John <doe@email.com>')
+	#status, msg = sg.send(message)
+	return render_template('error.html', error=500)
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug=True)

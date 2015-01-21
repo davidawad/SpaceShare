@@ -29,7 +29,7 @@ python __init__.py
 2. Download the monngodb [binaries](https://www.mongodb.org/downloads) for your machine.
 You'll want to go into the /bin subfolder where you'll find a bunch of mongo named executabled.
 One of them will be named *mongod*, this is the mongodb server executable. This is what makes mongo work.
-What you want to do here is tell mongodb where you're going to store your data. 
+What you want to do here is tell mongodb where you're going to store your data.
 
 `./mongod --config mongodb.config`
 
@@ -37,10 +37,10 @@ What you want to do here is tell mongodb where you're going to store your data.
 
 ## Development
 	So space share has a lot going on in one place. I have begun slowly writing the mass of documentation that needs to be written for everything that's going on here.
-
-	####[.travis.yml]()
+	####[.travis.yml](https://github.com/DavidAwad/SpaceShare/wiki/Travis-CI)
 		So I use travis CI for my integration testing to make sure things aren't broken. I will soon write a good chunk about it in the wiki.
 	####[Procfile]()
+		The Procfile is essentially the file that Heroku uses to run a specific command to run your python server. More documentation to come at that link.
 ## Useful Flask Resources to Learn what's happening :
 ##[File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
 ##[Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)

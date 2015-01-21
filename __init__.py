@@ -152,17 +152,16 @@ def upload():
 		except Exception:
 			return
 		return
+
 @app.route( '/upload/<spacenum>' , methods=['GET'])
 def download(spacenum):
 	logger.info("Entering server redirect!")
 	# check it's in there
 	if not search_file(spacenum):
 		logger.info( "File "+str(spacenum)+' not in db, error?' )
-
 	# render the template
 	render_template('index.html' , spacenum = spacenum)
 	logger.info("Connecting to DB")
-
 	# connect to mongo
 	db_conn = get_db()
 	gfs = gridfs.GridFS(db_conn)
@@ -171,9 +170,8 @@ def download(spacenum):
 	#extract file to send from directory
 	extract_file(app.config['UPLOAD_FOLDER'] , spacenum )
 	# send the file we just created
-	response = send_file('/upload/'+file_name)
+	response = send_file(app.config['UPLOAD_FOLDER']+file_name)
 	return response
-	#return send_from_directory(app.config['UPLOAD_FOLDER'],file_name   )
 	@after_this_request
 	def clean_file(response):
 		# clean the file after it's served.

@@ -32,19 +32,19 @@
 <!-- awesomeness below for generating pages -->
 {% if space and new %}
 <div class="row">
-  <div class="large-12 columns">
-    <p class="bree response" id="rejection"><span style="color:red">Sorry!!</span> {{space}} isn't available right now. Try {{new}}?</p>
+  <div class="large-12 columns" >
+    <p class="bree response" id="rejection" style="font-size:2em"><span style="color:red">Sorry!!</span> {{space}} isn't available right now. Try {{new}}?</p>
 </div>
 {% elif upload and space %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="bree" style="font-size:5em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
+    <p class="bree" style="font-size:2em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
   </div>
 {% elif failed %}
 <div class="row">
   <div class="large-12 columns">
     <img src="http://www.google.com/images/errors/robot.png">
-    <p class="bree" id="rejection">Sorry!! The upload failed for some reason. <a href=mailto:davidawad64@gmail.com>email me</a></p>
+    <p class="bree" id="rejection" style="font-size:2em">Sorry!! The upload failed for some reason. <a href=mailto:davidawad64@gmail.com>email me</a></p>
 </div>
 {% endif %}
 

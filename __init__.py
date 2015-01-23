@@ -8,6 +8,7 @@ app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+num = 0
 
 @app.route('/')
 def home():
@@ -16,7 +17,8 @@ def home():
 			os.makedirs('upload/')
 		except Exception as e:
 			logger.info( e )
-	    	raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
+	    	#raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
+	num+=1
 	return render_template('index.html')
 
 # safety function to get a connection to the db above
@@ -187,12 +189,12 @@ def new_page(error):
 def page_not_found(error): # will send me an email with hopefully some relevant information using sendgrid
 	sg = sendgrid.SendGridClient('YOUR_SENDGRID_USERNAME', 'YOUR_SENDGRID_PASSWORD')
 	message = sendgrid.Mail()
-	message.add_to('John Doe <john@email.com>')
-	message.set_subject('Example')
+	message.add_to('David Awad <davidawad64@gmail.com>')
+	message.set_subject('500 Error on Spaceshare')
 	message.set_html('Body')
-	message.set_text('Body')
-	message.set_from('Doe John <doe@email.com>')
-	#status, msg = sg.send(message)
+	message.set_text('Hey dave, there was another error on spaceshare I apologize! Spaceshare currently has '+str(visitors)+' visitors.')
+	message.set_from('Space Admin <Admin@spaceshare.me>')
+	status, msg = sg.send(message)
 	return render_template('error.html', error=500)
 
 if __name__ == '__main__':

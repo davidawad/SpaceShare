@@ -33,12 +33,12 @@
 {% if space and new %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="look response" id="rejection">Sorry!! {{space}} isn't available right now. Try {{new}}?</p>
+    <p class="bree response" id="rejection"><span style="color:red">Sorry!!</span> {{space}} isn't available right now. Try {{new}}?</p>
 </div>
 {% elif upload and space %}
 <div class="row">
   <div class="large-12 columns">
-    <p class="look" style="font-size:5em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
+    <p class="bree" style="font-size:5em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
   </div>
 {% elif failed %}
 <div class="row">

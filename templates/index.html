@@ -30,10 +30,10 @@
 </div>
 
 <!-- awesomeness below for generating pages -->
-{% if space and new %}
+{% if new and space%}
 <div class="row">
   <div class="large-12 columns" >
-    <p class="bree response" id="rejection" style="font-size:2em"><span style="color:red">Sorry!!</span> {{space}} isn't available right now. Try {{new}}?</p>
+    <p class="bree response" id="rejection" style="font-size:2em"><span style="color:red">Sorry!!</span> The number {{space}} isn't available right now. Want to try {{new}} instead?</p>
 </div>
 {% elif upload and space %}
 <div class="row">

@@ -1,1 +1,1 @@
-File name is : shmget.c, and the space is : 74
+File name is : index.php, and the space is : 60

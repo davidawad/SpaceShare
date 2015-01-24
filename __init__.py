@@ -8,7 +8,6 @@ app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-num = 0
 
 @app.route('/')
 def home():
@@ -17,8 +16,6 @@ def home():
 			os.makedirs('upload/')
 		except Exception as e:
 			logger.info( e )
-	    	#raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
-	num+=1
 	return render_template('index.html')
 
 # safety function to get a connection to the db above
@@ -120,7 +117,7 @@ def upload():
 		if search_file(space):
 			#space is taken, generate new available number
 			new = find_number()
-			render_template('index.html', space=space, new=new)
+			return render_template('index.html', space=space, new=new)
 		#make the file safe, remove unsupported chars
 		filename = secure_filename(file.filename)
 		logger.info('Securing Filename: '+filename)
@@ -194,7 +191,7 @@ def page_not_found(error): # will send me an email with hopefully some relevant 
 	message.set_html('Body')
 	message.set_text('Hey dave, there was another error on spaceshare I apologize! Spaceshare currently has '+str(visitors)+' visitors.')
 	message.set_from('Space Admin <Admin@spaceshare.me>')
-	status, msg = sg.send(message)
+	#status, msg = sg.send(message)
 	return render_template('error.html', error=500)
 
 if __name__ == '__main__':

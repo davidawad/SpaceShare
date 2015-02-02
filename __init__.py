@@ -25,7 +25,6 @@ def get_db():
 		print db_conn
 	except Exception as e:
 		db_conn = None
-
     if not db_conn:
         try:
             uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')

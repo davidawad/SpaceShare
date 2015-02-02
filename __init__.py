@@ -8,6 +8,7 @@ app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+db_conn=None
 
 @app.route('/')
 def home():
@@ -20,14 +21,15 @@ def home():
 
 # safety function to get a connection to the db above
 def get_db():
-	try:
-		uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
-		conn = MongoClient(uri)
-		db = conn.heroku_app33243434
-		collection = db.santa
-		return db
-	except pymongo.errors.ConnectionFailure, e:
-	   raise Exception("Could not connect to MongoDB: %s" % e)
+    if not db_conn:
+        try:
+            uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
+            conn = MongoClient(uri)
+            db = conn.heroku_app33243434
+            db_conn = db.santa
+        except pymongo.errors.ConnectionFailure, e:
+            raise Exception("Could not connect to MongoDB: %s" % e)
+    return db_conn
 
 # returns if space is taken
 def search_file(room_number):
@@ -41,10 +43,12 @@ def search_file(room_number):
 #find a random integer not currently taken in db
 def find_number():
 	db_conn = get_db()
-	# The empty dict in the first argument means "give me every document in the database"
-	# The "fields=['room']" in the second argument says "of those documents, only populate the
-	# 'room' field." This is to cut down on the size of your response. The list comprehension pulls
-	# the value from the "room" field from each dict in the list of dicts returned by find().
+	'''
+	The empty dict in the first argument means "give me every document in the database"
+	The "fields=['room']" in the second argument says "of those documents, only populate the
+ 	'room' field." This is to cut down on the size of your response. The list comprehension pulls
+	the value from the "room" field from each dict in the list of dicts returned by find().
+	'''
 	rooms_in_db = [doc["room"] for doc in db_conn.fs.files.find({}, fields=["room"])]
 	room_not_in_db = max(rooms_in_db) + 1
 	return room_not_in_db

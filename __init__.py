@@ -31,25 +31,24 @@ def get_db():
 
 # returns if space is taken
 def search_file(room_number):
-	db_conn = get_db()
-	gfs = gridfs.GridFS(db_conn)
-	try:
-		_id = db_conn.fs.files.find_one(dict(room = room_number))
-	except Exception:
-		_id = None
-	if not _id:
-		return False
-	else:
-		return True
+    db_conn = get_db()
+    try:
+        return db_conn.fs.files.find_one(dict(room = room_number))
+    except Exception:
+        return False
 
-#find a random integer not currently in the db
+
+#find a random integer not currently taken in db
 def find_number():
-	while True:
-		temp = randint(1,100) #inclusive
-		if search_file(temp):
-			continue
-		else: ##we've found a random integer NOT already in the db, return
-			return temp
+	db_conn = get_db()
+	# The empty dict in the first argument means "give me every document in the database"
+	# The "fields=['room']" in the second argument says "of those documents, only populate the
+	# 'room' field." This is to cut down on the size of your response. The list comprehension pulls
+	# the value from the "room" field from each dict in the list of dicts returned by find().
+	rooms_in_db = [doc["room"] for doc in db_conn.fs.files.find({}, fields=["room"])]
+	room_not_in_db = max(rooms_in_db) + 1
+	return room_not_in_db
+
 
 # put files in mongodb
 def insert_file(file_name, room_number):

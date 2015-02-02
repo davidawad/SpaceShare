@@ -30,7 +30,7 @@ def get_db():
 			uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
             		conn = MongoClient(uri)
             		db = conn.heroku_app33243434
-            		db_conn = db.santa
+            		db_conn = db
         	except pymongo.errors.ConnectionFailure, e:
             		raise Exception("Could not connect to MongoDB: %s" % e)
     	return db_conn

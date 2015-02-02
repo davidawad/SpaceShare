@@ -22,7 +22,7 @@ def home():
 # safety function to get a connection to the db above
 def get_db():
 	try:
-		print db_conn
+		logger.info( "Connecting to db ..." + str(db_conn) )
 	except Exception as e:
 		db_conn=None
 	if not db_conn:

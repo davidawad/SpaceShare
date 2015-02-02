@@ -21,6 +21,11 @@ def home():
 
 # safety function to get a connection to the db above
 def get_db():
+	try :
+		print db_conn
+	except Exception
+		db_conn = None
+		
     if not db_conn:
         try:
             uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')

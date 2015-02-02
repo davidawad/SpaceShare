@@ -24,16 +24,16 @@ def get_db():
 	try:
 		print db_conn
 	except Exception as e:
-		db_conn = None
-    if not db_conn:
-        try:
-            uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
-            conn = MongoClient(uri)
-            db = conn.heroku_app33243434
-            db_conn = db.santa
-        except pymongo.errors.ConnectionFailure, e:
-            raise Exception("Could not connect to MongoDB: %s" % e)
-    return db_conn
+		db_conn=None
+	if not db_conn:
+		try:
+			uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
+            		conn = MongoClient(uri)
+            		db = conn.heroku_app33243434
+            		db_conn = db.santa
+        	except pymongo.errors.ConnectionFailure, e:
+            		raise Exception("Could not connect to MongoDB: %s" % e)
+    	return db_conn
 
 # returns if space is taken
 def search_file(room_number):

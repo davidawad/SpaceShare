@@ -14,7 +14,7 @@ db_conn=None
 @app.route('/login')
 def login():
     abort(401)
-    this_is_never_executed()
+    #this_is_never_executed()
 
 # route to the root directory
 @app.route('/')

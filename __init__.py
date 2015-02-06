@@ -10,6 +10,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 db_conn=None
 
+# login doesn't happen yet
+@app.route('/login')
+def login():
+    abort(401)
+    this_is_never_executed()
+
+# route to the root directory
 @app.route('/')
 def home():
 	if not os.path.exists('upload/'):

@@ -17,3 +17,5 @@ paralell : True
 notifications:
   email:
     - davidawad64@gmail.com
+
+after_success: coveralls

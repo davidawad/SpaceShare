@@ -1,5 +1,4 @@
-# [SpaceShare](https://spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare)
-[![Coverage Status](https://coveralls.io/repos/DavidAwad/SpaceShare/badge.svg)](https://coveralls.io/r/DavidAwad/SpaceShare)
+# [SpaceShare](https://spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare) [![Coverage Status](https://coveralls.io/repos/DavidAwad/SpaceShare/badge.svg)](https://coveralls.io/r/DavidAwad/SpaceShare)
 
 # "Share your thing like it ain't no thang"
 

@@ -9,10 +9,10 @@ install:
   - pip install python-coveralls
   - pip install coverage
   - pip install nose
+  - pip install coveralls
+  
 # command to run tests
 script: python unittest.py
-
-paralell : True
 
 notifications:
   email:

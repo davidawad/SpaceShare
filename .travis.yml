@@ -12,7 +12,9 @@ install:
   - pip install coveralls
   
 # command to run tests
-script: python unittest.py
+script:   
+  - python unittest.py
+  - coverage run unittest.py
 
 notifications:
   email:

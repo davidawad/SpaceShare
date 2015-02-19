@@ -39,7 +39,7 @@ def get_db():
             		db = conn.heroku_app33243434
             		db_conn = db
         	except pymongo.errors.ConnectionFailure, e:
-            		raise Exception("Could not connect to MongoDB: %s" % e)
+            	logger.critical("Could not connect to MongoDB: %s" % e)
     	return db_conn
 
 # returns if space is taken

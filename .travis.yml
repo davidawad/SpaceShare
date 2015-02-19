@@ -9,6 +9,11 @@ install:
 # command to run tests
 script: python unittest.py
 
+repo_token: jwuBEFj3CrdxZymzLSTEnS9sMFgBIecyU
+service_name: travis-ci
+
+paralell : True
+
 notifications:
   email:
     - davidawad64@gmail.com

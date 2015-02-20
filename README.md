@@ -56,10 +56,10 @@ So SpaceShare has a lot going on that may not necessarily make sense to a python
 		The robots file contains information for web crawlers that search your web pages, while humans.txt is a bit more fun, check out the link for that.
 
 ## Useful Flask Resources to Learn what's happening :
-## [File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
-## [Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
-## [Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
-## [Flask Database Talk](https://github.com/kaushal/databaseTalk2014) by [Kaushal Parikh](https://github.com/kaushal)
+### [File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
+### [Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
+### [Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
+### [Flask Database Talk](https://github.com/kaushal/databaseTalk2014) by [Kaushal Parikh](https://github.com/kaushal)
 
 
 ## Special Thanks :

@@ -44,16 +44,5 @@ for x in range(0,20):
 	delete_file(tNum)
 	print 'ITERATION : '+str(x)
 
-'''
-insert_file('example.txt',37)
-time.sleep(11*60) ##wait at least 10 minutes for file to expire.
-
-if extract_file('example.txt', temp):
-	raise Exception("extraction passed?!")
-
-delete_file(37)
-
-'''
-
 print 'Success!!'
 exit(0)

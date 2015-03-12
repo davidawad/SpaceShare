@@ -12,6 +12,11 @@
     font-style: normal;
 }
 
+*::selection {
+  background: #323232;
+  color: white;
+}
+
 .look{
   font-family: 'Pacifico';
 }

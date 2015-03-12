@@ -40,6 +40,11 @@
   <div class="large-12 columns">
     <p class="bree" style="font-size:2em">Thanks!! You've reserved space {{space}}, you can access it at <span href="/upload/{{space}}">/upload/{{space}}</span>!</p>
   </div>
+{% elif undef %}
+<div class="row">
+  <div class="large-12 columns">
+    <p class="bree" style="font-size:2em">Sorry! We don't have anything at position {{space}}!</p>
+  </div>
 {% elif failed %}
 <div class="row">
   <div class="large-12 columns">
@@ -81,32 +86,46 @@
 </div>
 
 {% include 'footer.html' %}
-
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 
     <script type="text/javascript">
+    ( function($) {
+    /* we can now rely on $ within the safety of our "bodyguard" function
+     basically it means we can use jQuery
+     */
+     $(document).ready( function(){
+       $('#gist').hide().fadeIn(800);
+       $('#gistTwo').hide().fadeIn(4000);
+     } );
+
+    function isNumber(n){
+      return typeof(n) != "boolean" && !isNaN(n);
+    }
 
     function SubmitFrm(){
-      console.log("function!")
       var space = document.getElementById("redir").value;
       console.log(space);
-      window.location = "/upload/"+space;
+      if( isNumber(space)){
+        console.log("GOT AN INTEGER");
+        window.location = "/upload/"+space;
+        return false;
+      }else{
+        return false;
+      }
     }
 
     function fileUpload(){
       var space = document.getElementById("reserve").value;
       console.log("SpaceReserve request :"+space);
-    }
+      if( isNumber(space)){
+        console.log("GOT AN INTEGER");
+        return false;
+      }else{
+        console.log("");
+        return false;
+      }
 
-    ( function($) {
-    /* we can now rely on $ within the safety of our "bodyguard" function
-
-     basically it means we can use jQuery
-     */
-    $(document).ready( function() {
-      $('#gist').hide().fadeIn(800);
-      $('#gistTwo').hide().fadeIn(4000);
-      } );
+      }
     } )( jQuery );
 
     </script>

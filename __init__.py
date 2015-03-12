@@ -127,6 +127,9 @@ def upload():
 	space = request.form['space']
 	# if file and space are given
 	if file and space:
+		if not isinstance( space, (int,long) ):
+            		logger.info('app not given number, instead given'+ str(space) )
+            		return render_template('error.html')
 		# search to see if number is taken
 		if search_file(space):
 			#space is taken, generate new available number
@@ -153,7 +156,7 @@ def upload():
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] ,  filename  ))
 		return render_template('index.html', space=space, upload=True)
 	else: # something went wrong then! yes, indeed,
-		return render_template('invalid.html')
+		return render_template('error.html')
 	@after_this_request
 	def expire_file():
 		logger.info("AFTER REQUEST HAPPENING.")
@@ -161,7 +164,7 @@ def upload():
 		time.sleep(600)
 		delete_file(space)
 		try:  #attempt to unlink just in case.
-			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , filename ))
+			os.unlink(os.path.join( app.config['UPLOAD_FOLDER'], filename))
 		except Exception:
 			return
 		return
@@ -172,6 +175,8 @@ def download(spacenum):
 	# check it's in there
 	if not search_file(spacenum):
 		logger.info( "File "+str(spacenum)+' not in db, error?' )
+        # return error or 404, or something, we have no file.
+        return render_template('index.html', undef=True, space=spacenum)
 	# render the template
 	render_template('index.html' , spacenum = spacenum)
 	logger.info("Connecting to DB")
@@ -192,21 +197,29 @@ def download(spacenum):
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , file_name  ))
 		return
 
+# page not found
 @app.errorhandler(404)
 def new_page(error):
 	return render_template('error.html', error=404)
 
+# method not allowed
+@app.errorhandler(405)
+def new_page(error):
+	return render_template('error.html', error=405)
+
+# Internal Server Error
 @app.errorhandler(500)
 def page_not_found(error): # will send me an email with hopefully some relevant information using sendgrid
 	sg = sendgrid.SendGridClient('YOUR_SENDGRID_USERNAME', 'YOUR_SENDGRID_PASSWORD')
 	message = sendgrid.Mail()
 	message.add_to('David Awad <davidawad64@gmail.com>')
 	message.set_subject('500 Error on Spaceshare')
-	message.set_html('Body')
-	message.set_text('Hey dave, there was another error on spaceshare I apologize! Spaceshare currently has '+str(visitors)+' visitors.')
+	message.set_html('')
+	message.set_text('Hey dave, there was another error on spaceshare I apologize! Spaceshare currently has visitors, so get on dat.')
 	message.set_from('Space Admin <Admin@spaceshare.me>')
 	#status, msg = sg.send(message)
 	return render_template('error.html', error=500)
+
 
 if __name__ == '__main__':
 	app.run(debug=True)

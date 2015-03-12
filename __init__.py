@@ -1,4 +1,5 @@
 from flask import *
+from flask import jsonify
 from pymongo import MongoClient
 import os, gridfs, pymongo, time, logging , sendgrid
 from werkzeug import secure_filename
@@ -50,7 +51,6 @@ def search_file(room_number):
     except Exception:
         return False
 
-
 #find a random integer not currently taken in db
 def find_number():
 	db_conn = get_db()
@@ -61,7 +61,7 @@ def find_number():
 	the value from the "room" field from each dict in the list of dicts returned by find().
 	'''
 	rooms_in_db = [doc["room"] for doc in db_conn.fs.files.find({}, fields=["room"])]
-	room_not_in_db = max(rooms_in_db) + 1
+	room_not_in_db = int(max(rooms_in_db)) + 1
 	return room_not_in_db
 
 
@@ -127,9 +127,6 @@ def upload():
 	space = request.form['space']
 	# if file and space are given
 	if file and space:
-		if not isinstance( space, (int,long) ):
-            		logger.info('app not given number, instead given'+ str(space) )
-            		return render_template('error.html')
 		# search to see if number is taken
 		if search_file(space):
 			#space is taken, generate new available number
@@ -196,6 +193,21 @@ def download(spacenum):
 		logger.info( 'Response is : '+response)
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , file_name  ))
 		return
+
+# Route that will process the AJAX request, sum up two
+# integer numbers (defaulted to zero) and return the
+# result as a proper JSON response (Content-Type, etc.)
+@app.route('/_find_number')
+def find_numbers_JSON():
+    unused = 0
+    try:
+        unused = find_number()
+    except Exception as e:
+        #logger.info("error on JSON request: "+str(e))
+        logger.info("shit's gone downhill fast")
+        return jsonify(result=64)
+    print("Returning : "+ str(unused))
+    return jsonify(result=unused)
 
 # page not found
 @app.errorhandler(404)

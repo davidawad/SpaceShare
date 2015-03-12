@@ -124,10 +124,19 @@
         console.log("");
         return false;
       }
+    }
 
-      }
+      $('#gist').click( function(){
+        console.log("got response!");
+        $.getJSON('/_find_number', {} , function(data){
+          // propagate result
+          console.log(data.result);
+          //$("#result").text(data.result);
+        return false;
+      })
+      });
+
     } )( jQuery );
-
     </script>
   </body>
 </html>

@@ -51,7 +51,7 @@ def search_file(room_number):
     except Exception:
         return False
 
-#find a random integer not currently taken in db
+#find an integer not currently taken in db
 def find_number():
 	db_conn = get_db()
 	'''
@@ -166,6 +166,7 @@ def upload():
 			return
 		return
 
+# download routine
 @app.route( '/upload/<spacenum>' , methods=['GET'])
 def download(spacenum):
 	logger.info("Entering server redirect!")
@@ -194,9 +195,8 @@ def download(spacenum):
 		os.unlink(os.path.join( app.config['UPLOAD_FOLDER'] , file_name  ))
 		return
 
-# Route that will process the AJAX request, sum up two
-# integer numbers (defaulted to zero) and return the
-# result as a proper JSON response (Content-Type, etc.)
+# Route that will process the AJAX request,
+# result as a proper JSON response with a currently free int in the database
 @app.route('/_find_number')
 def find_numbers_JSON():
     unused = 0

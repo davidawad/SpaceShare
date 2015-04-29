@@ -1,5 +1,7 @@
 # [SpaceShare](https://spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare) [![Coverage Status](https://coveralls.io/repos/DavidAwad/SpaceShare/badge.svg)](https://coveralls.io/r/DavidAwad/SpaceShare) [![Code Climate](https://d3s6mut3hikguw.cloudfront.net/github/DavidAwad/SpaceShare/badges/gpa.svg)](https://d3s6mut3hikguw.cloudfront.net/github/DavidAwad/SpaceShare/)
 
+[![Join the chat at https://gitter.im/DavidAwad/SpaceShare](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DavidAwad/SpaceShare?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 # "Share your thing like it ain't no thang"
 
 ## REST API Coming Soon!

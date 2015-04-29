@@ -14,24 +14,24 @@
 #### Built using Flask, using mongodb with gridFS to store uploaded files.
 I want this to be a really accessible project to newbies and pros alike so I will be writing a lot of documentation in the near future. As of right now classes are starting up and getting slightly crazy but I'm finding the time.
 
-## Dependencies
+## Running the project for Development
 
-### In your terminal,
-```bash
+1. run the Flask Server
+```
 virtualenv venv
 
 source venv/bin/activate
 
 pip install -r requirements.txt
-```
 
-## Run the server
+git clone https://github.com/DavidAwad/SpaceShare/
 
-1. run the Flask Server
+cd SpaceShare
+
+python app.py
 ```
-cd [REPO LOCATION]
-python __init__.py
-```
+If you get an error it's possible you're simply not running MongoDB, SpaceShare checks on the default port for a mongo connection.
+
 2. Download the monngodb [binaries](https://www.mongodb.org/downloads) for your machine.
 You'll want to go into the /bin subfolder where you'll find a bunch of mongo named executabled.
 One of them will be named *mongod*, this is the mongodb server executable. This is what makes mongo work.

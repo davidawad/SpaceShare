@@ -198,7 +198,7 @@ def download(spacenum):
 # Route that will process the AJAX request,
 # result as a proper JSON response with a currently free int in the database
 @app.route('/_find_number')
-def find_numbers_JSON():
+def find_number_request():
     unused = 0
     try:
         unused = find_number()

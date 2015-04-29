@@ -45,7 +45,6 @@ for x in range(0,20):
 	insert_file('example.txt', unfound)
 	print find_number()
 	insert_file('example.txt', temp)
-	print find_number_request()
 	delete_file(temp)
 	delete_file(tNum)
 	print 'ITERATION : ['+str(x) + ']' 

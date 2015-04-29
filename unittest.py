@@ -11,6 +11,8 @@ p = subprocess.Popen(cmd , shell=True, stdout=subprocess.PIPE, stderr=subprocess
 # block until the cmd is done
 p.wait()
 
+get_db()
+
 if os.path.exists('upload/'):
     raise Exception("SOMETHING WENT HORRIBLY WRONG. BREAKING.")
 
@@ -37,12 +39,16 @@ for x in range(0,20):
 	search_file(temp)
 	search_file(temp)
 	search_file(unfound)
+	print find_number()
 	insert_file('example.txt', temp)
+	print find_number() 
 	insert_file('example.txt', unfound)
+	print find_number()
 	insert_file('example.txt', temp)
+	print find_number_request()
 	delete_file(temp)
 	delete_file(tNum)
-	print 'ITERATION : '+str(x)
+	print 'ITERATION : ['+str(x) + ']' 
 
 print 'Success!!'
 exit(0)

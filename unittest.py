@@ -1,4 +1,4 @@
-from __init__ import *
+from app import *
 import subprocess, string, os
 from random import randint, choice
 

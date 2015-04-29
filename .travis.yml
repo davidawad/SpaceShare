@@ -6,10 +6,6 @@ services:
 # command to install dependencies
 install: 
   - pip install -r requirements.txt
-  - pip install python-coveralls
-  - pip install coverage
-  - pip install nose
-  - pip install coveralls
   
 # command to run tests
 script:   

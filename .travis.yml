@@ -10,8 +10,6 @@ install:
 # command to run tests
 script:   
   - python unittest.py
-  - coverage run --source=app unittest.py
-  - coverage report -m
 
 notifications:
   email:

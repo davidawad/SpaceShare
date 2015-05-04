@@ -12,6 +12,11 @@
     font-style: normal;
 }
 
+html, body {
+  /*background-image: url("{{ url_for('static', filename='swirl_pattern.png') }}");*/
+  background-image: url("swirl_pattern.png");
+}
+
 *::selection {
   background: #323232;
   color: white;

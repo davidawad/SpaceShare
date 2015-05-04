@@ -2,6 +2,11 @@
 
 # "Share your thing like it ain't no thang"
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/DavidAwad/SpaceShare)
+
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/davidawad/SpaceShare)
+
+
 ## REST API Coming Soon!
 
 ### This is a File sharing platform  meant to simplify file sharing between persons and groups of people by removing the need to login.
@@ -41,6 +46,8 @@ What you want to do here is tell mongodb where you're going to store your data.
 
 3. Access app from localhost:5000 (wherever your terminal says it is)
 
+
+## Getting Started
 So SpaceShare has a lot going on that may not necessarily make sense to a python beginner or someone new to coding in general(which I always try to make my repo's because I would have ). I have begun slowly writing the mass of documentation that needs to be written for everything that's going on here.
 
 <br>

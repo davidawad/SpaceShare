@@ -52,6 +52,13 @@ So SpaceShare has a lot going on that may not necessarily make sense to a python
 
 <br>
 
+|    Files    | What is it?           | 
+| :-------------: |:-------------:| :-----:|
+| [.travis.yml](https://github.com/DavidAwad/SpaceShare/wiki/Travis-CI)   | So I use travis CI for my integration testing to make sure things aren't broken. I will soon write a good chunk about it in the wiki. | 
+| [Procfile](https://devcenter.heroku.com/articles/procfile)      | The Procfile is essentially the file that Heroku uses to run a specific command to run your python server. More documentation to come at that link.      | 
+| [.gitignore](https://help.github.com/articles/ignoring-files/) | The gitignore is essentially a list of files I have on my own local machine that are either personal or I don't want to leave in the git repo, that's why it has seemingly random things in it.      | 
+
+
 [.travis.yml](https://github.com/DavidAwad/SpaceShare/wiki/Travis-CI) So I use travis CI for my integration testing to make sure things aren't broken. I will soon write a good chunk about it in the wiki.
 
 [Procfile](https://devcenter.heroku.com/articles/procfile) The Procfile is essentially the file that Heroku uses to run a specific command to run your python server. More documentation to come at that link.

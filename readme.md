@@ -47,6 +47,7 @@ What you want to do here is tell mongodb where you're going to store your data.
 3. Access app from localhost:5000 (wherever your terminal says it is)
 
 
+
 ## Getting Started
 So SpaceShare has a lot going on that may not necessarily make sense to a python beginner or someone new to coding in general(which I always try to make my repo's because I would have ). I have begun slowly writing the mass of documentation that needs to be written for everything that's going on here.
 
@@ -59,6 +60,11 @@ So SpaceShare has a lot going on that may not necessarily make sense to a python
 | [.gitignore](https://help.github.com/articles/ignoring-files/) | The gitignore is essentially a list of files I have on my own local machine that are either personal or I don't want to leave in the git repo, that's why it has seemingly random things in it.      | 
 |[robots.txt](http://camosunweb.com/robots-txt/) and [humans.txt](http://humanstxt.org)  | The robots file contains information for web crawlers that search your web pages, while humans.txt is a bit more fun, check out the link for that. |
 
+## Possible Errors you might get
+#### If you're on OSX you might find that the virtualenv needs python 2.7.9 and not 2.7.6 because of the built in python version. This is something that can be really frustrating if you don't have some good shell knowledge. 
+```shell
+virtualenv venv -p /usr/local/bin/python
+```
 
 ## Useful Flask Resources to Learn what's happening :
 ### [File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)

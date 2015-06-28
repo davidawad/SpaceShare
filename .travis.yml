@@ -13,6 +13,6 @@ script:
 
 notifications:
   email:
-    - davidawad64@gmail.com
+    - contact@davidawad.com
 
 after_success: coveralls --verbose

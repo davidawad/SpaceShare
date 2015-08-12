@@ -1,7 +1,12 @@
-venv/
+venv
 debug.txt
-uploads/
+uploads
+upload
 *.pyc
 resources.txt
 example.txt
 *.DS_Store
+node_modules
+bower_components
+.module_cache
+*.log

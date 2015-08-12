@@ -24,8 +24,11 @@ endif
 sass: clear
 	sass --watch app/static/sass/stylesheet.scss:app/static/css/stylesheet.css
 
+jsx:
+	jsx --watch static/jsx static/js
+
 run:
-	python __init__.py
+	python spaceshare/__init__.py
 
 setup: clear
 	virtualenv venv

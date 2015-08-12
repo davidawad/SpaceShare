@@ -7,24 +7,42 @@ import logging
 import os
 
 
+app = Flask(__name__)
+app.register_blueprint(base_app)
+app.register_blueprint(api, url_prefix='/api')
+
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
 
 # update config from yaml dict
 for key in config.keys():
     app.config.update(key=config[key])
 
-app.register_blueprint(base_app)
-app.register_blueprint(api, url_prefix='/api')
+# write logs to a file for production
+if config['DEBUG'] is not True:
+    from logging.handlers import RotatingFileHandler
+    file_handler = RotatingFileHandler('python.log', maxBytes=1024 * 1024 * 100, backupCount=20)
+    file_handler.setLevel(logging.ERROR)
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    file_handler.setFormatter(formatter)
+    app.logger.addHandler(file_handler)
+
+# if the upload folder doesn't exist we've just started the app.
+if not os.path.exists(config['UPLOAD_FOLDER']):
+    logger.error("upload folder didn't exist on up")
+    try:
+        os.makedirs(config['UPLOAD_FOLDER'])
+    except Exception as e:
+        logger.info(e)
 
 
+# will happen before every request made to SpaceShare
 @app.before_request
 def before_request():
-    print 'request received'
     return
 
 
+# currently not supported
 @app.route('/login')
 def login():
     abort(401)
@@ -33,29 +51,14 @@ def login():
 # route to the root directory
 @app.route('/')
 def home():
-    if not os.path.exists('upload/'):
-        logger.error("upload folder didn't exist on up")
-        try:
-            os.makedirs('upload/')
-        except Exception as e:
-            logger.info(e)
     return render_template('index.html')
 
+if config['DEBUG']:
+    # experimental reactJS page
+    @app.route('/react')
+    def reactions():
+        return render_template('react-experiment.html')
 
-'''
-# FIXME apply this in a celery task queue
-@after_this_request
-def expire_file():
-    logger.info("AFTER REQUEST HAPPENING.")
-    # wait 10 minutes,
-    time.sleep(600)
-    delete_file(space)
-    try:  # attempt to unlink just in case.
-        os.unlink(os.path.join(config['UPLOAD_FOLDER'], filename))
-    except Exception:
-        return
-    return
-'''
 
 
 @app.errorhandler(404)
@@ -79,17 +82,19 @@ def send_error_report():
         mandrill_client = mandrill.Mandrill(config['MANDRILL_KEY'])
         message = {'auto_html': None,
                    'auto_text': None,
-                   'from_email': 'FleetDirac@rsglab.com',
-                   'from_name': 'Dirac',
-
-                   'subject': 'example subject',
-                   'text': 'It appears someone caused an internal error. :' + str(request),
+                   'from_email': '',
+                   'from_name': '',
+                   'subject': '500 Error on Route' + str(request.base_url),
+                   'text': 'Master! It appears someone caused an internal error. :' + str(request),
                    'to': [{'email': config['MANDRILL_ADDRESS'],
                           'name': config['MANDRILL_ADDRESS_NAME'],
                            'type': 'to'}],
                    }
 
-        result = mandrill_client.messages.send(message=message, async=False, ip_pool='Main Pool', send_at='2012-01-05 12:42:01')
+        result = mandrill_client.messages.send(message=message,
+                                               async=False,
+                                               ip_pool='Main Pool',
+                                               send_at='2012-01-05 12:42:01')
         logger.info(result)
 
     except mandrill.Error, e:  # Mandrill errors are thrown as exceptions

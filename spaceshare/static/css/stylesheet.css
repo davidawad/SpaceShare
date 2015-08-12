@@ -1,6 +1,3 @@
-@import url('//fonts.googleapis.com/css?family=Pacifico|Cabin:400,700');
-@import url('//fonts.googleapis.com/css?family=Bree+Serif|Cabin:400,700');
-
 @font-face{
     font-family: 'billabong';
     src: url('billabong-webfont.eot');
@@ -14,7 +11,7 @@
 
 html, body {
   /*background-image: url("{{ url_for('static', filename='swirl_pattern.png') }}");*/
-  background-image: url("swirl_pattern.png");
+  background-image: url("/img/swirl_pattern.png") !important ;
 }
 
 *::selection {

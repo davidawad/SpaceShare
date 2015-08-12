@@ -6,6 +6,6 @@ import yaml
 
 config_path = os.environ.get('FLEETDB_CONFIG')
 if config_path is None:
-    config = yaml.load(open(os.path.dirname(__file__) + '/settings.yaml'))
+    config = yaml.load(open(os.path.dirname(__file__) + '/../settings.yaml'))
 else:
     config = yaml.load(open(config_path))

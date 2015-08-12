@@ -97,7 +97,7 @@ def delete_file(room_number):
     return True
 
 
-# read files from mongodb
+# read files out of mongodb
 def extract_file(output_location, room_number):
     if not(output_location and room_number):
         raise Exception("extract_file not given proper values")
@@ -157,7 +157,7 @@ def upload():
         return render_template('index.html', space=space, upload=True)
     else:  # something went wrong then! yes, indeed,
         return render_template('error.html')
-
+    # TODO optimize with asynchronous task queue
 
 # download routine
 @app.route('/upload/<spacenum>', methods=['GET'])
@@ -181,27 +181,7 @@ def download(spacenum):
     # send the file we just created
     response = send_file(config['UPLOAD_FOLDER']+file_name)
     return response
-
-    @after_this_request
-    def clean_file(response):
-        # clean the file after it's served.
-        logger.info('Response is : '+response)
-        os.unlink(os.path.join(config['UPLOAD_FOLDER'], file_name))
-        return
-
-
-# Route that will process the AJAX request,
-# result as a proper JSON response with a currently free int in the database
-@app.route('/_find_number')
-def find_number_request():
-    unused = 0
-    if config['DEBUG']:
-        return jsonify(result=64)
-    try:  # return the json result, the empty numbered room
-        return jsonify(result=find_number())
-    except Exception as e:
-        logger.error("error on JSON request find_number: "+str(e))
-
+    # TODO append to celery task queue
 
 if __name__ == '__main__':
     app.run(

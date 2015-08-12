@@ -11,7 +11,6 @@ $(document).ready(function(){
       var space = document.getElementById("redir").value;
       console.log(space);
       if( isNumber(space)){
-        console.log("GOT AN INTEGER");
         window.location = "/upload/"+space;
         return false;
       }else{
@@ -33,10 +32,9 @@ $(document).ready(function(){
 
     $('#gist').click( function(){
         console.log("got response!");
-        $.getJSON('/_find_number', {} , function(data){
-          console.log(data.result);
-          //$("#result").text(data.result);
-        return false;
+        $.getJSON('/api/_find_number', {} , function(data){
+          console.log(data);
+          return false;
         });
     });
 

@@ -1,29 +1,9 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>Spaceshare | {{error}} Error!</title>
-  {% include 'includes.html' %}
+{% extends "base.html" %}
 
-  {% include 'banner.html' %}
-
-</head>
-<body>
-  <br>
-  <div class="row">
-  <div class="large-6 columns">
-    <p class="look" id="gist" style="z-index=1"> Share files...
-      <br>
-      <span id="gistTwo"style="z-index=-10;color:#888">instantly.</span></p>
-    </div>
-    <div class="large-6 columns">
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <!-- awesomeness below for generating pages -->
-      {% if error==500 %}
+{% block content %}
+    <!-- awesomeness below for generating pages -->
+    <div class="row">
+      {% if error == 500 %}
       <h2 class="bree"> 500 Internal Server Error: </h2>
       <p class="bree" style="font-size:1.3em"> Something really weird happened, sorry about that. No worries, I've been sent an email about this particularly strange event.</p>
       {% elif error == 404 %}
@@ -34,10 +14,4 @@
       {% endif %}
 
     </div>
-  </div>
-
-    {% include 'footer.html' %}
-
-        <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-      </body>
-      </html>
+{% endblock %}

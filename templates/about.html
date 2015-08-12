@@ -1,36 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>Spaceshare | Share Freely</title>
-  {% include 'includes.html' %}
+{% extends "base.html" %}
 
-  {% include 'banner.html' %}
+{% block content %}
+    <!-- awesomeness below for generating pages -->
+    <div class="row">
+      {% if error == 500 %}
+      <h2 class="bree"> 500 Internal Server Error: </h2>
+      <p class="bree" style="font-size:1.3em"> Something really weird happened, sorry about that. No worries, I've been sent an email about this particularly strange event.</p>
+      {% elif error == 404 %}
+      <h2 class="bree"> 404 Page Not Found Error: </h2>
+      <p class="bree" style="font-size:1.3em"> Sorry! looks like you tried to access a page that doesn't exist! Try hitting the link on top left to go back to the home page.</p>
+      {% else %}
+      <p> How did you get here?  Hit the link up top to get back where you belong my friend. </p>
+      {% endif %}
 
-    </head>
-    <body>
-      <br>
-      <div class="row">
-        <div class="large-6 columns">
-          <p class="look" id="gist" style="z-index=1"> Share files...
-            <br>
-            <span id="gistTwo"style="z-index=-10;color:#888">instantly.</span></p>
-          </div>
-          <div class="large-6 columns">
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <p class="bree" style="font-size:1.3em"> Just upload a file and grab it somewhere else, it's quick, and it's simple, the way file sharing should be. Enjoy. </p>
-          </div>
-        </div>
-        <div class="row">
-
-          </div>
-
-          {% include 'footer.html' %}
-
-          <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-        </body>
-        </html>
+    </div>
+{% endblock %}

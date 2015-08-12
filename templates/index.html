@@ -1,35 +1,8 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Spaceshare | Share Freely </title>
+{% extends "base.html" %}
 
-    {% include 'includes.html' %}
+{% block content %}
 
-    {% include 'banner.html' %}
-
-    </head>
-<body>
-<br>
-
-<div class="row">
-
-  <div class="large-6 columns">
-    <p class="look animated fadeInDown delay-03s" id="gist" style="z-index=1"> Share files...
-    <br>
-    <span id="gistTwo" class="animated fadeInUp delay-12s" style="z-index=-10;color:#888">instantly.</span></p>
-  </div>
-  <div class="large-6 columns">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <p class="bree animated fadeInUp delay-15s" style="font-size:1.3em"> Just upload a file and grab it somewhere else, it's quick, and it's simple, the way file sharing should be. Enjoy. </p>
-  </div>
-</div>
-
-<!-- awesomeness below for generating pages -->
+<!-- FIXME not awesomeness below for generating pages -->
 {% if new and space%}
 <div class="row">
   <div class="large-12 columns" >
@@ -85,58 +58,5 @@
 	</div>
 </div>
 
-{% include 'footer.html' %}
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 
-    <script type="text/javascript">
-    ( function($) {
-    /* we can now rely on $ within the safety of our "bodyguard" function
-     basically it means we can use jQuery
-     */
-     $(document).ready( function(){
-       $('#gist').hide().fadeIn(800);
-       $('#gistTwo').hide().fadeIn(4000);
-     } );
-
-    function isNumber(n){
-      return typeof(n) != "boolean" && !isNaN(n);
-    }
-
-    function SubmitFrm(){
-      var space = document.getElementById("redir").value;
-      console.log(space);
-      if( isNumber(space)){
-        console.log("GOT AN INTEGER");
-        window.location = "/upload/"+space;
-        return false;
-      }else{
-        return false;
-      }
-    }
-
-    function fileUpload(){
-      var space = document.getElementById("reserve").value;
-      console.log("SpaceReserve request :"+space);
-      if( isNumber(space)){
-        console.log("GOT AN INTEGER");
-        return false;
-      }else{
-        console.log("");
-        return false;
-      }
-    }
-
-      $('#gist').click( function(){
-        console.log("got response!");
-        $.getJSON('/_find_number', {} , function(data){
-          // propagate result
-          console.log(data.result);
-          //$("#result").text(data.result);
-        return false;
-      })
-      });
-
-    } )( jQuery );
-    </script>
-  </body>
-</html>
+{% endblock %}

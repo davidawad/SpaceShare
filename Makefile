@@ -24,8 +24,8 @@ endif
 sass: clear
 	sass --watch app/static/sass/stylesheet.scss:app/static/css/stylesheet.css
 
-run: clear
-	python run.py
+run:
+	python __init__.py
 
 setup: clear
 	virtualenv venv
@@ -42,4 +42,3 @@ clean:
 clear:
 	clear
 	@echo "\n\n\n"
-

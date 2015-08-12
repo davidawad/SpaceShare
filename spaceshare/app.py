@@ -3,6 +3,7 @@ from werkzeug import secure_filename
 from pymongo import MongoClient
 from random import randint
 from config import config
+from tasks import print_words
 import gridfs
 import pymongo
 import time
@@ -157,7 +158,7 @@ def upload():
         return render_template('index.html', space=space, upload=True)
     else:  # something went wrong then! yes, indeed,
         return render_template('error.html')
-    # TODO optimize with asynchronous task queue
+
 
 # download routine
 @app.route('/upload/<spacenum>', methods=['GET'])

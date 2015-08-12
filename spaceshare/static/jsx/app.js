@@ -39,7 +39,7 @@ var DynamicSearch = React.createClass({
 });
 
 // list of countries, defined with JavaScript object literals
-var countries = [
+const countries = [
   {"name": "Sweden"}, {"name": "China"}, {"name": "Peru"}, {"name": "Czech Republic"},
   {"name": "Bolivia"}, {"name": "Latvia"}, {"name": "Samoa"}, {"name": "Armenia"},
   {"name": "Greenland"}, {"name": "Cuba"}, {"name": "Western Sahara"}, {"name": "Ethiopia"},
@@ -52,4 +52,43 @@ var countries = [
 React.render(
   <DynamicSearch items={ countries } />,
   document.getElementById('main')
+);
+
+var progressBar = React.createClass({
+
+    getInitialState: function(){
+        return { progress: "Click Here to see a worker progress",
+                 task_id: 0
+             } ;
+    },
+
+    handleClick: function(){
+        // if the state is 0, start the task
+        if(this.state.task_id === 0){
+            $.getJSON('/react/task', {} , function(data){
+              console.log(data);
+              this.state.progress = data.progress;
+            });
+        }else{ // we have a task, poll for progress
+            $.getJSON('/react/task/'+this.state.task_id.toString(), {} , function(data){
+              console.log(data);
+              this.state.progress = data.progress;
+            });
+        }
+
+    },
+
+    render: function(){
+        return(
+            <div class='exbutton dark center'
+            onClick={this.handleClick}>
+            {this.state.progress}
+            </div>
+              )
+    }
+
+});
+React.render(
+    <progressBar/>,
+    document.getElementById('prog_bar')
 );

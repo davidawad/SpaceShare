@@ -1,14 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>Spaceshare | Share Freely</title>
-  {% include 'includes.html' %}
+{% extends "base.html" %}
 
-  {% include 'banner.html' %}
+{% block content %}
 
-    </head>
-    <body>
-      <br>
+
       <div class="row">
           <div class="large-6 columns">
               <p class="look" id="gist" style="z-index=1"> SpaceShare
@@ -31,9 +25,4 @@
       </div>
 
 
-
-      {% include 'footer.html' %}
-
-        <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-        </body>
-        </html>
+{% endblock %}

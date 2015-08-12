@@ -27,10 +27,10 @@ var DynamicSearch = React.createClass({displayName: "DynamicSearch",
     }
 
     return (
-      React.createElement("div", null, 
-        React.createElement("input", {type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search!"}), 
-        React.createElement("ul", null, 
-           countries.map(function(country){ return React.createElement("li", null, country.name, " ") }) 
+      React.createElement("div", null,
+        React.createElement("input", {type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search!"}),
+        React.createElement("ul", null,
+           countries.map(function(country){ return React.createElement("li", null, country.name, " ") })
         )
       )
     )
@@ -39,7 +39,7 @@ var DynamicSearch = React.createClass({displayName: "DynamicSearch",
 });
 
 // list of countries, defined with JavaScript object literals
-var countries = [
+const countries = [
   {"name": "Sweden"}, {"name": "China"}, {"name": "Peru"}, {"name": "Czech Republic"},
   {"name": "Bolivia"}, {"name": "Latvia"}, {"name": "Samoa"}, {"name": "Armenia"},
   {"name": "Greenland"}, {"name": "Cuba"}, {"name": "Western Sahara"}, {"name": "Ethiopia"},
@@ -52,4 +52,43 @@ var countries = [
 React.render(
   React.createElement(DynamicSearch, {items:  countries }),
   document.getElementById('main')
+);
+
+var progressBar = React.createClass({displayName: "progressBar",
+
+    getInitialState: function(){
+        return { progress: "Click Here to see a worker progress",
+                 task_id: 0
+             } ;
+    },
+
+    handleClick: function(){
+        // if the state is 0, start the task
+        if(this.state.task_id === 0){
+            $.getJSON('/react/task', {} , function(data){
+              console.log(data);
+              this.state.progress = data.progress;
+            });
+        }else{ // we have a task, poll for progress
+            $.getJSON('/react/task/'+this.state.task_id.toString(), {} , function(data){
+              console.log(data);
+              this.state.progress = data.progress;
+            });
+        }
+
+    },
+
+    render: function(){
+        return(
+            React.createElement("div", {class: "exbutton dark center",
+            onClick: this.handleClick},
+            this.state.progress
+            )
+              )
+    }
+
+});
+React.render(
+    React.createElement("progressBar", null),
+    document.getElementById('prog_bar')
 );

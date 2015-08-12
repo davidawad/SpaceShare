@@ -8,5 +8,5 @@ example.txt
 *.DS_Store
 node_modules
 bower_components
-.module_cache
+.module-cache
 *.log

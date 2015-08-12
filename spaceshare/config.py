@@ -2,7 +2,7 @@ import os
 import yaml
 
 # The purpose of this file is to load the yaml file in memory and pass it
-# around to other files laying around.
+# around to other module around.
 
 config_path = os.environ.get('FLEETDB_CONFIG')
 if config_path is None:

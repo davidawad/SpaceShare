@@ -54,7 +54,7 @@ React.render(
   document.getElementById('main')
 );
 
-var progressBar = React.createClass({
+var ProgressBar = React.createClass({
 
     getInitialState: function(){
         return { progress: "Click Here to see a worker progress",
@@ -62,12 +62,13 @@ var progressBar = React.createClass({
              } ;
     },
 
-    handleClick: function(){
+    handleClick: function(event){
         // if the state is 0, start the task
         if(this.state.task_id === 0){
             $.getJSON('/react/task', {} , function(data){
               console.log(data);
               this.state.progress = data.progress;
+              this.state.task_id = data.task_id;
             });
         }else{ // we have a task, poll for progress
             $.getJSON('/react/task/'+this.state.task_id.toString(), {} , function(data){
@@ -75,20 +76,18 @@ var progressBar = React.createClass({
               this.state.progress = data.progress;
             });
         }
-
     },
 
     render: function(){
         return(
-            <div class='exbutton dark center'
-            onClick={this.handleClick}>
-            {this.state.progress}
+            <div class='exbutton dark center' onClick={this.handleClick}>
+                <p>{this.state.progress} </p>
             </div>
-              )
+            )
     }
 
 });
 React.render(
-    <progressBar/>,
+    <ProgressBar/>,
     document.getElementById('prog_bar')
 );

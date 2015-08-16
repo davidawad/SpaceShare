@@ -3,7 +3,7 @@ from werkzeug import secure_filename
 from pymongo import MongoClient
 from random import randint
 from config import config
-from tasks import print_words
+# from tasks import print_words
 import gridfs
 import pymongo
 import time

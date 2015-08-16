@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /** @jsx React.DOM */
 
 var DynamicSearch = React.createClass({displayName: "DynamicSearch",
@@ -27,10 +28,10 @@ var DynamicSearch = React.createClass({displayName: "DynamicSearch",
     }
 
     return (
-      React.createElement("div", null,
-        React.createElement("input", {type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search!"}),
-        React.createElement("ul", null,
-           countries.map(function(country){ return React.createElement("li", null, country.name, " ") })
+      React.createElement("div", null, 
+        React.createElement("input", {type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search!"}), 
+        React.createElement("ul", null, 
+           countries.map(function(country){ return React.createElement("li", null, country.name, " ") }) 
         )
       )
     )
@@ -54,7 +55,7 @@ React.render(
   document.getElementById('main')
 );
 
-var progressBar = React.createClass({displayName: "progressBar",
+var ProgressBar = React.createClass({displayName: "ProgressBar",
 
     getInitialState: function(){
         return { progress: "Click Here to see a worker progress",
@@ -62,12 +63,13 @@ var progressBar = React.createClass({displayName: "progressBar",
              } ;
     },
 
-    handleClick: function(){
+    handleClick: function(event){
         // if the state is 0, start the task
         if(this.state.task_id === 0){
             $.getJSON('/react/task', {} , function(data){
               console.log(data);
               this.state.progress = data.progress;
+              this.state.task_id = data.task_id;
             });
         }else{ // we have a task, poll for progress
             $.getJSON('/react/task/'+this.state.task_id.toString(), {} , function(data){
@@ -75,20 +77,21 @@ var progressBar = React.createClass({displayName: "progressBar",
               this.state.progress = data.progress;
             });
         }
-
     },
 
     render: function(){
         return(
-            React.createElement("div", {class: "exbutton dark center",
-            onClick: this.handleClick},
-            this.state.progress
+            React.createElement("div", {class: "exbutton dark center", onClick: this.handleClick}, 
+                React.createElement("p", null, this.state.progress, " ")
             )
-              )
+            )
     }
 
 });
 React.render(
-    React.createElement("progressBar", null),
+    React.createElement(ProgressBar, null),
     document.getElementById('prog_bar')
 );
+
+
+},{}]},{},[1])

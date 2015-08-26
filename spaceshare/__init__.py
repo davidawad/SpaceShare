@@ -1,4 +1,4 @@
-from flask import Flask, Request, render_template, request
+from flask import Flask, Request, render_template, request, jsonify
 from app import app as base_app
 from config import config
 from api import api
@@ -59,6 +59,9 @@ if config['DEBUG']:
     def reactions():
         return render_template('react-experiment.html')
 
+    @app.route('/react/task')
+    def yolo():
+        return jsonify(result=467, task_id=20)
 
 
 @app.errorhandler(404)

@@ -8,6 +8,7 @@
 
 
 ## REST API Coming Soon!
+#####(for real this time)
 
 ### This is a File sharing platform  meant to simplify file sharing between persons and groups of people by removing the need to login.
 
@@ -18,6 +19,15 @@
 
 #### Built using Flask, using mongodb with gridFS to store uploaded files.
 I want this to be a really accessible project to newbies and pros alike so I will be writing a lot of documentation in the near future. As of right now classes are starting up and getting slightly crazy but I'm finding the time.
+
+## Requirements
+- Python Flask
+- MongoDB
+- Redis
+- Celery
+- React
+- Gulp
+
 
 ## Running the project for Development
 
@@ -33,7 +43,16 @@ git clone https://github.com/DavidAwad/SpaceShare/
 
 cd SpaceShare
 
-python app.py
+make run
+
+gulp
+
+celery worker -A tasks --loglevel=info
+
+redis-server
+
+./mongod
+
 ```
 If you get an error it's possible you're simply not running MongoDB, SpaceShare checks on the default port for a mongo connection.
 

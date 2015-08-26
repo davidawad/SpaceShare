@@ -59,23 +59,28 @@ var ProgressBar = React.createClass({
     getInitialState: function(){
         return { progress: "Click Here to see a worker progress",
                  task_id: 0
-             } ;
+                };
     },
 
     handleClick: function(event){
+
         // if the state is 0, start the task
         if(this.state.task_id === 0){
-            $.getJSON('/react/task', {} , function(data){
-              console.log(data);
-              this.state.progress = data.progress;
-              this.state.task_id = data.task_id;
-            });
-        }else{ // we have a task, poll for progress
-            $.getJSON('/react/task/'+this.state.task_id.toString(), {} , function(data){
-              console.log(data);
-              this.state.progress = data.progress;
+
+            $.ajax({
+              url: "react/task",
+              dataType: 'json',
+              success: function(data) {
+                console.log(data);
+                
+                this.setState({data: data}, function(){
+                  console.log(this.state.data);
+
+                }.bind(this));
+              }.bind(this),
             });
         }
+
     },
 
     render: function(){

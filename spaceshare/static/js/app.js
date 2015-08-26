@@ -60,22 +60,48 @@ var ProgressBar = React.createClass({displayName: "ProgressBar",
     getInitialState: function(){
         return { progress: "Click Here to see a worker progress",
                  task_id: 0
-             } ;
+                };
     },
 
     handleClick: function(event){
         // if the state is 0, start the task
         if(this.state.task_id === 0){
-            $.getJSON('/react/task', {} , function(data){
-              console.log(data);
-              this.state.progress = data.progress;
-              this.state.task_id = data.task_id;
-            });
+            console.log(this.state);
+
+
+                $.ajax({
+                  url: "react/task",
+                  dataType: 'json',
+                  success: function(data) {
+                    console.log(data);
+
+                    this.setState({data: data}, function(){
+                      console.log(this.state.data);
+                    }.bind(this));
+
+                  }.bind(this),
+                });
+
+
+            /*$.get('/react/task', {}, function(result){
+                //console.log(result);
+              /*this.setState(function(state){
+                            console.log('The state is:');
+                            return {
+                                progress : state.result.progress,
+                                task_id : state.result.task_id
+                            }
+                        });
+                //this.state.task_id=result.task_id;
+                //this.state.progress=result.progress;
+                console.log(this.state);
+            }).bind(this); */
+
         }else{ // we have a task, poll for progress
-            $.getJSON('/react/task/'+this.state.task_id.toString(), {} , function(data){
+            $.get('/react/task/'+this.state.task_id.toString(), {} , function(data){
               console.log(data);
-              this.state.progress = data.progress;
-            });
+              this.setState({ progress: data.progress });
+          });
         }
     },
 

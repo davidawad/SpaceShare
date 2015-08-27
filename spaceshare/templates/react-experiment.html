@@ -1,14 +1,30 @@
+{#
 {% extends "base.html" %}
 
 {% block content %}
+#}
 
-    <!-- This is the progress bar defined in react -->
-    <div id="prog_bar">
-    </div>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <!-- This is the progress bar defined in react -->
+        <div id="prog_bar">
+        </div>
 
-    <!-- this is our handy react defined search bar -->
-    <div id="main">
-    </div>
+        <!-- this is our handy react defined search bar -->
+        <div id="main">
+        </div>
 
+        <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
-{% endblock %}
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    </body>
+</html>
+{# {% endblock %} #)

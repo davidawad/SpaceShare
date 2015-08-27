@@ -48,7 +48,7 @@ const countries = [
   {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
   {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
 ];
-/* don't render search bar component just yet
+/* don't render search bar component yet
 React.render(
   <DynamicSearch items={ countries } />,
   document.getElementById('main')
@@ -94,6 +94,10 @@ var ProgressBar = React.createClass({
 
                 }.bind(this));
               }.bind(this),
+
+             error: function(){
+
+             }
             });
         }
     },

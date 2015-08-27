@@ -115,7 +115,8 @@ make: *** [run] Error 1
 (venv)➜  spaceshare git:(master) ✗ unset DYLD_FALLBACK_LIBRARY_PAT
 ```
 
-## Useful Flask Resources to Learn what's happening :
+## Useful Flask Resources to Learn what's being put together :
+### [Getting used to Flask and React](https://realpython.com/blog/python/the-ultimate-flask-front-end/)
 ### [File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
 ### [Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
 ### [Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)

@@ -18,13 +18,21 @@ celery.conf.update(config)
 # with bind = true we can monitor the progress of the celery process
 @celery.task(bind=True)
 def print_words(self):
+    # some long task that does work
     for i in range(230000):
+        print 'words'
         # update metadata variables
-        self.update_state(progress='PENDING',
+        self.update_state(state='PENDING',
                           meta={'current': i,
                                 'status': 'counting'
                                 }
                           )
+
+    self.update_state(state='FINISHED',
+                      meta={'current': i,
+                            'status': 'counting'
+                            }
+                      )
     return 100023
 
 

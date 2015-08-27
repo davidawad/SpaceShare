@@ -49,7 +49,7 @@ const countries = [
   {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
   {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
 ];
-/*
+/* don't render search bar component just yet
 React.render(
   <DynamicSearch items={ countries } />,
   document.getElementById('main')
@@ -76,33 +76,28 @@ var ProgressBar = React.createClass({displayName: "ProgressBar",
               dataType: 'json',
               success: function(data) {
                 console.log(data);
-
+                // TODO more modular way of updating this dict
                 this.setState({progress: data.progress, task_id:data.task_id}, function(){
-                  console.log(this.state.data);
                   this.forceUpdate();
-
                 }.bind(this));
               }.bind(this),
             });
-
-        }else{ // we have a task, poll for progress
+        }else{ // we do have a task, poll for progress
             console.log('else case');
             $.ajax({
-              url: "react/task"+this.state.task_id.toString(),
+              url: "react/task/"+this.state.task_id.toString(),
               dataType: 'json',
               success: function(data) {
                 console.log(data);
 
                 this.setState({progress: data.progress, task_id:data.task_id}, function(){
-                  console.log(this.state.data);
-                  this.forceUpdate();
+                console.log(this.state.data);
+                this.forceUpdate();
 
                 }.bind(this));
               }.bind(this),
             });
-
         }
-
     },
 
     render: function(){

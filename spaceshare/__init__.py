@@ -66,10 +66,11 @@ if config['DEBUG']:
         return jsonify(task_id=task.id, progress='TASK_ACCEPTED')
 
     @app.route('/react/task/<task_id>')
-    def yolo_again():
+    def yolo_again(task_id):
+        print 'task status request received ' + str(task_id)
         task = print_words.AsyncResult(task_id)
         # task.progress is 'PENDING' for example
-
+        print task.state
         return jsonify(task)
 
 

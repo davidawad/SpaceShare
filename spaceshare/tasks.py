@@ -1,6 +1,7 @@
 from config import config
 from flask import jsonify
 from celery import Celery
+import time
 
 ##
 # This file defines our celery tasks
@@ -19,8 +20,9 @@ celery.conf.update(config)
 @celery.task(bind=True)
 def print_words(self):
     # some long task that does work
-    for i in range(230000):
+    for i in range(23):
         print 'words'
+        time.sleep(1)
         # update metadata variables
         self.update_state(state='PENDING',
                           meta={'current': i,

@@ -63,15 +63,42 @@ if config['DEBUG']:
     @app.route('/react/task/')
     def yolo():
         task = print_words.apply_async()
-        return jsonify(task_id=task.id, progress='TASK_ACCEPTED')
+        response = {
+            'task_id' : task.id,
+            'progress' :'TASK_ACCEPTED'
+        }
+        return jsonify(response)
 
     @app.route('/react/task/<task_id>')
     def yolo_again(task_id):
         print 'task status request received ' + str(task_id)
         task = print_words.AsyncResult(task_id)
-        # task.progress is 'PENDING' for example
-        print task.state
-        return jsonify(task)
+        if task.state == 'PENDING':
+                # job did not start yet
+                response = {
+                    'state': task.state,
+                    'current': 0,
+                    'total': 1,
+                    'status': 'Pending...'
+                }
+        elif task.state != 'FAILURE':
+            response = {
+                'state': task.state,
+                'current': task.info.get('current', 0),
+                'total': task.info.get('total', 1),
+                'status': task.info.get('status', '')
+            }
+            if 'result' in task.info:
+                response['result'] = task.info['result']
+        else:
+            # something went wrong in the background job
+            response = {
+                'state': task.state,
+                'current': 1,
+                'total': 1,
+                'status': str(task.info),  # this is the exception raised
+            }
+        return jsonify(response)
 
 
 @app.errorhandler(404)

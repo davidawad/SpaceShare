@@ -85,8 +85,7 @@ if config['DEBUG']:
             response = {
                 'state': task.state,
                 'current': task.info.get('current', 0),
-                'total': task.info.get('total', 1),
-                'status': task.info.get('status', '')
+                'status': task.info.get('status', 'printing words...')
             }
             if 'result' in task.info:
                 response['result'] = task.info['result']

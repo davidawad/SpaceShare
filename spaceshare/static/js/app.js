@@ -49,12 +49,12 @@ const countries = [
   {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
   {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
 ];
-/* don't render search bar component yet
+/* TODO render search bar component with array of current files */
 React.render(
-  <DynamicSearch items={ countries } />,
-  document.getElementById('main')
+  React.createElement(DynamicSearch, {items:  countries }),
+  document.getElementById('DynamicSearch')
 );
-*/
+
 
 
 /* Defining new component ProgressBar */
@@ -114,7 +114,7 @@ var ProgressBar = React.createClass({displayName: "ProgressBar",
 });
 React.render(
     React.createElement(ProgressBar, null),
-    document.getElementById('prog_bar')
+    document.getElementById('ProgressBar')
 );
 
 

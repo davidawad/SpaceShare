@@ -73,12 +73,12 @@ if config['DEBUG']:
     def yolo_again(task_id):
         print 'task status request received ' + str(task_id)
         task = print_words.AsyncResult(task_id)
+        print "task state : " + task.state
         if task.state == 'PENDING':
                 # job did not start yet
                 response = {
                     'state': task.state,
                     'current': 0,
-                    'total': 1,
                     'status': 'Pending...'
                 }
         elif task.state != 'FAILURE':
@@ -94,7 +94,6 @@ if config['DEBUG']:
             response = {
                 'state': task.state,
                 'current': 1,
-                'total': 1,
                 'status': str(task.info),  # this is the exception raised
             }
         return jsonify(response)

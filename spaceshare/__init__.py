@@ -1,5 +1,6 @@
 from flask import Flask, Request, render_template, request, jsonify
 from app import app as base_app
+from tasks import print_words
 from config import config
 from api import api
 import mandrill
@@ -59,9 +60,17 @@ if config['DEBUG']:
     def reactions():
         return render_template('react-experiment.html')
 
-    @app.route('/react/task')
+    @app.route('/react/task/')
     def yolo():
-        return jsonify(result=467, task_id=20)
+        task = print_words.apply_async()
+        return jsonify(task_id=task.id, progress='TASK_ACCEPTED')
+
+    @app.route('/react/task/<task_id>')
+    def yolo_again():
+        task = print_words.AsyncResult(task_id)
+        # task.progress is 'PENDING' for example
+
+        return jsonify(task)
 
 
 @app.errorhandler(404)

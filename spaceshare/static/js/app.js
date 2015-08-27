@@ -49,11 +49,15 @@ const countries = [
   {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
   {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
 ];
-
+/*
 React.render(
-  React.createElement(DynamicSearch, {items:  countries }),
+  <DynamicSearch items={ countries } />,
   document.getElementById('main')
 );
+*/
+
+
+/* Defining new component ProgressBar */
 
 var ProgressBar = React.createClass({displayName: "ProgressBar",
 
@@ -66,43 +70,39 @@ var ProgressBar = React.createClass({displayName: "ProgressBar",
     handleClick: function(event){
         // if the state is 0, start the task
         if(this.state.task_id === 0){
-            console.log(this.state);
 
+            $.ajax({
+              url: "react/task",
+              dataType: 'json',
+              success: function(data) {
+                console.log(data);
 
-                $.ajax({
-                  url: "react/task",
-                  dataType: 'json',
-                  success: function(data) {
-                    console.log(data);
+                this.setState({progress: data.progress, task_id:data.task_id}, function(){
+                  console.log(this.state.data);
+                  this.forceUpdate();
 
-                    this.setState({data: data}, function(){
-                      console.log(this.state.data);
-                    }.bind(this));
-
-                  }.bind(this),
-                });
-
-
-            /*$.get('/react/task', {}, function(result){
-                //console.log(result);
-              /*this.setState(function(state){
-                            console.log('The state is:');
-                            return {
-                                progress : state.result.progress,
-                                task_id : state.result.task_id
-                            }
-                        });
-                //this.state.task_id=result.task_id;
-                //this.state.progress=result.progress;
-                console.log(this.state);
-            }).bind(this); */
+                }.bind(this));
+              }.bind(this),
+            });
 
         }else{ // we have a task, poll for progress
-            $.get('/react/task/'+this.state.task_id.toString(), {} , function(data){
-              console.log(data);
-              this.setState({ progress: data.progress });
-          });
+            console.log('else case');
+            $.ajax({
+              url: "react/task"+this.state.task_id.toString(),
+              dataType: 'json',
+              success: function(data) {
+                console.log(data);
+
+                this.setState({progress: data.progress, task_id:data.task_id}, function(){
+                  console.log(this.state.data);
+                  this.forceUpdate();
+
+                }.bind(this));
+              }.bind(this),
+            });
+
         }
+
     },
 
     render: function(){

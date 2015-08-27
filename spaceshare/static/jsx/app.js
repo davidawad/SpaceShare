@@ -48,11 +48,15 @@ const countries = [
   {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
   {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
 ];
-
+/*
 React.render(
   <DynamicSearch items={ countries } />,
   document.getElementById('main')
 );
+*/
+
+
+/* Defining new component ProgressBar */
 
 var ProgressBar = React.createClass({
 
@@ -63,7 +67,6 @@ var ProgressBar = React.createClass({
     },
 
     handleClick: function(event){
-
         // if the state is 0, start the task
         if(this.state.task_id === 0){
 
@@ -72,13 +75,31 @@ var ProgressBar = React.createClass({
               dataType: 'json',
               success: function(data) {
                 console.log(data);
-                
-                this.setState({data: data}, function(){
+
+                this.setState({progress: data.progress, task_id:data.task_id}, function(){
                   console.log(this.state.data);
+                  this.forceUpdate();
 
                 }.bind(this));
               }.bind(this),
             });
+
+        }else{ // we have a task, poll for progress
+            console.log('else case');
+            $.ajax({
+              url: "react/task"+this.state.task_id.toString(),
+              dataType: 'json',
+              success: function(data) {
+                console.log(data);
+
+                this.setState({progress: data.progress, task_id:data.task_id}, function(){
+                  console.log(this.state.data);
+                  this.forceUpdate();
+
+                }.bind(this));
+              }.bind(this),
+            });
+
         }
 
     },

@@ -15,8 +15,6 @@ import os
 app = Blueprint('app', __name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
 db_conn = None
 
 

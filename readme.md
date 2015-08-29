@@ -59,7 +59,7 @@ redis-server
 ```
 If you get an error it's possible you're simply not running MongoDB, SpaceShare checks on the default port for a mongo connection.
 
-2. Download the monngodb [binaries](https://www.mongodb.org/downloads) for your machine.
+2. Download the mongodb [binaries](https://www.mongodb.org/downloads) for your machine.
 You'll want to go into the /bin subfolder where you'll find a bunch of mongo named executabled.
 One of them will be named *mongod*, this is the mongodb server executable. This is what makes mongo work.
 What you want to do here is tell mongodb where you're going to store your data.

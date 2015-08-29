@@ -21,7 +21,7 @@ celery.conf.update(config)
 def print_words(self):
     # some long task that does work
     for i in range(23):
-        print 'words'
+        print 'words' + str(i) 
         time.sleep(1)
         # update metadata variables
         self.update_state(state='PROCESSING',

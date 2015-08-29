@@ -1,15 +1,10 @@
-{#
 {% extends "base.html" %}
 
 {% block content %}
-#}
 
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/normalize.css') }}">
-    </head>
-    <body>
+        <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/stylesheet.css') }}"> -->
+
+
         <br>
         <br>
         <!-- Stack the columns on mobile by making one full-width and the other half-width -->
@@ -20,18 +15,4 @@
           <div class="large-6 columns" id="DynamicSearch"></div>
         </div>
 
-
-        <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
-
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
-    </body>
-</html>
-
-{#
-
 {% endblock %}
-
-#}

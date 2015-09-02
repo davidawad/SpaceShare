@@ -83,7 +83,7 @@ var ProgressBar = React.createClass({
             });
         }else{ // we do have a task, poll for progress
             $.ajax({
-              url: "react/task/"+this.state.task_id.toString(),
+              url: "react/task/"+this.state.task_id,
               dataType: 'json',
               success: function(data) {
                 console.log(data);

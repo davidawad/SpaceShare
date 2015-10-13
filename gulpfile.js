@@ -9,20 +9,20 @@ var gulp = require('gulp'),
 
 // tasks
 gulp.task('transform', function () {
-  return gulp.src('./spaceshare/static/jsx/app.jsx')
+  return gulp.src('./spaceshare/static/jsx/app.js')
     .pipe(browserify({transform: ['reactify']}))
-    .pipe(gulp.dest('./spaceshare/static/js'))
-    .pipe(size());
+    .pipe(gulp.dest('./spaceshare/static/js/'))
+    .pipe(size())
 });
 
 
 gulp.task('clean', function () {
-  return gulp.src(['./spaceshare/static/scripts/js'], {read: false})
-    .pipe(clean());
+    return gulp.src(['./spaceshare/static/scripts/js'], {read: false})
+    .pipe(clean())
 });
 
 
-gulp.task('default', /*['clean'],*/ function () {
-  gulp.start('transform');
-  gulp.watch('./spaceshare/static/jsx/app.jsx', ['transform']);
+gulp.task('default', ['clean'], function () {
+    gulp.start('transform')
+    gulp.watch('./spaceshare/static/jsx/app.js', ['transform'])
 });

@@ -119,17 +119,35 @@ React.render(
 // this creates a React component that can be used in other components or
 // used directly on the page with React.renderComponent
 var FileForm = React.createClass({displayName: "FileForm",
-  // since we are starting off without any data, there is no initial value
-  getInitialState: function() {
-    return {
-      data_uri: null,
-    };
+    // since we are starting off without any data, there is no initial value
+    getInitialState: function() {
+        return {
+            task_id: 0,
+            data_uri: null,
+            progress: "Select an integer to map your file"
+        };
   },
   // prevent form from submitting; we are going to capture the file contents
   handleSubmit: function(e) {
     e.preventDefault();
     console.log('file submitted!!');
     console.log(e);
+  },
+  // when an int is passed into our component, we want to handle the click,
+  // and check if the number is reserved on our webserver
+  handleInt: function(e){
+      var self = this;
+      //console.log(e.target.value)
+      // find if number is taken
+      $.get( "/api/_find_number", function(data) {
+          // e.g. 62 is taken if in debug mode
+          if (data.result === parseInt(e.target.value)){
+            self.setState({progress: "that's taken"})
+        } else {
+            self.setState({progress: "you're good"})
+        }
+      });
+
   },
   // when a file is passed to the input field, retrieve the contents as a
   // base64-encoded data URI and save it to the component's state
@@ -149,19 +167,22 @@ var FileForm = React.createClass({displayName: "FileForm",
   render: function() {
     // since JSX is case sensitive, be sure to use 'encType'
     return (
-      React.createElement("form", {onSubmit: this.handleSubmit, encType: "multipart/form-data"}, 
-        React.createElement("p", null, "hello there"), 
-        React.createElement("input", {type: "file", onChange: this.handleFile})
+      React.createElement("form", {id: "create-form", onSubmit: this.handleSubmit, encType: "multipart/form-data"}, 
+
+        React.createElement("input", {type: "number", name: "space", onChange: this.handleInt, id: "reserve", placeholder: "e.g. '32' "}), 
+        React.createElement("input", {type: "file", name: "file", onChange: this.handleFile}), 
+        React.createElement("p", null, "value: ", this.state.progress), 
+        React.createElement("p", null, "task_id: ", this.state.task_id), 
+        React.createElement("p", null, "data_uri: ", this.state.data_uri)
       )
     );
-  },
+  }
 });
 
 React.render(
     React.createElement(FileForm, null),
     document.getElementById('FileForm')
-    
-);
+)
 
 
 },{}]},{},[1])

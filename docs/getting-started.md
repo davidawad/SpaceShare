@@ -16,27 +16,30 @@ The app middleware, controllers and routing logic is currently inside of `spaces
 
 run the Flask Server
 ```
+git clone https://github.com/DavidAwad/SpaceShare/
+
+cd SpaceShare
+
 virtualenv venv
 
 source venv/bin/activate
 
 pip install -r requirements.txt
 
-git clone https://github.com/DavidAwad/SpaceShare/
+npm install
 
-cd SpaceShare
-
-make run
+bower install
 
 gulp
-
-cd spaceshare
 
 celery worker -A tasks --loglevel=info
 
 redis-server
 
 ./mongod (or however you run mongo on your machine)
+
+make run
+
 ```
 If you get an error it's possible you're simply not running MongoDB, SpaceShare checks on the default port for a mongo connection.
 

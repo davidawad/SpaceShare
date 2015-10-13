@@ -75,7 +75,8 @@ Access spaceshare on [http://localhost:4000](http://localhost:4000)
 
 ## Useful Flask Resources to Learn what's being put together :
 ### [Getting used to Flask, React and Gulp](https://realpython.com/blog/python/the-ultimate-flask-front-end/)
-### [File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python) by [Michael Molina](http://runnable.com/u/mmolina)
+### [File Input in Flask](http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python)
+###[File input in React](https://fitacular.com/blog/react/2014/06/23/react-file-upload-base64/)
 ### [Simple Flask Guest Book](https://github.com/x/Simple-Flask-Guest-Book) by [Devin Peticolas](https://github.com/x)
 ### [Flask Talk f2014](https://github.com/usacs/flaskTalkF2014) by [Vaibhav Vverma](https://github.com/v)
 ### [Flask Database Talk](https://github.com/kaushal/databaseTalk2014) by [Kaushal Parikh](https://github.com/kaushal)

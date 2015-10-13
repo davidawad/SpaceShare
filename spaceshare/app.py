@@ -44,7 +44,7 @@ def get_db():
 
 
 @celery.task(bind=True)
-def search_file(room_number):
+def search_file(self, room_number):
     # searches for an int and returns if the space is taken
     db_conn = get_db()
     try:
@@ -54,7 +54,7 @@ def search_file(room_number):
 
 
 @celery.task(bind=True)
-def find_number():
+def find_number(self):
     db_conn = get_db()
     '''
     find an integer not currently taken in db
@@ -71,7 +71,9 @@ def find_number():
     return room_not_in_db
 
 
-def insert_file(file_name, room_number):
+@celery.task(bind=True)
+def insert_file(self, file_name, room_number):
+    # throw file in mongo
     if not(file_name and room_number):
         return
     db_conn = get_db()
@@ -91,7 +93,8 @@ def insert_file(file_name, room_number):
 
 
 @celery.task(bind=True)
-def delete_file(room_number):
+def delete_file(self, room_number):
+    # remove file from mongo
     if not(room_number):
         raise Exception("delete_file given None")
     if not search_file(room_number):
@@ -106,7 +109,8 @@ def delete_file(room_number):
 
 
 @celery.task(bind=True)
-def extract_file(output_location, room_number):
+def extract_file(self, output_location, room_number):
+    # extract file from mongo and throw it in the uploads
     if not(output_location and room_number):
         raise Exception("extract_file not given proper values")
     if not search_file(room_number):
@@ -189,7 +193,6 @@ def download(spacenum):
     # send the file we just created
     response = send_file(config['UPLOAD_FOLDER']+file_name)
     return response
-    # TODO append to celery task queue
 
 if __name__ == '__main__':
     app.run(

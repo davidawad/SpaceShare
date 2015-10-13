@@ -130,6 +130,8 @@ var FileForm = React.createClass({
   // prevent form from submitting; we are going to capture the file contents
   handleSubmit: function(e) {
     e.preventDefault();
+    console.log('file submitted!!');
+    console.log(e);
   },
 
   // when a file is passed to the input field, retrieve the contents as a
@@ -153,6 +155,7 @@ var FileForm = React.createClass({
     // since JSX is case sensitive, be sure to use 'encType'
     return (
       <form onSubmit={this.handleSubmit} encType="multipart/form-data">
+        <p>hello there</p>
         <input type="file" onChange={this.handleFile} />
       </form>
     );

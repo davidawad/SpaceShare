@@ -30,7 +30,7 @@ if config['DEBUG'] is not True:
 
 # if the upload folder doesn't exist we've just started the app.
 if not os.path.exists(config['UPLOAD_FOLDER']):
-    logger.error("upload folder didn't exist on up")
+    logger.error("upload folder didn't exist, creating it now")
     try:
         os.makedirs(config['UPLOAD_FOLDER'])
     except Exception as e:

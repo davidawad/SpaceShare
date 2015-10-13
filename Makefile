@@ -28,7 +28,7 @@ jsx:
 	jsx --watch static/jsx static/js
 
 run:
-	python spaceshare/routing.py
+	python spaceshare/spaceshare.py
 
 setup: clear
 	virtualenv venv

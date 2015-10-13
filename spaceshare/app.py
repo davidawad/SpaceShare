@@ -3,7 +3,7 @@ from werkzeug import secure_filename
 from pymongo import MongoClient
 from random import randint
 from config import config
-# from tasks import print_words
+from celery import Celery
 import gridfs
 import pymongo
 import time
@@ -11,10 +11,18 @@ import logging
 import sendgrid
 import os
 
-
+# add a blueprint for our functions
 app = Blueprint('app', __name__)
+
+# set up a logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Initialize Celery
+celery = Celery(config['NAME'], broker=config['CELERY_BROKER_URL'])
+celery.conf.update(config)
+
+# cache a db connection in memory
 db_conn = None
 
 
@@ -35,8 +43,9 @@ def get_db():
     return db_conn
 
 
-# returns if space is taken
+@celery.task(bind=True)
 def search_file(room_number):
+    # searches for an int and returns if the space is taken
     db_conn = get_db()
     try:
         return db_conn.fs.files.find_one(dict(room=room_number))
@@ -44,10 +53,12 @@ def search_file(room_number):
         return False
 
 
-# find an integer not currently taken in db
+@celery.task(bind=True)
 def find_number():
     db_conn = get_db()
     '''
+    find an integer not currently taken in db
+
     The empty dict in the first argument means "give me every document in the
     database"
     The "fields=['room']" in the second argument says "of those documents, only
@@ -60,7 +71,6 @@ def find_number():
     return room_not_in_db
 
 
-# put files in mongodb
 def insert_file(file_name, room_number):
     if not(file_name and room_number):
         return
@@ -76,12 +86,11 @@ def insert_file(file_name, room_number):
         logger.info("Stored file : "+str(room_number)+' Successfully')
         return True
     except Exception as e:
-        logger.info("File :"+'upload/'+file_name+" probably doesn't exist, : "
-                    + str(e))
+        logger.info("File :"+'upload/'+file_name+" probably doesn't exist, : " + str(e))
         return False
 
 
-# remove files from mongodb
+@celery.task(bind=True)
 def delete_file(room_number):
     if not(room_number):
         raise Exception("delete_file given None")
@@ -96,7 +105,7 @@ def delete_file(room_number):
     return True
 
 
-# read files out of mongodb
+@celery.task(bind=True)
 def extract_file(output_location, room_number):
     if not(output_location and room_number):
         raise Exception("extract_file not given proper values")

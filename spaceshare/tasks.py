@@ -1,5 +1,4 @@
 from config import config
-from flask import jsonify
 from celery import Celery
 import time
 
@@ -21,7 +20,7 @@ celery.conf.update(config)
 def print_words(self):
     # some long task that does work
     for i in range(23):
-        print 'words' + str(i) 
+        print 'words' + str(i)
         time.sleep(1)
         # update metadata variables
         self.update_state(state='PROCESSING',

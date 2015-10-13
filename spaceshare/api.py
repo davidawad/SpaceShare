@@ -7,7 +7,7 @@ api = Blueprint('api', __name__)
 # Route that will process the AJAX request,
 # result as a proper JSON response with a currently free int in the database
 @api.route('/_find_number')
-def find_number_request():
+def request_find_number():
     unused = 0
     if config['DEBUG']:
         return jsonify(result=64)

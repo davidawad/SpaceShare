@@ -1,5 +1,5 @@
 from flask import Flask, Request, render_template, request, jsonify
-from app import app as base_app
+from app import blueprint_app
 from tasks import print_words
 from config import config
 from api import api
@@ -9,7 +9,8 @@ import os
 
 
 app = Flask(__name__)
-app.register_blueprint(base_app)
+# FIXME set url prefix for celery tasks
+app.register_blueprint(blueprint_app)
 app.register_blueprint(api, url_prefix='/api')
 
 logger = logging.getLogger(__name__)

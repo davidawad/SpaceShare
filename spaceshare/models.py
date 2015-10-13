@@ -1,3 +1,12 @@
+##
+# This file defines our celery tasks
+# essentially functions that we can call from our route handlers
+# These functions can run in the background and deal with handling
+# tasks transparently to the user and behind the application
+# In this case these are our models
+#
+# @author David Awad
+
 from flask import request, render_template, Blueprint, jsonify
 from werkzeug import secure_filename
 from pymongo import MongoClient
@@ -12,7 +21,7 @@ import sendgrid
 import os
 
 # add a blueprint for our functions
-app = Blueprint('app', __name__)
+blueprint_app = Blueprint('app', __name__)
 
 # set up a logger
 logging.basicConfig(level=logging.INFO)
@@ -44,11 +53,11 @@ def get_db():
 
 
 @celery.task(bind=True)
-def search_file(self, room_number):
+def search_file(self, spacenum):
     # searches for an int and returns if the space is taken
     db_conn = get_db()
     try:
-        return db_conn.fs.files.find_one(dict(room=room_number))
+        return db_conn.fs.files.find_one(dict(room=spacenum))
     except Exception:
         return False
 
@@ -70,17 +79,19 @@ def find_number(self):
     room_not_in_db = int(max(rooms_in_db)) + 1
     return room_not_in_db
 
-
+# TODO refactor for data_URI strings
 @celery.task(bind=True)
 def insert_file(self, file_name, room_number):
-    # throw file in mongo
+    # make sure we're given file_name and number
     if not(file_name and room_number):
         return
-    db_conn = get_db()
-    gfs = gridfs.GridFS(db_conn)
+    # then check if that int is taken
     if search_file(room_number):
         logger.info("Space :" + str(room_number) + ' is taken!')
         return False
+    # we know we should store the file now
+    db_conn = get_db()
+    gfs = gridfs.GridFS(db_conn)
     try:
         with open('upload/' + file_name, "r") as f:
             # write bytes of the file into the gfs database
@@ -112,16 +123,19 @@ def delete_file(self, room_number):
 def extract_file(self, output_location, room_number):
     # extract file from mongo and throw it in the uploads
     if not(output_location and room_number):
+        # FIXME this probably shouldn't be an exception,
+        # should maybe be refactored
         raise Exception("extract_file not given proper values")
     if not search_file(room_number):
         logger.info("File "+str(room_number)+' not in db, error?')
         return False
-    db_conn = get_db()
-    gfs = gridfs.GridFS(db_conn)
     try:
+        db_conn = get_db()
+        gfs = gridfs.GridFS(db_conn)
         _id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
         file_name = db_conn.fs.files.find_one(dict(room=room_number))['name']
         # read gridFS binary blob from mongo, write the file
+        logger.info("extracting file: "+file_name)
         with open('upload/' + file_name, 'w') as f:
             f.write(gfs.get(_id).read())
         # gfs.get(_id).read()
@@ -133,7 +147,7 @@ def extract_file(self, output_location, room_number):
 
 
 # upload routine
-@app.route('/upload', methods=['POST'])
+@blueprint_app.route('/upload', methods=['POST'])
 def upload():
     # get the form inputs
     file = request.files['file']
@@ -170,29 +184,6 @@ def upload():
     else:  # something went wrong then! yes, indeed,
         return render_template('error.html')
 
-
-# download routine
-@app.route('/upload/<spacenum>', methods=['GET'])
-def download(spacenum):
-    logger.info("Entering server redirect!")
-    # check it's in there
-    if not search_file(spacenum):
-        logger.info("File "+str(spacenum)+' not in db, error?')
-        # return error or 404, or something, we have no file.
-        return render_template('index.html', undef=True, space=spacenum)
-    # render the template
-    render_template('index.html', spacenum=spacenum)
-    logger.info("Connecting to DB")
-    # connect to mongo
-    db_conn = get_db()
-    gfs = gridfs.GridFS(db_conn)
-    file_name = db_conn.fs.files.find_one(dict(room=spacenum))['name']
-    logger.info("File name is : "+file_name + " !")
-    # extract file to send from directory
-    extract_file(config['UPLOAD_FOLDER'], spacenum)
-    # send the file we just created
-    response = send_file(config['UPLOAD_FOLDER']+file_name)
-    return response
 
 if __name__ == '__main__':
     app.run(

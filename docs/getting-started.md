@@ -39,7 +39,6 @@ redis-server
 ./mongod (or however you run mongo on your machine)
 
 make run
-
 ```
 If you get an error it's possible you're simply not running MongoDB, SpaceShare checks on the default port for a mongo connection.
 

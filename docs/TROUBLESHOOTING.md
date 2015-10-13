@@ -2,6 +2,7 @@
 
 This is a small list of some of the problems you could run into while working on spaceshare.
 
+###### most of them are celery, just saying lol
 
 #### If you're on OSX you might find that the virtualenv needs python 2.7.9 and not 2.7.6 because of the built in python version. This is something that can be really frustrating if you don't have some good shell knowledge.
 ```shell
@@ -37,6 +38,18 @@ make: *** [run] Error 1
 (venv)➜  spaceshare git:(master) ✗ unset DYLD_FALLBACK_LIBRARY_PATH
 ```
 
+
+## celery is complaining about redis configuration
+This was a bit weird, but a quick google search brought me to  [this](http://stackoverflow.com/questions/19581059/misconf-redis-is-configured-to-save-rdb-snapshots).
+
+But I just restarted redis in a new shell and it ended up working.
+
+```shell
+[tasks]
+  . tasks.print_words
+
+[2015-10-12 21:33:51,721: ERROR/MainProcess] Unrecoverable error: ResponseError('MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.',)
+```
 
 ## getting weird traffic on port 5000
 I would sometimes get weird traffic while building this on my own machine, it turned out that it was my apple magic trackpad, which sends random information to port 5000.

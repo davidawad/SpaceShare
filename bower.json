@@ -27,8 +27,4 @@
     "space",
     "share"
   ],
-  "private": true,
-  "resolutions": {
-    "react": "~0.14.0"
-  }
 }

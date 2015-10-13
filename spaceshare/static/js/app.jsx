@@ -1,5 +1,7 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /** @jsx React.DOM */
 
+/*
 var DynamicSearch = React.createClass({
 
   // sets initial state
@@ -30,12 +32,11 @@ var DynamicSearch = React.createClass({
       <div>
         <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search!" />
         <ul>
-          { countries.map(function(country){ return <li>{country.name} </li> }) }
+          {countries.map(function(country){return <li>{country.name} })}
         </ul>
       </div>
     )
   }
-
 });
 
 // list of countries, defined with JavaScript object literals
@@ -48,7 +49,7 @@ const countries = [
   {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
   {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
 ];
-/* TODO render search bar component with array of current files */
+// TODO render search bar component with array of current files
 React.render(
   <DynamicSearch items={ countries } />,
   document.getElementById('DynamicSearch')
@@ -56,7 +57,6 @@ React.render(
 
 
 
-/* Defining new component ProgressBar */
 var ProgressBar = React.createClass({
 
     getInitialState: function(){
@@ -95,7 +95,7 @@ var ProgressBar = React.createClass({
               }.bind(this),
 
              error: function(){
-                 this.setState({progress: "can't connect to server, check internet connection"})
+                 this.setState({progress: "can't connect to server, check internet connection"});
              }
            });
         }
@@ -104,7 +104,7 @@ var ProgressBar = React.createClass({
     render: function(){
         return(
             <div class='exbutton dark center' onClick={this.handleClick}>
-                <p>{this.state.progress} </p>
+                <p>{this.state.progress}</p>
             </div>
             )
     }
@@ -114,26 +114,23 @@ React.render(
     <ProgressBar/>,
     document.getElementById('ProgressBar')
 );
-
+*/
 
 // this creates a React component that can be used in other components or
 // used directly on the page with React.renderComponent
-var FileForm = React.createClass({
-
+var FileForm = React.createClass({displayName: "FileForm",
   // since we are starting off without any data, there is no initial value
   getInitialState: function() {
     return {
       data_uri: null,
     };
   },
-
   // prevent form from submitting; we are going to capture the file contents
   handleSubmit: function(e) {
     e.preventDefault();
     console.log('file submitted!!');
     console.log(e);
   },
-
   // when a file is passed to the input field, retrieve the contents as a
   // base64-encoded data URI and save it to the component's state
   handleFile: function(e) {
@@ -144,24 +141,29 @@ var FileForm = React.createClass({
     reader.onload = function(upload) {
       self.setState({
         data_uri: upload.target.result,
-      });
-    }
-
+      })
+    };
     reader.readAsDataURL(file);
   },
-
   // return the structure to display and bind the onChange, onSubmit handlers
   render: function() {
     // since JSX is case sensitive, be sure to use 'encType'
     return (
-      <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-        <p>hello there</p>
-        <input type="file" onChange={this.handleFile} />
-      </form>
+      React.createElement("form", {id: "create-form", onSubmit: this.handleSubmit, encType: "multipart/form-data"}, 
+
+        React.createElement("input", {type: "number", name: "space", id: "reserve", placeholder: "e.g. '32' "}), 
+        React.createElement("input", {type: "file", name: "file", onChange: this.handleFile}), 
+
+        React.createElement("input", {id: "create-button", type: "submit", value: "upload", class: "radius button", style: "font-family:Pacifico ; font-size:2em"})
+      )
     );
-  },
+  }
 });
+
 React.render(
-    <FileForm/>,
+    React.createElement(FileForm, null),
     document.getElementById('FileForm')
 );
+
+
+},{}]},{},[1])

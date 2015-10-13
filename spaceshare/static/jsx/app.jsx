@@ -1,4 +1,3 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /** @jsx React.DOM */
 
 /*
@@ -118,7 +117,7 @@ React.render(
 
 // this creates a React component that can be used in other components or
 // used directly on the page with React.renderComponent
-var FileForm = React.createClass({displayName: "FileForm",
+var FileForm = React.createClass({
   // since we are starting off without any data, there is no initial value
   getInitialState: function() {
     return {
@@ -141,7 +140,7 @@ var FileForm = React.createClass({displayName: "FileForm",
     reader.onload = function(upload) {
       self.setState({
         data_uri: upload.target.result,
-      });
+      })
     };
     reader.readAsDataURL(file);
   },
@@ -149,19 +148,18 @@ var FileForm = React.createClass({displayName: "FileForm",
   render: function() {
     // since JSX is case sensitive, be sure to use 'encType'
     return (
-      React.createElement("form", {onSubmit: this.handleSubmit, encType: "multipart/form-data"}, 
-        React.createElement("p", null, "hello there"), 
-        React.createElement("input", {type: "file", onChange: this.handleFile})
-      )
+      <form id="create-form" onSubmit={this.handleSubmit} encType="multipart/form-data">
+
+        <input type="number" name="space" id="reserve" placeholder="e.g. '32' "/>
+        <input type="file" name="file" onChange={this.handleFile}/>
+
+        <input id="create-button" type="submit" value="upload" class="radius button" style="font-family:Pacifico ; font-size:2em"/>
+      </form>
     );
-  },
+  }
 });
 
 React.render(
-    React.createElement(FileForm, null),
+    <FileForm/>,
     document.getElementById('FileForm')
-    
 );
-
-
-},{}]},{},[1])

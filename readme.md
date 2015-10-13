@@ -27,7 +27,7 @@
 
 
 
-If you're interested in setting up your machine for development check out the [getting started]("https://github.com/DavidAwad/SpaceShare/blob/master/docs/getting-started.md") guide. Thanks!  
+If you're interested in setting up your machine for development check out the [getting started]('/docs/getting-started.md') guide. Thanks!  
 
 
 ## Special Thanks :

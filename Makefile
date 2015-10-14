@@ -12,10 +12,10 @@ help: clear
 # If you've cloned your git repo over SSH then this is the way to do it.
 # Just fill the .gitignore first!
 commit: clear clean
-ifdef message
-	@echo "Committing with $(message)"
+ifdef m
+	@echo "Committing with $(m)"
 	git add -A
-	git commit -m"$(message)"
+	git commit -m"$(m)"
 	git push
 else
 	@echo "please specify message"

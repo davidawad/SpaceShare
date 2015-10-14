@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 def request_find_number():
     unused = 0
     try:  # return the json result, the empty numbered room
-        ret = jsonify(result=find_number().apply_async())
+        ret = jsonify(result=find_number.apply_async().get())
         logger.info('given request at find_number, returning' + str(ret))
         return ret
     except Exception as e:
@@ -38,12 +38,12 @@ def request_route_taken():
     # logger.info('checking space '+str(request_space))
     try:  # return the json result, the empty numbered room
         result = search_file.apply_async([request_space])
-        print(result.get())
+        logger.info('/route_taken?space='+str(request_space)+' response:'+str(result.get()))
         ret = jsonify(result=result.get())
         # logger.info('given request at _route_taken, returning' + str(re))
         return ret
     except Exception as e:
-        logger.error("error on JSON request find_number: "+str(e))
+        logger.error("error on JSON /api/_find_number: "+str(e))
         return jsonify(result="error on route_taken for input "+str(request_space))
 
 

@@ -53,8 +53,15 @@ def get_db():
 
 @celery.task(bind=True)
 def search_file(self, spacenum):
-    # TODO error check on spacenum
+    # TODO doesn't necessarily need to be async?
+    if not spacenum:
+        # just assume this integer is taken. correct outside
+        return True
     # searches for an int and returns if the space is taken
+    if config['DEBUG']:
+        if spacenum == 64:
+            # special debug value
+            return True
     try:
         db_conn = get_db()
         if db_conn.fs.files.find_one(dict(room=spacenum)):

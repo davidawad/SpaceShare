@@ -62,3 +62,8 @@ html, body {
 #gist{
   font-size: 5em;
 }
+
+#create-button{
+  font-family:Pacifico;
+  font-size:2em;
+}

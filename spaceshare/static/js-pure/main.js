@@ -21,12 +21,11 @@ $(document).ready(function(){
     function fileUpload(){
       var space = document.getElementById("reserve").value;
       console.log("SpaceReserve request :"+space);
-      if( isNumber(space)){
+      if(isNumber(space)){
         console.log("GOT AN INTEGER");
-        return false;
+
       }else{
-        console.log("this is a response");
-        return false;
+        console.log("didn't place an integer");
       }
     }
 

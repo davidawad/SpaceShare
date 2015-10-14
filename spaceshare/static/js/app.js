@@ -139,7 +139,7 @@ var FileForm = React.createClass({displayName: "FileForm",
       var self = this;
       //console.log(e.target.value)
       // find if number is taken
-      $.get( "/api/_find_number", function(data) {
+      $.getJSON( "/api/_route_taken",{space:e.target.value}, function(data) {
           // e.g. 62 is taken if in debug mode
           if (data.result === parseInt(e.target.value)){
             self.setState({progress: "that's taken"})

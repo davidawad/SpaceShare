@@ -28,6 +28,7 @@ jsx:
 	jsx --watch static/jsx static/js
 
 run:
+	clear
 	python spaceshare/server.py
 
 setup: clear

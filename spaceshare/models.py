@@ -17,13 +17,12 @@ import gridfs
 import pymongo
 import time
 import logging
-import sendgrid
 import os
 
 # add a blueprint for our functions
 blueprint_app = Blueprint('app', __name__)
 
-# set up a logger
+# configure logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -54,17 +53,20 @@ def get_db():
 
 @celery.task(bind=True)
 def search_file(self, spacenum):
+    # TODO error check on spacenum
     # searches for an int and returns if the space is taken
-    db_conn = get_db()
     try:
-        return db_conn.fs.files.find_one(dict(room=spacenum))
+        db_conn = get_db()
+        if db_conn.fs.files.find_one(dict(room=spacenum)):
+            return True
+        else:
+            return False
     except Exception:
         return False
 
 
 @celery.task(bind=True)
 def find_number(self):
-    db_conn = get_db()
     '''
     find an integer not currently taken in db
 
@@ -75,8 +77,13 @@ def find_number(self):
     The list comprehension pulls the value from the "room" field from each dict
     in the list of dicts returned by find().
     '''
+    db_conn = get_db()
+    if not db_conn:
+        logger.error("couldn't get db connection")
+        return None
     rooms_in_db = [doc["room"] for doc in db_conn.fs.files.find({}, fields=["room"])]
     room_not_in_db = int(max(rooms_in_db)) + 1
+    logger.info("found largest entry: "+str(rooms_in_db))
     return room_not_in_db
 
 # TODO refactor for data_URI strings

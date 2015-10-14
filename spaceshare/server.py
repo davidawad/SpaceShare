@@ -1,8 +1,11 @@
+##
+# This file defines our webserver level configurations
+#
+# @author David Awad
 from flask import Flask, Request, render_template, request, jsonify
-from app import blueprint_app
-from tasks import print_words
+from controllers import blueprint_api
+from models import blueprint_app
 from config import config
-from api import api
 import mandrill
 import logging
 import os
@@ -11,7 +14,7 @@ import os
 app = Flask(__name__)
 # FIXME set url prefix for celery tasks
 app.register_blueprint(blueprint_app)
-app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(blueprint_api, url_prefix='/api')
 
 logger = logging.getLogger(__name__)
 
@@ -64,10 +67,9 @@ if config['DEBUG']:
     @app.route('/react/task/')
     def yolo():
         task = print_words.apply_async()
-        response = {
-            'task_id' : task.id,
-            'progress' :'TASK_ACCEPTED'
-        }
+        response = {'task_id': task.id,
+                    'progress': 'TASK_ACCEPTED'
+                    }
         return jsonify(response)
 
     @app.route('/react/task/<task_id>')

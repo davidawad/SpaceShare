@@ -2,42 +2,53 @@
 # This file defines our routes and their controllers functions
 # These are the functions that validate user input when it's
 # first given to spaceshare.
-# In this case these are our controllers
+# In this case these are our controllers that handle the routing logic
 #
 # @author David Awad
 
 from flask import request, Blueprint, jsonify
 from config import config
-import app
+from models import *
+import logging
 
-api = Blueprint('api', __name__)
+# set up blueprint for controllers
+blueprint_api = Blueprint('blueprint_api', __name__)
+
+# configure logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-@api.route('/_find_number', methods=['GET'])
+@blueprint_api.route('/_find_number', methods=['GET'])
 def request_find_number():
     unused = 0
     try:  # return the json result, the empty numbered room
-        ret = jsonify(result=models.find_number())
-
+        ret = jsonify(result=find_number().apply_async())
+        logger.info('given request at find_number, returning' + str(ret))
+        return ret
     except Exception as e:
         logger.error("error on JSON request find_number: "+str(e))
         return
 
 
-@api.route('/_route_taken', methods=['GET'])
+@blueprint_api.route('/_route_taken', methods=['GET'])
 def request_route_taken():
     unused = 0
     request_space = request.args['space']
+    # logger.info('checking space '+str(request_space))
     try:  # return the json result, the empty numbered room
-        ret = jsonify(result=models.search_file(request_space))
+        result = search_file.apply_async([request_space])
+        print(result.get())
+        ret = jsonify(result=result.get())
+        # logger.info('given request at _route_taken, returning' + str(re))
         return ret
     except Exception as e:
         logger.error("error on JSON request find_number: "+str(e))
-        return jsonify(result="error on route taken")
+        return jsonify(result="error on route_taken for input "+str(request_space))
 
 
 # download routine
-@api.route('/upload/<spacenum>', methods=['GET'])
+@blueprint_api.route('/upload/<spacenum>', methods=['GET'])
 def download(spacenum):
     logger.info("Entering server redirect!")
     # check it's in there

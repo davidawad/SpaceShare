@@ -41,7 +41,6 @@ $(document).ready(function(){
     $('#takenn').click( function(){
         $.getJSON('/api/_route_taken', {space:3} , function(data){
           console.log(data);
-          return false;
         });
     });
 

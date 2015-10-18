@@ -37,7 +37,7 @@ def request_route_taken():
     unused = 0
     request_space = request.args['space']
     try:  # return the json result, the empty numbered room
-        result = search_file(request_space)
+        result = space_taken(request_space)
         logger.info('/route_taken?space='+str(request_space)+' response:'+str(result))
         ret = jsonify(result=result)
         return ret

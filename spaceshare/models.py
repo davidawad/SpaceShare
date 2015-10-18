@@ -49,7 +49,7 @@ def get_db():
             return False
 
 
-def search_file(spacenum):
+def space_taken(spacenum):
     '''
     searches for a given integer in the database
     and returns True if the space is taken.

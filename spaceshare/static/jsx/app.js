@@ -129,16 +129,15 @@ var FileForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
   },
-  // when an int is passed into our component, we want to handle the click,
-  // and check if the number is reserved on our webserver
+  // when an int is passed into our component, we want to handle the change
+  // check if the number is reserved on our webserver
   handleInt: function(e){
       var self = this;
-      //console.log(e.target.value)
       // find if number is taken
       $.getJSON( "/api/_route_taken", {space:e.target.value}, function(data) {
-          // e.g. 62 is taken if in debug mode
+          // e.g. 64 is taken if in debug mode
           console.log(data);
-          if(data.result === parseInt(e.target.value)){
+          if(data.result === true){
             self.setState({progress: "that's taken"});
           }else{
             self.setState({progress: "you're good"});
@@ -156,7 +155,7 @@ var FileForm = React.createClass({
 
     console.log("SpaceReserve request :"+space);
     if(!isNumber(space)){
-        self.setState({progress: "Please insert an actual"});
+        self.setState({progress: "Please insert a number"});
         return;
     }
 
@@ -181,7 +180,7 @@ var FileForm = React.createClass({
     <center>
      <h2><a href="" class="bree">Open a Space</a></h2>
 
-      <form id="create-form" onSubmit={this.handleSubmit} encType="multipart/form-data">
+      <form onSubmit={this.handleSubmit} encType="multipart/form-data">
         <input type="number" name="space" onChange={this.handleInt} id="reserve" placeholder="e.g. '32' "/>
         <input type="file"   name="file"  onChange={this.handleFile}/>
         <input type="submit" name="submit" value="upload" class="radius button create-button"/>

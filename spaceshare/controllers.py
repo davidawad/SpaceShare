@@ -22,11 +22,9 @@ logger = logging.getLogger(__name__)
 
 @blueprint_api.route('/_find_number', methods=['GET'])
 def request_find_number():
-    unused = 0
     try:  # return the json result, the empty numbered room
-        ret = jsonify(result=find_number.apply_async().get())
         logger.info('given request at find_number, returning' + str(ret))
-        return ret
+        return jsonify(result=find_number.apply_async().get())
     except Exception as e:
         logger.error("error on JSON request find_number: "+str(e))
         return
@@ -48,7 +46,7 @@ def request_route_taken():
 
 @blueprint_api.route('/download/<spacenum>', methods=['GET'])
 def download(spacenum):
-    if not models.search_file(spacenum):
+    if not models.space_taken(spacenum):
         logger.info("File "+str(spacenum)+' not in db, error?')
         # return error or 404, or something, we have no file.
         return render_template('error.html',
@@ -67,12 +65,12 @@ def download(spacenum):
 def upload():
     # get the form inputs
     file_name = request.files['name']
-    space = request.form['space']
+    space = int(request.form['space'])
     data_uri = request.form['data_uri']
     # if file and space are given
     if file_name and space and data_uri:
         # search to see if number is taken
-        if search_file(space):
+        if space_taken(space):
             # space is taken, use new available number
             space = find_number()
         # make the file safe, remove unsupported chars

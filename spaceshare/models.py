@@ -84,14 +84,18 @@ def find_number(self):
     The list comprehension pulls the value from the "room" field from each dict
     in the list of dicts returned by find().
     '''
-    db_conn = get_db()
     if not db_conn:
         logger.error("couldn't get db connection")
-        return None
-    rooms_in_db = [doc["room"] for doc in db_conn.fs.files.find({}, fields=["room"])]
-    room_not_in_db = int(max(rooms_in_db)) + 1
-    logger.info("found largest entry: "+str(rooms_in_db))
-    return room_not_in_db
+        return False
+    try:
+        db_conn = get_db()
+        rooms_in_db = [doc["room"] for doc in db_conn.find({}, fields=["space"])]
+        room_not_in_db = int(max(rooms_in_db)) + 1
+        logger.info("found largest entry: "+str(rooms_in_db))
+        return room_not_in_db
+    except Exception as e:
+        logger.error(str(e))
+        return False
 
 '''
 # TODO refactor for data_URI strings
@@ -118,21 +122,24 @@ def insert_file(self, file_name, room_number):
         return False
 '''
 
+
 @celery.task(bind=True)
-def delete_file(self, room_number):
+def delete_file(self, space):
     # remove file from mongo
     if not(room_number):
-        raise Exception("delete_file given None")
-    if not search_file(room_number):
-        logger.info("File "+str(room_number)+' not in db, error?')
+        Logger.error("delete_file given None")
         return True
-    db_conn = get_db()
-    gfs = gridfs.GridFS(db_conn)
-    _id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
-    gfs.delete(_id)
-    logger.info("Deleted file :"+str(room_number)+' Successfully')
-    return True
-
+    if not search_file(room_number):
+        logger.info("File "+str(room_number)+' not in db, error')
+        return True
+    try:
+        db_conn = get_db()
+        _id = db_conn.find_one(dict(space=space))['_id']
+        db_conn.delete(_id)
+        logger.info("Deleted file :"+str(space)+' Successfully')
+        return True
+    except:
+        logger.error("Couldn't delete file at space" + space)
 
 @celery.task(bind=True)
 def extract_file(self, room_number):

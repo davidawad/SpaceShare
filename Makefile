@@ -11,7 +11,7 @@ help: clear
 
 # If you've cloned your git repo over SSH then this is the way to do it.
 # Just fill the .gitignore first!
-commit: clear clean
+commit: clear
 ifdef m
 	@echo "Committing with $(m)"
 	git add -A
@@ -31,6 +31,10 @@ run:
 	clear
 	python spaceshare/server.py
 
+server:
+	@echo "running production server"
+	gunicorn server:app --log-file -
+
 setup: clear
 	virtualenv venv
 	source venv/bin/activate
@@ -39,10 +43,6 @@ setup: clear
 test: clear
 	casperjs test headless.js
 
-clean:
-	#put something to get rid of unwanted files.
-	#rm *.pyc
-
 clear:
 	clear
-	@echo "\n\n\n"
+	@echo "\n\n"

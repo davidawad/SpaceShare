@@ -163,21 +163,24 @@ def extract_file(self, room_number):
 
 @celery.task(bind=True)
 def insert_file(self, file_name, space, data_uri):
-        # TODO one time uploads and time based removals
-        # save data_uri to mongodb
-        db_conn = get_db()
+    '''
+    Taking files upon
+    '''
+    # TODO one time uploads and time based removals
+    # save data_uri to mongodb
+    db_conn = get_db()
 
-        file_obj = {file_name: file_name,
-                    space: space,
-                    data_uri: data_uri
-                    }
+    file_obj = {file_name: file_name,
+                space: space,
+                data_uri: data_uri
+                }
 
-        res_id = db_conn.insert_one(file_object).inserted_id
-        # upload failed for whatever reason
-        if not res_id:
-            return False
-        if config['DEBUG']:
-            # debugging lines to write a record of inserts
-            logger.info('Passed file: '+filename+' stored at space '+space+'.')
+    res_id = db_conn.insert_one(file_object).inserted_id
+    # upload failed for whatever reason
+    if not res_id:
+        return False
+    if config['DEBUG']:
+        # debugging lines to write a record of inserts
+        logger.info('Passed file: '+filename+' stored at space '+space+'.')
 
-        return True
+    return True

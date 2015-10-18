@@ -63,7 +63,7 @@ html, body {
   font-size: 5em;
 }
 
-#create-button{
+.create-button{
   font-family:Pacifico;
   font-size:2em;
 }

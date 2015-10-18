@@ -36,29 +36,26 @@ db_conn = None
 
 # safety function to get a connection to the db above
 def get_db():
-    try:
-        logger.info("Connecting to db ..." + str(db_conn))
-    except Exception as e:
-        db_conn = None
-    if not db_conn:
+    if db_conn:
+        return db_conn
+
+    else:
         try:
-            uri = os.environ.get('MONGOLAB_URI', 'mongodb://localhost')
-            conn = MongoClient(uri)
-            db = conn.heroku_app33243434
-            db_conn = db
+            conn = MongoClient('localhost', 27017)
+            db_conn = conn.spaceshare
+            return db_conn
         except pymongo.errors.ConnectionFailure, e:
             logger.critical("Could not connect to MongoDB: %s" % e)
-    return db_conn
+            return False
 
 
-@celery.task(bind=True)
-def search_file(self, spacenum):
-    # TODO doesn't necessarily need to be async?
+def search_file(spacenum):
     if not spacenum:
         # just assume this integer is taken. correct outside
         return True
     # searches for an int and returns if the space is taken
     if config['DEBUG']:
+        logger.info("search_file passed number " + str(spacenum))
         if spacenum == 64:
             # special debug value
             return True
@@ -93,6 +90,7 @@ def find_number(self):
     logger.info("found largest entry: "+str(rooms_in_db))
     return room_not_in_db
 
+'''
 # TODO refactor for data_URI strings
 @celery.task(bind=True)
 def insert_file(self, file_name, room_number):
@@ -113,9 +111,9 @@ def insert_file(self, file_name, room_number):
         logger.info("Stored file : "+str(room_number)+' Successfully')
         return True
     except Exception as e:
-        logger.info("File :"+'upload/'+file_name+" probably doesn't exist, : " + str(e))
+        logger.info("File :"+'upload/'+file_name+" probably doesn't exist, : "+str(e))
         return False
-
+'''
 
 @celery.task(bind=True)
 def delete_file(self, room_number):
@@ -134,9 +132,9 @@ def delete_file(self, room_number):
 
 
 @celery.task(bind=True)
-def extract_file(self, output_location, room_number):
+def extract_file(self, room_number):
     # extract file from mongo and throw it in the uploads
-    if not(output_location and room_number):
+    if not room_number:
         # FIXME this probably shouldn't be an exception,
         # should maybe be refactored
         raise Exception("extract_file not given proper values")
@@ -150,58 +148,33 @@ def extract_file(self, output_location, room_number):
         file_name = db_conn.fs.files.find_one(dict(room=room_number))['name']
         # read gridFS binary blob from mongo, write the file
         logger.info("extracting file: "+file_name)
-        with open('upload/' + file_name, 'w') as f:
+        with open(config['UPLOAD_FOLDER']+file_name, 'w') as f:
             f.write(gfs.get(_id).read())
         # gfs.get(_id).read()
-        logger.info("Written file :"+str(room_number)+' Successfully')
+        logger.info("Written file :"+str(room_number)+' successfully')
         return True
     except Exception as e:
         logger.info("failed to read file :"+str(e))
         return False
 
 
-# upload routine
-@blueprint_app.route('/upload', methods=['POST'])
-def upload():
-    # get the form inputs
-    file = request.files['file']
-    space = request.form['space']
-    # if file and space are given
-    if file and space:
-        # search to see if number is taken
-        if search_file(space):
-            # space is taken, generate new available number
-            new = find_number()
-            return render_template('index.html', space=space, new=new)
-        # make the file safe, remove unsupported chars
-        filename = secure_filename(file.filename)
-        logger.info('Securing Filename: '+filename)
-        # move the file to our upload folder
-        file.save(os.path.join(config['UPLOAD_FOLDER'], filename))
-        logger.info('File '+filename+' saved.')
-        # save file to mongodb
-        res = insert_file(filename, space)
-        logger.info('Inserted '+filename+' to db at position: '+str(space))
+@celery.task(bind=True)
+def insert_file(self, file_name, space, data_uri):
+        # TODO one time uploads and time based removals
+        # save data_uri to mongodb
+        db_conn = get_db()
+
+        file_obj = {file_name: file_name,
+                    space: space,
+                    data_uri: data_uri
+                    }
+
+        res_id = db_conn.insert_one(file_object).inserted_id
         # upload failed for whatever reason
-        if not res:
-            os.unlink(os.path.join(config['UPLOAD_FOLDER'], filename))
-            return render_template('index.html', space=space, failed=True)
-        if app.debug:
+        if not res_id:
+            return False
+        if config['DEBUG']:
             # debugging lines to write a record of inserts
-            # TODO add this to the log instead
-            with open('debug.txt', 'w') as f:
-                f.write('File name is : '+filename+', and the space is : ' +
-                        str(space))
-        # file upload successful, remove copy from disk.
-        os.unlink(os.path.join(config['UPLOAD_FOLDER'],  filename))
-        return render_template('index.html', space=space, upload=True)
-    else:  # something went wrong then! yes, indeed,
-        return render_template('error.html')
+            logger.info('Passed file: '+filename+' stored at space '+space+'.')
 
-
-if __name__ == '__main__':
-    app.run(
-        debug=config['DEBUG'],
-        threaded=True,
-        port=4000
-        )
+        return True

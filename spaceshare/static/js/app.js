@@ -1,8 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /** @jsx React.DOM */
 
-const DEBUG = True; 
-
 /*
 var DynamicSearch = React.createClass({
 
@@ -110,7 +108,6 @@ var ProgressBar = React.createClass({
             </div>
             )
     }
-
 });
 React.render(
     <ProgressBar/>,
@@ -121,8 +118,8 @@ React.render(
 // this creates a React component that can be used in other components or
 // used directly on the page with React.renderComponent
 var FileForm = React.createClass({displayName: "FileForm",
-    // since we are starting off without any data, there is no initial value
-    getInitialState: function() {
+  // since we are starting off without any data, there is no initial value
+  getInitialState: function() {
         return {
             task_id: 0,
             data_uri: null,
@@ -132,8 +129,6 @@ var FileForm = React.createClass({displayName: "FileForm",
   // prevent form from submitting; we are going to capture the file contents
   handleSubmit: function(e) {
     e.preventDefault();
-    console.log('file submitted!!');
-    console.log(e);
   },
   // when an int is passed into our component, we want to handle the click,
   // and check if the number is reserved on our webserver
@@ -144,9 +139,9 @@ var FileForm = React.createClass({displayName: "FileForm",
       $.getJSON( "/api/_route_taken", {space:e.target.value}, function(data) {
           // e.g. 62 is taken if in debug mode
           console.log(data);
-          if (data.result === parseInt(e.target.value)){
+          if(data.result === parseInt(e.target.value)){
             self.setState({progress: "that's taken"});
-        } else {
+          }else{
             self.setState({progress: "you're good"});
         }
       });
@@ -161,15 +156,22 @@ var FileForm = React.createClass({displayName: "FileForm",
     var space = document.getElementById("reserve").value;
 
     console.log("SpaceReserve request :"+space);
-    if(isNumber(space)){
-      console.log("GOT AN INTEGER");
-
+    if(!isNumber(space)){
+        self.setState({progress: "Please insert an actual"});
+        return;
     }
 
     reader.onload = function(upload) {
       self.setState({
         data_uri: upload.target.result,
       });
+      console.log(upload)
+      console.log(upload.target.result)
+      /* var file_object = {name: ,
+                            data_uri: upload.target.result,
+                            };
+      $.getJSON('/upload_file', , function(res){}); */
+
     };
     reader.readAsDataURL(file);
   },
@@ -181,16 +183,15 @@ var FileForm = React.createClass({displayName: "FileForm",
      React.createElement("h2", null, React.createElement("a", {href: "", class: "bree"}, "Open a Space")), 
 
       React.createElement("form", {id: "create-form", onSubmit: this.handleSubmit, encType: "multipart/form-data"}, 
-
         React.createElement("input", {type: "number", name: "space", onChange: this.handleInt, id: "reserve", placeholder: "e.g. '32' "}), 
         React.createElement("input", {type: "file", name: "file", onChange: this.handleFile}), 
-        React.createElement("input", {type: "submit", name: "submit", value: "upload", id: "create-button", class: "radius button create-button"}), 
+        React.createElement("input", {type: "submit", name: "submit", value: "upload", class: "radius button create-button"}), 
 
         React.createElement("p", null, "value: ", this.state.progress), 
         React.createElement("p", null, "task_id: ", this.state.task_id), 
         React.createElement("p", null, "data_uri: ", this.state.data_uri)
       )
-  )
+    )
     );
   }
 });

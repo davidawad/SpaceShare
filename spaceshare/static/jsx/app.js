@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-const DEBUG = True; 
-
 /*
 var DynamicSearch = React.createClass({
 
@@ -109,7 +107,6 @@ var ProgressBar = React.createClass({
             </div>
             )
     }
-
 });
 React.render(
     <ProgressBar/>,
@@ -120,8 +117,8 @@ React.render(
 // this creates a React component that can be used in other components or
 // used directly on the page with React.renderComponent
 var FileForm = React.createClass({
-    // since we are starting off without any data, there is no initial value
-    getInitialState: function() {
+  // since we are starting off without any data, there is no initial value
+  getInitialState: function() {
         return {
             task_id: 0,
             data_uri: null,
@@ -131,8 +128,6 @@ var FileForm = React.createClass({
   // prevent form from submitting; we are going to capture the file contents
   handleSubmit: function(e) {
     e.preventDefault();
-    console.log('file submitted!!');
-    console.log(e);
   },
   // when an int is passed into our component, we want to handle the click,
   // and check if the number is reserved on our webserver
@@ -143,9 +138,9 @@ var FileForm = React.createClass({
       $.getJSON( "/api/_route_taken", {space:e.target.value}, function(data) {
           // e.g. 62 is taken if in debug mode
           console.log(data);
-          if (data.result === parseInt(e.target.value)){
+          if(data.result === parseInt(e.target.value)){
             self.setState({progress: "that's taken"});
-        } else {
+          }else{
             self.setState({progress: "you're good"});
         }
       });
@@ -160,15 +155,22 @@ var FileForm = React.createClass({
     var space = document.getElementById("reserve").value;
 
     console.log("SpaceReserve request :"+space);
-    if(isNumber(space)){
-      console.log("GOT AN INTEGER");
-
+    if(!isNumber(space)){
+        self.setState({progress: "Please insert an actual"});
+        return;
     }
 
     reader.onload = function(upload) {
       self.setState({
         data_uri: upload.target.result,
       });
+      console.log(upload)
+      console.log(upload.target.result)
+      /* var file_object = {name: ,
+                            data_uri: upload.target.result,
+                            };
+      $.getJSON('/upload_file', , function(res){}); */
+
     };
     reader.readAsDataURL(file);
   },
@@ -180,16 +182,15 @@ var FileForm = React.createClass({
      <h2><a href="" class="bree">Open a Space</a></h2>
 
       <form id="create-form" onSubmit={this.handleSubmit} encType="multipart/form-data">
-
         <input type="number" name="space" onChange={this.handleInt} id="reserve" placeholder="e.g. '32' "/>
-        <input type="file" name="file" onChange={this.handleFile}/>
-        <input type="submit" name="submit" value="upload" id="create-button" class="radius button create-button"/>
+        <input type="file"   name="file"  onChange={this.handleFile}/>
+        <input type="submit" name="submit" value="upload" class="radius button create-button"/>
 
         <p>value: {this.state.progress}</p>
         <p>task_id: {this.state.task_id}</p>
         <p>data_uri: {this.state.data_uri}</p>
       </form>
-  </center>
+    </center>
     );
   }
 });

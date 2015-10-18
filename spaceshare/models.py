@@ -50,21 +50,24 @@ def get_db():
 
 
 def search_file(spacenum):
+    '''
+    searches for a given integer in the database
+    and returns True if the space is taken.
+
+    if not passed a number, assume taken
+    '''
     if not spacenum:
-        # just assume this integer is taken. correct outside
         return True
-    # searches for an int and returns if the space is taken
     if config['DEBUG']:
         logger.info("search_file passed number " + str(spacenum))
+        # special debug value of 64
         if spacenum == 64:
-            # special debug value
             return True
     try:
         db_conn = get_db()
         if db_conn.fs.files.find_one(dict(room=spacenum)):
             return True
-        else:
-            return False
+        return False
     except Exception:
         return False
 

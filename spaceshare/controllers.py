@@ -37,9 +37,9 @@ def request_route_taken():
     unused = 0
     request_space = request.args['space']
     try:  # return the json result, the empty numbered room
-        result = search_file.apply_async([request_space])
-        logger.info('/route_taken?space='+str(request_space)+' response:'+str(result.get()))
-        ret = jsonify(result=result.get())
+        result = search_file(request_space)
+        logger.info('/route_taken?space='+str(request_space)+' response:'+str(result))
+        ret = jsonify(result=result)
         return ret
     except Exception as e:
         logger.error("error on JSON /api/_route_taken: "+str(e))

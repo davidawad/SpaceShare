@@ -23,11 +23,11 @@ logger = logging.getLogger(__name__)
 @blueprint_api.route('/_find_number', methods=['GET'])
 def request_find_number():
     try:  # return the json result, the empty numbered room
-        logger.info('given request at find_number, returning' + str(ret))
+        logger.info('request at /find_number')
         return jsonify(result=find_number.apply_async().get())
     except Exception as e:
         logger.error("error on JSON request find_number: "+str(e))
-        return
+        return jsonify(result="error on JSON request find_number: "+str(e))
 
 
 @blueprint_api.route('/_route_taken', methods=['GET'])
@@ -77,7 +77,7 @@ def upload():
         file_name = secure_filename(file_name)
         logger.info('Uploaded File: '+filename)
         # throw file into DB. Hope it works
-        if not upload_method.apply_async([file_name, space, data_uri]).get():
+        if not insert_file.apply_async([file_name, space, data_uri]).get():
             return jsonify(error="file couldn't be uploaded, please try again")
 
         # upload succeeded

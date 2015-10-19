@@ -36,13 +36,15 @@ db_conn = None
 
 # safety function to get a connection to the db above
 def get_db():
+    global db_conn
     if db_conn:
         return db_conn
 
     else:
         try:
             conn = MongoClient('localhost', 27017)
-            db_conn = conn.spaceshare
+            # conn.spaceshare.files.find()
+            db_conn = conn
             return db_conn
         except pymongo.errors.ConnectionFailure, e:
             logger.critical("Could not connect to MongoDB: %s" % e)
@@ -59,15 +61,16 @@ def space_taken(spacenum):
     if not spacenum:
         return True
     if config['DEBUG']:
-        logger.info("search_file passed number " + str(spacenum))
+        logger.info("space_taken passed " + str(spacenum))
         # special debug value of 64
-        if spacenum == 64:
+        if int(spacenum) == 64:
             return True
     try:
         db_conn = get_db()
         if db_conn.fs.files.find_one(dict(room=spacenum)):
             return True
-        return False
+        else:
+            return False
     except Exception:
         return False
 
@@ -84,18 +87,15 @@ def find_number(self):
     The list comprehension pulls the value from the "room" field from each dict
     in the list of dicts returned by find().
     '''
-    if not db_conn:
-        logger.error("couldn't get db connection")
-        return False
     try:
         db_conn = get_db()
-        rooms_in_db = [doc["room"] for doc in db_conn.find({}, fields=["space"])]
+        rooms_in_db = [doc["room"] for doc in db_conn.spaceshare.files.find({}, fields=["space"])]
         room_not_in_db = int(max(rooms_in_db)) + 1
         logger.info("found largest entry: "+str(rooms_in_db))
         return room_not_in_db
     except Exception as e:
         logger.error(str(e))
-        return False
+        return None
 
 '''
 # TODO refactor for data_URI strings
@@ -123,23 +123,28 @@ def insert_file(self, file_name, room_number):
 '''
 
 
-@celery.task(bind=True)
-def delete_file(self, space):
+def delete_file(space):
     # remove file from mongo
-    if not(room_number):
-        Logger.error("delete_file given None")
+    if not space:
+        logger.error("delete_file given None")
         return True
-    if not search_file(room_number):
+    if not search_file(space):
         logger.info("File "+str(room_number)+' not in db, error')
         return True
     try:
         db_conn = get_db()
-        _id = db_conn.find_one(dict(space=space))['_id']
-        db_conn.delete(_id)
+        # _id = db_conn.spaceshare.files.find_one(dict(space=space))['_id']
+        result = conn.spaceshare.files.delete_one({'thing': 'ello'})
+        if result <= 1:
+            # assume success
+            logger.error("Failed to delete file :"+str(space))
+            return False
         logger.info("Deleted file :"+str(space)+' Successfully')
         return True
-    except:
-        logger.error("Couldn't delete file at space" + space)
+    except Exception as e:
+        logger.error("Couldn't delete file at space "+space+' '+str(e))
+        return False
+
 
 @celery.task(bind=True)
 def extract_file(self, room_number):
@@ -171,10 +176,9 @@ def extract_file(self, room_number):
 @celery.task(bind=True)
 def insert_file(self, file_name, space, data_uri):
     '''
-    Taking files upon
+    Take files as a data_URI and store them in a mongoDB.
     '''
     # TODO one time uploads and time based removals
-    # save data_uri to mongodb
     db_conn = get_db()
 
     file_obj = {file_name: file_name,
@@ -182,7 +186,8 @@ def insert_file(self, file_name, space, data_uri):
                 data_uri: data_uri
                 }
 
-    res_id = db_conn.insert_one(file_object).inserted_id
+    res_id = db_conn.spaceshare.files.insert_one(file_obj)
+    # res_id = db_conn.insert_one(file_object).inserted_id
     # upload failed for whatever reason
     if not res_id:
         return False

@@ -120,9 +120,9 @@ var FileForm = React.createClass({
   // since we are starting off without any data, there is no initial value
   getInitialState: function() {
         return {
-            task_id: 0,
+            space: 0,
             data_uri: null,
-            progress: "Select an integer to map your file"
+            status: "Select an integer to map your file",
         };
   },
   // prevent form from submitting; we are going to capture the file contents
@@ -133,14 +133,18 @@ var FileForm = React.createClass({
   // check if the number is reserved on our webserver
   handleInt: function(e){
       var self = this;
+      if (!e.target.value){
+          self.setState({status: "Please insert a number"});
+          return;
+      }
       // find if number is taken
       $.getJSON( "/api/_route_taken", {space:e.target.value}, function(data) {
           // e.g. 64 is taken if in debug mode
           console.log(data);
           if(data.result === true){
-            self.setState({progress: "that's taken"});
+            self.setState({status: "that's taken", space:e.target.value});
           }else{
-            self.setState({progress: "you're good"});
+            self.setState({status: "you're good", space:e.target.value});
         }
       });
 
@@ -153,9 +157,8 @@ var FileForm = React.createClass({
     var file = e.target.files[0];
     var space = document.getElementById("reserve").value;
 
-    console.log("SpaceReserve request :"+space);
-    if(!isNumber(space)){
-        self.setState({progress: "Please insert a number"});
+    if(typeof space == 'number'){
+        self.setState({status: "Please insert a number"});
         return;
     }
 
@@ -163,12 +166,17 @@ var FileForm = React.createClass({
       self.setState({
         data_uri: upload.target.result,
       });
-      console.log(upload)
-      console.log(upload.target.result)
-      /* var file_object = {name: ,
-                            data_uri: upload.target.result,
-                            };
-      $.getJSON('/upload_file', , function(res){}); */
+
+      console.log(self.state);
+
+      // with this we can make the upload.
+      $.getJSON('/upload_file', self.state , function(res){
+            if(res.upload === true){
+                self.setState({status:'Upload Succeeded! :D'});
+            }else{
+                self.setState({status:'upload failed, please try again'});
+            }
+      });
 
     };
     reader.readAsDataURL(file);
@@ -183,12 +191,12 @@ var FileForm = React.createClass({
       <form onSubmit={this.handleSubmit} encType="multipart/form-data">
         <input type="number" name="space" onChange={this.handleInt} id="reserve" placeholder="e.g. '32' "/>
         <input type="file"   name="file"  onChange={this.handleFile}/>
-        <input type="submit" name="submit" value="upload" class="radius button create-button"/>
+     </form>
+     <br/>
+     <p>value: {this.state.status}</p>
+     <p>task_id: {this.state.task_id}</p>
+     <p>data_uri: {this.state.data_uri}</p>
 
-        <p>value: {this.state.progress}</p>
-        <p>task_id: {this.state.task_id}</p>
-        <p>data_uri: {this.state.data_uri}</p>
-      </form>
     </center>
     );
   }

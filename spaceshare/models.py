@@ -89,7 +89,8 @@ def find_number(self):
     '''
     try:
         db_conn = get_db()
-        rooms_in_db = [doc["room"] for doc in db_conn.spaceshare.files.find({}, fields=["space"])]
+        # TODO debug find_number
+        rooms_in_db = [doc["space"] for doc in db_conn.spaceshare.files.find({}, fields=["space"])]
         room_not_in_db = int(max(rooms_in_db)) + 1
         logger.info("found largest entry: "+str(rooms_in_db))
         return room_not_in_db

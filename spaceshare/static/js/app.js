@@ -170,10 +170,12 @@ var FileForm = React.createClass({displayName: "FileForm",
 
       console.log(self.state);
 
-      // with this we can make the upload.
+      // TODO pass this as a function in a callback
       $.getJSON('/upload_file', self.state , function(res){
+            console.log('got a response!!');
+            console.log(res);
             if(res.upload === true){
-                self.setState({status:'Upload Succeeded! :D'});
+                self.setState({status:'Upload Succeeded!'});
             }else{
                 self.setState({status:'upload failed, please try again'});
             }
@@ -191,12 +193,13 @@ var FileForm = React.createClass({displayName: "FileForm",
 
       React.createElement("form", {onSubmit: this.handleSubmit, encType: "multipart/form-data"}, 
         React.createElement("input", {type: "number", name: "space", onChange: this.handleInt, id: "reserve", placeholder: "e.g. '32' "}), 
-        React.createElement("input", {type: "file", name: "file", onChange: this.handleFile})
-     ), 
-     React.createElement("br", null), 
-     React.createElement("p", null, "value: ", this.state.status), 
-     React.createElement("p", null, "task_id: ", this.state.task_id), 
-     React.createElement("p", null, "data_uri: ", this.state.data_uri)
+        React.createElement("input", {type: "file", name: "file", onChange: this.handleFile}), 
+
+        React.createElement("p", null, "value: ", this.state.status), 
+        React.createElement("p", null, "task_id: ", this.state.task_id), 
+        React.createElement("p", null, "data_uri: ", this.state.data_uri)
+
+     )
 
     )
     );

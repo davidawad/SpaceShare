@@ -169,10 +169,12 @@ var FileForm = React.createClass({
 
       console.log(self.state);
 
-      // with this we can make the upload.
+      // TODO pass this as a function in a callback
       $.getJSON('/upload_file', self.state , function(res){
+            console.log('got a response!!');
+            console.log(res);
             if(res.upload === true){
-                self.setState({status:'Upload Succeeded! :D'});
+                self.setState({status:'Upload Succeeded!'});
             }else{
                 self.setState({status:'upload failed, please try again'});
             }
@@ -191,11 +193,12 @@ var FileForm = React.createClass({
       <form onSubmit={this.handleSubmit} encType="multipart/form-data">
         <input type="number" name="space" onChange={this.handleInt} id="reserve" placeholder="e.g. '32' "/>
         <input type="file"   name="file"  onChange={this.handleFile}/>
+
+        <p>value: {this.state.status}</p>
+        <p>task_id: {this.state.task_id}</p>
+        <p>data_uri: {this.state.data_uri}</p>
+
      </form>
-     <br/>
-     <p>value: {this.state.status}</p>
-     <p>task_id: {this.state.task_id}</p>
-     <p>data_uri: {this.state.data_uri}</p>
 
     </center>
     );

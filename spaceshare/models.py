@@ -41,12 +41,12 @@ def get_db():
         return db_conn
 
     else:
-        try:
+        try:  # TODO use a shell variable?
             conn = MongoClient('localhost', 27017)
             # conn.spaceshare.files.find()
             db_conn = conn
             return db_conn
-        except pymongo.errors.ConnectionFailure, e:
+        except pymongo.errors.ConnectionFailure as e:
             logger.critical("Could not connect to MongoDB: %s" % e)
             return False
 
@@ -61,14 +61,17 @@ def space_taken(spacenum):
     if not spacenum:
         return True
     if config['DEBUG']:
-        logger.info("space_taken passed " + str(spacenum))
+        logger.info("space_taken passed "+str(spacenum))
         # special debug value of 64
         if int(spacenum) == 64:
             return True
     try:
         db_conn = get_db()
-        if db_conn.fs.files.find_one(dict(room=spacenum)):
-            return True
+        # TODO fix this db connection
+        rooms_in_db = [doc["space"] for doc in db_conn.spaceshare.files.find()]
+        for num in rooms_in_db:
+            if spacenum == num:
+                return True
         else:
             return False
     except Exception:
@@ -89,11 +92,13 @@ def find_number(self):
     '''
     try:
         db_conn = get_db()
-        # TODO debug find_number
-        rooms_in_db = [doc["space"] for doc in db_conn.spaceshare.files.find({}, fields=["space"])]
-        room_not_in_db = int(max(rooms_in_db)) + 1
-        logger.info("found largest entry: "+str(rooms_in_db))
-        return room_not_in_db
+        # TODO debug find_numbers
+        rooms_in_db = [doc["space"] for doc in db_conn.spaceshare.files.find()]
+        logger.info(rooms_in_db)
+        print(rooms_in_db)
+        free_space = int(max(rooms_in_db)) + 1
+        logger.info("found largest entry: "+str(free_space))
+        return free_space
     except Exception as e:
         logger.error(str(e))
         return None
@@ -106,7 +111,7 @@ def insert_file(self, file_name, room_number):
     if not(file_name and room_number):
         return
     # then check if that int is taken
-    if search_file(room_number):
+    if space_taken(room_number):
         logger.info("Space :" + str(room_number) + ' is taken!')
         return False
     # we know we should store the file now
@@ -129,21 +134,20 @@ def delete_file(space):
     if not space:
         logger.error("delete_file given None")
         return True
-    if not search_file(space):
+    if not space_taken(space):
         logger.info("File "+str(room_number)+' not in db, error')
         return True
     try:
         db_conn = get_db()
-        # _id = db_conn.spaceshare.files.find_one(dict(space=space))['_id']
-        result = conn.spaceshare.files.delete_one({'thing': 'ello'})
+        result = conn.spaceshare.files.remove({'space': space})
         if result <= 1:
-            # assume success
             logger.error("Failed to delete file :"+str(space))
             return False
+        # assume success
         logger.info("Deleted file :"+str(space)+' Successfully')
         return True
     except Exception as e:
-        logger.error("Couldn't delete file at space "+space+' '+str(e))
+        logger.error("Couldn't delete file at space "+space+':'+str(e))
         return False
 
 
@@ -154,7 +158,7 @@ def extract_file(self, room_number):
         # FIXME this probably shouldn't be an exception,
         # should maybe be refactored
         raise Exception("extract_file not given proper values")
-    if not search_file(room_number):
+    if not space_taken(room_number):
         logger.info("File "+str(room_number)+' not in db, error?')
         return False
     try:
@@ -174,21 +178,18 @@ def extract_file(self, room_number):
         return False
 
 
-@celery.task(bind=True)
-def insert_file(self, file_name, space, data_uri):
+def insert_file(file_obj):
     '''
     Take files as a data_URI and store them in a mongoDB.
     '''
     # TODO one time uploads and time based removals
     db_conn = get_db()
 
-    file_obj = {file_name: file_name,
-                space: space,
-                data_uri: data_uri
-                }
+    if space_taken(file_obj):
+        logger.error('SPACE TAKEN IN MODEL FUNCTION')
+        return False
 
     res_id = db_conn.spaceshare.files.insert_one(file_obj)
-    # res_id = db_conn.insert_one(file_object).inserted_id
     # upload failed for whatever reason
     if not res_id:
         return False

@@ -30,7 +30,6 @@ $(document).ready(function(){
     }
 
     $('#gist').click( function(){
-        console.log("got response!");
         $.getJSON('/api/_find_number', {} , function(data){
           console.log(data);
           return false;

@@ -171,7 +171,7 @@ var FileForm = React.createClass({displayName: "FileForm",
       console.log(self.state);
 
       // TODO pass this as a function in a callback
-      $.getJSON('/upload_file', self.state , function(res){
+      $.post('/upload_file', self.state , function(res){
             console.log('got a response!!');
             console.log(res);
             if(res.upload === true){

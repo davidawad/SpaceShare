@@ -26,9 +26,12 @@
 - npm
 
 
-## Contributing
-If you're interested in setting up your machine for development check out the [getting started](/docs/getting-started.md) guide. Thanks!  
+## Development
+#### If you're interested in setting up your machine for development check out the [getting started](/docs/getting-started.md) guide.  
 
+## Contributing
+
+Please do check out the [contributing](/CONTRIBUTING.md) guide if you're interested. 
 
 ## Special Thanks :
 ### [Joel Pena](https://github.com/jpena29), [Devon Peticolas](https://github.com/x), and [Wisdom Omuya](https://github.com/deafgoat), and of course StackOverflow made this app Possible.

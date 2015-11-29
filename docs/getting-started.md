@@ -32,14 +32,21 @@ bower install
 
 gulp
 
-celery worker -A tasks --loglevel=info
-
 redis-server
+
+celery worker -A models --loglevel=info
 
 ./mongod (or however you run mongo on your machine)
 
 make run
 ```
+After all this you should have five terminals running these 5 different commands. Might look something like this.
+
+![]("/images/start.png")
+
+![]("/images/start2.png")
+
+
 If you get an error it's possible you're simply not running MongoDB, SpaceShare checks on the default port for a mongo connection.
 
 

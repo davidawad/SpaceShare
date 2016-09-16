@@ -2,8 +2,9 @@
 
 # "Share your thing like it ain't no thang"
 
+<!--
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/DavidAwad/SpaceShare) [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/davidawad/SpaceShare)
-
+-->
 
 ## under lots of construction.
 
@@ -27,11 +28,11 @@
 
 
 ## Development
-#### If you're interested in setting up your machine for development check out the [getting started](/docs/getting-started.md) guide.  
+#### If you're interested in setting up your machine for development check out the [getting started](/docs/getting-started.md) guide.
 
 ## Contributing
 
-Please do check out the [contributing](/CONTRIBUTING.md) guide if you're interested. 
+Please do check out the [contributing](/CONTRIBUTING.md) guide if you're interested.
 
 ## Special Thanks :
 ### [Joel Pena](https://github.com/jpena29), [Devon Peticolas](https://github.com/x), and [Wisdom Omuya](https://github.com/deafgoat), and of course StackOverflow made this app Possible.

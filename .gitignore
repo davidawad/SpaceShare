@@ -12,7 +12,8 @@ bower_components
 .module-cache
 *.log
 dump.rdb
-
+*.db
+env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

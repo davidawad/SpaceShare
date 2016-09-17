@@ -1,0 +1,30 @@
+{
+  "name": "SpaceShare",
+  "version": "1.0.1",
+  "authors": [
+    "David Awad <contact@davidawad.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "spaceshare/static/bower_components",
+    "test",
+    "tests",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "jquery": "~2.1.4",
+    "react": "~0.14.0",
+    "foundation": "~5.5.3"
+  },
+  "homepage": "https://github.com/DavidAwad/SpaceShare",
+  "description": "move your thing like it ain't no thang",
+  "main": "spaceshare.py",
+  "moduleType": [],
+  "keywords": [
+    "space",
+    "share"
+  ]
+}

@@ -1,0 +1,15 @@
+
+
+NAME: SpaceShare
+
+DEBUG: True
+
+MANDRILL_USERNAME:
+MANDRILL_KEY:
+
+
+UPLOAD_FOLDER : 'uploads/'
+
+# Celery configuration, redis is propagated in the celery container
+CELERY_BROKER_URL :    redis://redis
+CELERY_RESULT_BACKEND: redis://redis

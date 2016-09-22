@@ -1,0 +1,51 @@
+##
+# @Author David Awad
+#
+
+version: '2'
+
+services:
+
+ web:
+  restart: always
+  build: ./app
+  image: spaceshare
+  ports:
+    - "4000:4000"
+  expose:
+   - 4000
+   - 80
+   - 443
+  links:
+   - redis
+   - celery
+  env_file: production.env
+  command: gunicorn -w 1 -b :4000 server
+
+ nginx:
+  restart: always
+  build: ./nginx
+  ports:
+    - "80:80"
+  volumes:
+   - /www/static
+   - /app/static
+  links:
+   - web
+  depends_on:
+   - web
+
+ redis:
+  image: redis:latest
+  command: redis-server
+  expose:
+    - "6379"
+
+ celery:
+  build: ./app
+  command: celery worker -A models --loglevel=debug
+  depends_on:
+   - redis
+  links:
+   - redis
+  env_file: production.env

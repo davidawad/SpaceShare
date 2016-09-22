@@ -12,17 +12,17 @@ import sys
 import os
 
 
-app = Flask(__name__)
+application = Flask(__name__)
 # FIXME set url prefix for celery tasks
-app.register_blueprint(blueprint_app)
-app.register_blueprint(blueprint_api, url_prefix='/api')
+application.register_blueprint(blueprint_app)
+application.register_blueprint(blueprint_api, url_prefix='/api')
 
 logger = logging.getLogger(__name__)
 
 
 # update config from yaml dict
 for key in config.keys():
-    app.config.update(key=config[key])
+    application.config.update(key=config[key])
 
 # write logs to a file for production
 if config['DEBUG'] is not True:
@@ -31,9 +31,9 @@ if config['DEBUG'] is not True:
     file_handler.setLevel(logging.ERROR)
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     file_handler.setFormatter(formatter)
-    app.logger.addHandler(file_handler)
+    application.logger.addHandler(file_handler)
 
-# if the upload folder doesn't exist we've just started the app.
+# if the upload folder doesn't exist we've just started the application.
 if not os.path.exists(config['UPLOAD_FOLDER']):
     logger.error("upload folder didn't exist, creating it now")
     try:
@@ -42,42 +42,42 @@ if not os.path.exists(config['UPLOAD_FOLDER']):
         logger.info(e)
 
 
-# will happen before every request made to SpaceShare
-@app.before_request
+# will happlicationen before every request made to SpaceShare
+@application.before_request
 def before_request():
     return
 
 
 # currently not supported
-@app.route('/login')
+@application.route('/login')
 def login():
     abort(401)
 
 
 # route to the root directory
-@app.route('/')
+@application.route('/')
 def home():
     return render_template('index.html')
 
 if config['DEBUG']:
     # experimental reactJS page
-    @app.route('/react')
+    @application.route('/react')
     def reactions():
         return render_template('react-experiment.html')
 
-    @app.route('/react/task/')
+    @application.route('/react/task/')
     def yolo():
-        task = print_words.apply_async()
+        task = print_words.applicationly_async()
         response = {'task_id': task.id,
                     'progress': 'TASK_ACCEPTED'
                     }
         return jsonify(response)
 
-    @app.route('/react/task/<task_id>')
+    @application.route('/react/task/<task_id>')
     def yolo_again(task_id):
-        print 'task status request received ' + str(task_id)
+        print('task status request received ' + str(task_id))
         task = print_words.AsyncResult(task_id)
-        print "task state : " + task.state
+        print ("task state : " + task.state)
         if task.state == 'PENDING':
                 # job did not start yet
                 response = {
@@ -103,50 +103,36 @@ if config['DEBUG']:
         return jsonify(response)
 
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def new_page(error):
     return render_template('error.html', error=404)
 
 
-@app.errorhandler(405)
+@application.errorhandler(405)
 def new_page(error):
     return render_template('error.html', error=405)
 
 
-@app.errorhandler(500)
+@application.errorhandler(500)
 def page_not_found(error):  # wake me in middle of the night
     send_error_report()
     return render_template('error.html', error=500)
 
 
 def send_error_report():
+    # TODO USE FLASK SMTP to send email alerts.
     try:
-        mandrill_client = mandrill.Mandrill(config['MANDRILL_KEY'])
-        message = {'auto_html': None,
-                   'auto_text': None,
-                   'from_email': '',
-                   'from_name': '',
-                   'subject': '500 Error on Route' + str(request.base_url),
-                   'text': 'Master! It appears someone caused an internal error. :' + str(request),
-                   'to': [{'email': config['MANDRILL_ADDRESS'],
-                          'name': config['MANDRILL_ADDRESS_NAME'],
-                           'type': 'to'}],
-                   }
-
-        result = mandrill_client.messages.send(message=message,
-                                               async=False,
-                                               ip_pool='Main Pool',
-                                               send_at='2012-01-05 12:42:01')
         logger.info(result)
 
-    except mandrill.Error, e:  # Mandrill errors are thrown as exceptions
+    except Exception as e:  # Mandrill errors are thrown as exceptions
         logger.error('A mandrill error occurred: %s - %s' % (e.__class__, e))
 
-
+# TODO move this logic into init
 if __name__ == '__main__':
-    app.run(
-        debug=config['DEBUG'],
-        use_reloader=True,
-        threaded=True,
-        port=4000
+    application.run(
+        debug        = config['DEBUG'],
+        use_reloader = True,
+        threaded     = True,
+        host         = '0.0.0.0',
+        port         = 4000
         )

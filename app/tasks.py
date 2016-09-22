@@ -9,6 +9,8 @@ import time
 # tasks transparently to the user and behind the application
 #
 
+# TODO REMOVE THIS FILE
+
 
 # Initialize Celery
 celery = Celery(config['NAME'], broker=config['CELERY_BROKER_URL'])

@@ -2,16 +2,17 @@
 
 # "Share your thing like it ain't no thang"
 
+<!--
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/DavidAwad/SpaceShare) [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/davidawad/SpaceShare)
-
+-->
 
 ## under lots of construction.
 
-### This is a File sharing platform  meant to simplify file sharing between persons and groups of people by removing the need to login. It is not secure, it's not meant to be, it's meant to be the extreme trade off between convenience and security.
+### This is a File sharing web service meant to simplify file sharing between persons and groups of people by removing the need to login. It is not secure, it's not meant to be, it's meant to be the extreme trade off between convenience and security.
 
 
 
-#### You go to spaceshare.me, upload your file, attach a number.
+#### You go to the app, upload your file, attach a number.
 #### Others can go to the site knowing that number; or go to [spaceshare.me/upload/number](spaceshare.me/upload/number) and it will give you that file.
 
 ## Requirements
@@ -25,13 +26,19 @@
 - bower
 - npm
 
-
 ## Development
-#### If you're interested in setting up your machine for development check out the [getting started](/docs/getting-started.md) guide.  
+#### You wanna run this hotness?
+```shell
+$git clone https://github.com/davidawad/spaceshare
+$cd spaceshare
+$docker-compose up
+# awesome things
+```
+
+###### fair warning, it doesn't fucking work yet.
 
 ## Contributing
-
-Please do check out the [contributing](/CONTRIBUTING.md) guide if you're interested. 
+Please do check out the [contributing](/CONTRIBUTING.md) guide if you're interested.
 
 ## Special Thanks :
 ### [Joel Pena](https://github.com/jpena29), [Devon Peticolas](https://github.com/x), and [Wisdom Omuya](https://github.com/deafgoat), and of course StackOverflow made this app Possible.

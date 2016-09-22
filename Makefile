@@ -3,36 +3,32 @@
 # @Author David Awad
 #
 
-all: clear theshit
+all: help
 
-help: clear
-	@echo "Hello $(LOGNAME)!, This makefile will automate your github commits code for submission."
-	@echo "Type <make commit message=\"first commit\">\n\n\n"
+help:
+	@echo "Hello $(LOGNAME)!, This makefile will automate your dev setup for spaceshare."
+	@echo "I use docker-compose to create multiple containers for the isolated components"
+	@echo "of spaceshare. To set up a local dev instance try running `make run`."
+	@echo "This could kill any dangling images and other docker images you might be running on your machine."
 
-theshit:
-	docker-compose up --build
+run: clean
+	cp -r app/static nginx/static
+	docker-compose build
+	docker-compose up
 
-# TODO make sass and jsx just an assets makefile task.
-# or use gulp because it's faster and like, event loop.
-sass: clear
-	sass --watch app/static/sass/stylesheet.scss:app/static/css/stylesheet.css
-jsx:
-	jsx --watch static/jsx static/js
+# TODO make assets task for sass and jsx gulp tasks.
+assets:
+	gulp assets
 
-# TODO make sure this actually compiles all assets for dev
-setup: clear
-	mkdir -p data/redis
-	mkdir -p data/mongo
-	virtualenv venv
-	source venv/bin/activate && pip install -r requirements.txt
-
-## TODO this should run unit tests on everything lol
-test: clear
+# TODO this should run unit tests on everything
+# Too bad I don't have any yet lol google don't judge me.
+test: clean setup
 	casperjs test headless.js
 
-clear:
+clean:
+	docker-compose stop
 	docker-compose rm -f
-	docker rmi -f $(docker images -qf dangling=true)
-	docker volume rm $(docker volume ls -qf dangling=true)
+	docker rmi -f `docker images -qf dangling=true`
+	docker volume rm `docker volume ls -qf dangling=true`
+	rm -rf nginx/static
 	clear
-	@echo "\n\n"

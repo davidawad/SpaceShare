@@ -7,53 +7,45 @@ version: '2'
 services:
 
  web:
+  restart: always
   build: ./app
   image: spaceshare
   ports:
-   - "4000:4000"
+    - "4000:4000"
+  expose:
+   - 4000
+   - 80
+   - 443
   links:
-   - mongo:mongo
-   - redis:redis
-   - celery:celery
-  volumes:
-   - /usr/src/app/static
-   - ".:/app"
-  env_file: .env
-  command: gunicorn -w 2 -b :8000 server
+   - redis
+   - celery
+  env_file: production.env
+  command: gunicorn -w 1 -b :4000 server
 
  nginx:
   restart: always
-  build: ./nginx/
+  build: ./nginx
   ports:
-   - "80:80"
+    - "80:80"
   volumes:
    - /www/static
+   - /app/static
   links:
-   - web:web
+   - web
+  depends_on:
+   - web
 
  redis:
   image: redis:latest
   command: redis-server
-  volumes:
-    - './data/redis:/var/lib/redis/data'
-  ports:
-    - '6379:6379'
+  expose:
+    - "6379"
 
  celery:
   build: ./app
-  command: celery worker --app=models --loglevel=debug
+  command: celery worker -A models --loglevel=debug
   depends_on:
-    - redis
-  volumes:
-    - .:/data
+   - redis
   links:
-    - redis:6379
-  environment:
-    - C_FORCE_ROOT=true
-
- mongo:
-  image: mongo:latest
-  volumes:
-   - "./data/mongo:/data/db"
-  ports:
-   - "27017:27017"
+   - redis
+  env_file: production.env

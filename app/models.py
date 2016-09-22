@@ -97,7 +97,7 @@ def find_number(self):
         logger.info(rooms_in_db)
         print(rooms_in_db)
         free_space = int(max(rooms_in_db)) + 1
-        logger.info("found largest entry: "+str(free_space))
+        logger.info("found largest entry: " + str(free_space))
         return free_space
     except Exception as e:
         logger.error(str(e))
@@ -135,19 +135,19 @@ def delete_file(space):
         logger.error("delete_file given None")
         return True
     if not space_taken(space):
-        logger.info("File "+str(room_number)+' not in db, error')
+        logger.info("File " + str(room_number) + ' not in db, error')
         return True
     try:
         db_conn = get_db()
         result = conn.spaceshare.files.remove({'space': space})
         if result <= 1:
-            logger.error("Failed to delete file :"+str(space))
+            logger.error("Failed to delete file :" + str(space))
             return False
         # assume success
-        logger.info("Deleted file :"+str(space)+' Successfully')
+        logger.info("Deleted file :" + str(space) + ' Successfully')
         return True
     except Exception as e:
-        logger.error("Couldn't delete file at space "+space+':'+str(e))
+        logger.error("Couldn't delete file at space " + space + ':' + str(e))
         return False
 
 
@@ -159,7 +159,7 @@ def extract_file(self, room_number):
         # should maybe be refactored
         raise Exception("extract_file not given proper values")
     if not space_taken(room_number):
-        logger.info("File "+str(room_number)+' not in db, error?')
+        logger.info("File " + str(room_number) + ' not in db, error?')
         return False
     try:
         db_conn = get_db()
@@ -167,14 +167,14 @@ def extract_file(self, room_number):
         _id = db_conn.fs.files.find_one(dict(room=room_number))['_id']
         file_name = db_conn.fs.files.find_one(dict(room=room_number))['name']
         # read gridFS binary blob from mongo, write the file
-        logger.info("extracting file: "+file_name)
-        with open(config['UPLOAD_FOLDER']+file_name, 'w') as f:
+        logger.info("extracting file: " + file_name)
+        with open(config['UPLOAD_FOLDER'] + file_name, 'w') as f:
             f.write(gfs.get(_id).read())
         # gfs.get(_id).read()
-        logger.info("Written file :"+str(room_number)+' successfully')
+        logger.info("Written file :" + str(room_number) + ' successfully')
         return True
     except Exception as e:
-        logger.info("failed to read file :"+str(e))
+        logger.info("failed to read file :" + str(e))
         return False
 
 
@@ -195,6 +195,6 @@ def insert_file(file_obj):
         return False
     if config['DEBUG']:
         # debugging lines to write a record of inserts
-        logger.info('Passed file: '+filename+' stored at space '+space+'.')
+        logger.info('Passed file: ' + filename + ' stored at space ' + space + '.')
 
     return True

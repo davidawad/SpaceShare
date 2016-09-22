@@ -120,18 +120,19 @@ def page_not_found(error):  # wake me in middle of the night
 
 
 def send_error_report():
-    # TODO USE FLASK SMTP. DON'T PAY FOR THIS CRAP.
+    # TODO USE FLASK SMTP to send email alerts.
     try:
         logger.info(result)
 
     except Exception as e:  # Mandrill errors are thrown as exceptions
         logger.error('A mandrill error occurred: %s - %s' % (e.__class__, e))
 
-
+# TODO move this logic into init
 if __name__ == '__main__':
     application.run(
-        debug=config['DEBUG'],
-        use_reloader=True,
-        threaded=True,
-        port=4000
+        debug        = config['DEBUG'],
+        use_reloader = True,
+        threaded     = True,
+        host         = '0.0.0.0',
+        port         = 4000
         )

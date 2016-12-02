@@ -14,7 +14,6 @@ services:
     - "4000:4000"
   expose:
    - 4000
-   - 80
    - 443
   links:
    - redis

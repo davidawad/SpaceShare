@@ -22,10 +22,20 @@
     "gulp-browserify": "^0.5.1",
     "gulp-clean": "^0.3.1",
     "gulp-size": "^1.2.1",
-    "react": "^0.12.2",
     "reactify": "^1.0.0"
   },
   "dependencies": {
-    "react": "^0.12.2"
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "css-loader": "^0.25.0",
+    "node-sass": "^3.10.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2"
   }
 }

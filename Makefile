@@ -8,7 +8,7 @@ all: help
 help:
 	@echo "Hello $(LOGNAME)!, This makefile will automate your dev setup for spaceshare."
 	@echo "I use docker-compose to create multiple containers for the isolated components"
-	@echo "of spaceshare. To set up a local dev instance try running `make run`."
+	@echo "of spaceshare. To set up a local dev instance try running 'make run'."
 	@echo "This could kill any dangling images and other docker images you might be running on your machine."
 
 run: clean
@@ -21,11 +21,12 @@ assets:
 	gulp assets
 
 # TODO this should run unit tests on everything
-# Too bad I don't have any yet lol google don't judge me.
+# I don't have any yet lol
 test: clean setup
 	casperjs test headless.js
 
 clean:
+	rm -rf nginx/static
 	docker-compose stop
 	docker-compose rm -f
 	docker rmi -f `docker images -qf dangling=true`

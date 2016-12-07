@@ -9,6 +9,7 @@
     font-style: normal;
 }
 
+.center {text-align: center;}
 
 .exbutton {
   border: 0 none;
@@ -40,11 +41,6 @@
 .exbutton.dark:hover {
   background: none repeat scroll 0 0 #2DB6CF;
   color: #FFFFFF;
-}
-
-html, body {
-  /* background-image: url("/img/swirl_pattern.png") !important ; */
-  background: #262626;
 }
 
 *::selection {

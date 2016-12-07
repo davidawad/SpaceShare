@@ -18,6 +18,7 @@
 ## Requirements
 - Python
 - Flask
+- nginx
 - MongoDB
 - Redis
 - Celery
@@ -26,19 +27,22 @@
 - bower
 - npm
 
-## Development
-#### You wanna run this hotness?
-```shell
-$git clone https://github.com/davidawad/spaceshare
-$cd spaceshare
-$docker-compose up
-# awesome things
-```
 
-###### fair warning, it doesn't fucking work yet.
+## Docker info
+There is a docker compose setup available as well, you'll want to copy over `app/static` into `nginx/static` just to make sure that it can serve up those files.
+```shell
+$ git clone https://github.com/davidawad/spaceshare
+$ cd spaceshare
+$ cp -r app/static nginx/static
+$ docker-compose build
+$ docker-compose up
+# booyah
+```
 
 ## Contributing
 Please do check out the [contributing](/CONTRIBUTING.md) guide if you're interested.
 
 ## Special Thanks :
-### [Joel Pena](https://github.com/jpena29), [Devon Peticolas](https://github.com/x), and [Wisdom Omuya](https://github.com/deafgoat), and of course StackOverflow made this app Possible.
+ - [Joel Pena](https://github.com/jpena29)
+ - [Devon Peticolas](https://github.com/x)
+ - [Wisdom Omuya](https://github.com/deafgoat)

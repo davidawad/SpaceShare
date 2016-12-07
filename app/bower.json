@@ -1,5 +1,5 @@
 {
-  "name": "SpaceShare",
+  "name": "spaceshare",
   "version": "1.0.1",
   "authors": [
     "David Awad <contact@davidawad.com>"
@@ -14,10 +14,10 @@
     "bower_components"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.2",
-    "jquery": "~2.1.4",
+    "jquery": "^3.1.1",
     "react": "~0.14.0",
-    "foundation": "~5.5.3"
+    "foundation-sites": "^6.2.4",
+    "animate.css": "^3.5.2"
   },
   "homepage": "https://github.com/DavidAwad/SpaceShare",
   "description": "move your thing like it ain't no thang",
@@ -26,5 +26,8 @@
   "keywords": [
     "space",
     "share"
-  ]
+  ],
+  "resolutions": {
+    "jquery": "^3.1.1"
+  }
 }

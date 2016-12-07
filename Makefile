@@ -12,6 +12,7 @@ help:
 	@echo "This could kill any dangling images and other docker images you might be running on your machine."
 
 run: clean
+	rm -rf nginx/static 
 	cp -r app/static nginx/static
 	docker-compose build
 	docker-compose up

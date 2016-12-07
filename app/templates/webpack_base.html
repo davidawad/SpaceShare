@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Spaceshare | Share Freely</title>
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1>
+            <a href="/">
+              <span class="look">Spaceshare.me </span>
+            </a>
+          </h1>
+        </li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+            <li class="divider"></li>
+            <li><a href="https://github.com/davidawad/spaceshare"> <span class="bree">Docs</span></a></li>
+            <li class="divider"></li>
+    	</ul>
+      </section>
+    </nav>
+    {# Include all static files in the base template #}
+    {% include 'webpack_includes.html' %}
+  </head>
+  <body>
+    <br>
+        <div class="row">
+          <div class="large-6 columns">
+            <p class="look animated fadeInDown delay-03s" id="gist" style="z-index=1"> Share files...
+            <br>
+            <span id="gistTwo" class="animated fadeInUp delay-12s" style="z-index=-10;color:#888">instantly.</span></p>
+          </div>
+          <div class="large-6 columns">
+
+            <p class="bree animated fadeInUp delay-15s" style="font-size:1.3em"> Just upload a file and grab it somewhere else. It's quick and simple, the way file sharing should be. </p>
+          </div>
+        </div>
+
+        {% block content %}
+        {# Actual content specific to each page will be rendered here in the content block #}
+        {% endblock %}
+
+        <footer class="row">
+            <hr/>
+              <div class="large-6 columns">
+                <p class="look">© 2016 David Awad</p>
+              </div>
+              <div class="large-6 columns">
+                <ul class="inline-list right">
+                  <li><a href="https://facebook.com/david.a.awad"><i class="icon-facebook_circle icon2x"></i></a></li>
+
+                  <li><a href="https://twitter.com/realdavidawad"><i class="icon-twitter_circle icon2x"></i></a></li>
+
+                  <li><a href="https://github.com/davidawad/spaceshare"><i class="icon-git_circle icon2x"></i></a></li>
+                </ul>
+              </div>
+        </footer>
+
+        <!-- Javascript Imports -->
+        <script src="{{ url_for('static', filename='_js/main.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    </body>
+<!-- Written with <3 by David Awad -->
+</html>

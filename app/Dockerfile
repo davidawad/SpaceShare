@@ -2,6 +2,8 @@ FROM python:3.6
 
 MAINTAINER David Awad "davidawad64@gmail.com"
 
+EXPOSE 4000
+
 COPY . /spaceshare
 WORKDIR /spaceshare
 

@@ -1,15 +1,10 @@
-# [SpaceShare](https://spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare) [![Coverage Status](https://coveralls.io/repos/DavidAwad/SpaceShare/badge.svg)](https://coveralls.io/r/DavidAwad/SpaceShare) [![Code Climate](https://d3s6mut3hikguw.cloudfront.net/github/DavidAwad/SpaceShare/badges/gpa.svg)](https://d3s6mut3hikguw.cloudfront.net/github/DavidAwad/SpaceShare/) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DavidAwad/SpaceShare?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge) [![Contact me on Codementor](https://cdn.codementor.io/badges/contact_me_github.svg)](https://www.codementor.io/davidawad?utm_source=github&utm_medium=button&utm_term=davidawad&utm_campaign=github)
-
-# "Share your thing like it ain't no thang"
+# [SpaceShare](https://spaceshare.me)   [![Build Status](https://travis-ci.org/DavidAwad/SpaceShare.svg?branch=master)](https://travis-ci.org/DavidAwad/SpaceShare) [![Coverage Status](https://coveralls.io/repos/DavidAwad/SpaceShare/badge.svg)](https://coveralls.io/r/DavidAwad/SpaceShare) [![Code Climate](https://d3s6mut3hikguw.cloudfront.net/github/DavidAwad/SpaceShare/badges/gpa.svg)](https://d3s6mut3hikguw.cloudfront.net/github/DavidAwad/SpaceShare/) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DavidAwad/SpaceShare?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 
 <!--
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/DavidAwad/SpaceShare) [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/davidawad/SpaceShare)
 -->
 
-## under lots of construction.
-
 ### This is a File sharing web service meant to simplify file sharing between persons and groups of people by removing the need to login. It is not secure, it's not meant to be, it's meant to be the extreme trade off between convenience and security.
-
 
 
 #### You go to the app, upload your file, attach a number.

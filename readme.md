@@ -24,9 +24,10 @@
 ## Development
 #### You wanna run this hotness?
 ```shell
-$git clone https://github.com/davidawad/spaceshare
-$cd spaceshare
-$docker-compose up
+git clone https://github.com/davidawad/spaceshare
+cd spaceshare
+cp -r app/static nginx
+docker-compose up
 # awesome things
 ```
 

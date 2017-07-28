@@ -41,8 +41,9 @@ def get_db():
         return db_conn
 
     else:
-        try:  # TODO use a shell variable?
-            conn = MongoClient('localhost', 27017)
+        try:
+            conn = MongoClient(os.environ.get('DB_PORT_27017_TCP_ADDR', 'localhost'),
+                    27017)
             # conn.spaceshare.files.find()
             db_conn = conn
             return db_conn

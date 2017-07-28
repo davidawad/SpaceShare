@@ -9,7 +9,6 @@ gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.8
 kombu==3.0.35
-mandrill==1.0.57
 MarkupSafe==0.23
 pymongo==3.3.0
 pytz==2016.6.1

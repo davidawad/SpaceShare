@@ -6,7 +6,6 @@ from flask import Flask, Request, render_template, request, jsonify
 from controllers import blueprint_api
 from models import blueprint_app
 from config import config
-import mandrill
 import logging
 import sys
 import os
@@ -57,50 +56,44 @@ def login():
 # route to the root directory
 @application.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('react-experiment.html')
 
-if config['DEBUG']:
-    # experimental reactJS page
-    @application.route('/react')
-    def reactions():
-        return render_template('react-experiment.html')
-
-    @application.route('/react/task/')
-    def yolo():
-        task = print_words.applicationly_async()
-        response = {'task_id': task.id,
-                    'progress': 'TASK_ACCEPTED'
-                    }
-        return jsonify(response)
-
-    @application.route('/react/task/<task_id>')
-    def yolo_again(task_id):
-        print('task status request received ' + str(task_id))
-        task = print_words.AsyncResult(task_id)
-        print ("task state : " + task.state)
-        if task.state == 'PENDING':
-                # job did not start yet
-                response = {
-                    'state': task.state,
-                    'current': 0,
-                    'status': 'Pending...'
+@application.route('/react/task/')
+def yolo():
+    task = print_words.applicationly_async()
+    response = {'task_id': task.id,
+                'progress': 'TASK_ACCEPTED'
                 }
-        elif task.state != 'FAILURE':
+    return jsonify(response)
+
+@application.route('/react/task/<task_id>')
+def yolo_again(task_id):
+    print('task status request received ' + str(task_id))
+    task = print_words.AsyncResult(task_id)
+    print ("task state : " + task.state)
+    if task.state == 'PENDING':
+            # job did not start yet
             response = {
                 'state': task.state,
-                'current': task.info.get('current', 0),
-                'status': task.info.get('status', 'printing words...')
+                'current': 0,
+                'status': 'Pending...'
             }
-            if 'result' in task.info:
-                response['result'] = task.info['result']
-        else:
-            # something went wrong in the background job
-            response = {
-                'state': task.state,
-                'current': 1,
-                'status': str(task.info),  # this is the exception raised
-            }
-        return jsonify(response)
+    elif task.state != 'FAILURE':
+        response = {
+            'state': task.state,
+            'current': task.info.get('current', 0),
+            'status': task.info.get('status', 'printing words...')
+        }
+        if 'result' in task.info:
+            response['result'] = task.info['result']
+    else:
+        # something went wrong in the background job
+        response = {
+            'state': task.state,
+            'current': 1,
+            'status': str(task.info),  # this is the exception raised
+        }
+    return jsonify(response)
 
 
 @application.errorhandler(404)
